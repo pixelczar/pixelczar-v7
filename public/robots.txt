@@ -1,0 +1,7 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://pixelczar.com/sitemap.xml
+

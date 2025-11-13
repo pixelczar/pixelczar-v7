@@ -3,6 +3,7 @@
 import TimelineItem from "@/components/timeline-item";
 import { experienceData } from "@/lib/data";
 import { motion } from "framer-motion";
+import type { Metadata } from "next";
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },

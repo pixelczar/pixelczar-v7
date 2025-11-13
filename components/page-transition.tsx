@@ -22,10 +22,10 @@ export default function PageTransition({
     visible: {
       opacity: 1,
       transition: {
-        duration: 0.8,
-        ease: [0.25, 0.46, 0.45, 0.94],
-        staggerChildren: 0.04,
-        delayChildren: 0.05,
+        duration: 2.0,
+        ease: [0.19, 1.0, 0.22, 1.0], // easeOutExpo - super smooth
+        staggerChildren: 0.05,
+        delayChildren: 0.06,
       },
     },
     exit: {
@@ -43,8 +43,8 @@ export default function PageTransition({
       opacity: 1,
       y: 0,
       transition: {
-        duration: 1.2,
-        ease: [0.23, 1, 0.32, 1],
+        duration: 1.6,
+        ease: [0.16, 1.0, 0.3, 1.0], // easeOutExpo - extra smooth
       },
     },
   };

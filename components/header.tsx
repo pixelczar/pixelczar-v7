@@ -80,7 +80,7 @@ export default function Header() {
         </MagneticLink>
         <MagneticLink
           href="/about"
-          className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
+          className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 mr-6 rounded-full hover:text-white ${
             pathname === "/about"
               ? "font-medium"
               : "hover:text-primary"
@@ -89,7 +89,7 @@ export default function Header() {
         >
           About
         </MagneticLink>
-        <MagneticLink
+        {/* <MagneticLink
           href="/archive"
           className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 mr-6 rounded-full hover:text-white ${
             pathname === "/archive"
@@ -99,7 +99,7 @@ export default function Header() {
           style={pathname === "/archive" ? { color: 'hsl(var(--accent))' } : { color: 'var(--muted-foreground)' }}
         >
           Archive
-        </MagneticLink>
+        </MagneticLink> */}
         <div className="pt-0.5 flex">
           <ThemeToggle />
         </div>
@@ -260,7 +260,7 @@ export default function Header() {
                   About
                 </MagneticLink>
               </motion.div>
-              <motion.div
+              {/* <motion.div
                 variants={{
                   hidden: { opacity: 0, y: 20 },
                   visible: {
@@ -285,7 +285,7 @@ export default function Header() {
                 >
                   Archive
                 </MagneticLink>
-              </motion.div>
+              </motion.div> */}
             </motion.nav>
           </motion.div>
         )}

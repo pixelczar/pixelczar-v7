@@ -18,7 +18,7 @@ const logoVariants = {
 };
 
 const navVariants = {
-  hidden: { opacity: 0, y: -20 },
+  hidden: { opacity: 0, y: -8 },
   visible: {
     opacity: 1,
     y: 0,
@@ -65,7 +65,7 @@ export default function Header() {
         variants={navVariants}
         initial={isHomepage ? "hidden" : "visible"}
         animate="visible"
-        transition={isHomepage ? { delay: 2.0, duration: 0.8, ease: [0.23, 1, 0.32, 1] } : { duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
+        transition={isHomepage ? { delay: 1.3, duration: 0.6, ease: [0.19, 1.0, 0.22, 1.0] } : { duration: 0.6, ease: [0.19, 1.0, 0.22, 1.0] }}
       >
         <MagneticLink
           href="/work"
@@ -159,11 +159,11 @@ export default function Header() {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
-            className="fixed inset-0 dark:bg-gray-900/80 bg-white/30 backdrop-blur-xl z-40 md:hidden theme-transition"
+            initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            animate={{ opacity: 1, backdropFilter: "blur(24px)" }}
+            exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+            className="fixed inset-0 dark:bg-gray-900/80 bg-white/30 z-40 md:hidden theme-transition"
             onClick={() => setIsMenuOpen(false)}
           >
             <motion.nav
@@ -203,7 +203,14 @@ export default function Header() {
                       : "hover:text-accent"
                   }`}
                   style={pathname !== "/" ? { color: 'var(--muted-foreground)' } : undefined}
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => {
+                    // Hide cursor outline immediately during navigation
+                    window.dispatchEvent(new CustomEvent('hideCursorOuter', { detail: true }));
+                    setIsMenuOpen(false);
+                    setTimeout(() => {
+                      window.dispatchEvent(new CustomEvent('hideCursorOuter', { detail: false }));
+                    }, 2500);
+                  }}
                 >
                   Home
                 </MagneticLink>
@@ -229,7 +236,14 @@ export default function Header() {
                       : "hover:text-accent"
                   }`}
                   style={pathname !== "/work" ? { color: 'var(--muted-foreground)' } : undefined}
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => {
+                    // Hide cursor outline immediately during navigation
+                    window.dispatchEvent(new CustomEvent('hideCursorOuter', { detail: true }));
+                    setIsMenuOpen(false);
+                    setTimeout(() => {
+                      window.dispatchEvent(new CustomEvent('hideCursorOuter', { detail: false }));
+                    }, 2500);
+                  }}
                 >
                   Work
                 </MagneticLink>
@@ -255,7 +269,14 @@ export default function Header() {
                       : "hover:text-accent"
                   }`}
                   style={pathname !== "/about" ? { color: 'var(--muted-foreground)' } : undefined}
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => {
+                    // Hide cursor outline immediately during navigation
+                    window.dispatchEvent(new CustomEvent('hideCursorOuter', { detail: true }));
+                    setIsMenuOpen(false);
+                    setTimeout(() => {
+                      window.dispatchEvent(new CustomEvent('hideCursorOuter', { detail: false }));
+                    }, 2500);
+                  }}
                 >
                   About
                 </MagneticLink>

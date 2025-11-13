@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import type { Metadata } from "next";
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },

@@ -124,7 +124,7 @@ export default function Footer() {
       {/* Copyright - Bottom */}
       <div className="text-center py-8">
         <p className="text-base font-sans theme-transition" style={{ color: 'var(--muted-foreground)', opacity: 0.4 }}>
-          © 2025 Will Smith. All rights reserved.
+        Born in Figma, raised in Cursor, assembled pixel-by-pixel in Beverly, MA. ©2025
         </p>
       </div>
     </motion.footer>

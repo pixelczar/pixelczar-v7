@@ -1,26 +1,382 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ffffff;
+    --foreground: #2d3748;
+    --card: #ffffff;
+    --card-foreground: #2d3748;
+    --popover: #ffffff;
+    --popover-foreground: #2d3748;
+    --primary: #2d3748;
+    --primary-foreground: #ffffff;
+    --secondary: #edf2f7;
+    --secondary-foreground: #2d3748;
+    --muted: #edf2f7;
+    --muted-foreground: #373e4c;
+    --accent: 340 71% 56%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --border: #d7dee0;
+    --input: #d7dee0;
+    --ring: #2d3748;
+    --radius: 0.5rem;
+    --font-serif: "Lust Display", serif;
+  }
+
+  .dark {
+    --background: #1d232a;
+    --foreground: #f7fafc;
+    --card: #283141;
+    --card-foreground: #f7fafc;
+    --popover: #283141;
+    --popover-foreground: #f7fafc;
+    --primary: #f7fafc;
+    --primary-foreground: #1d232a;
+    --secondary: #283141;
+    --secondary-foreground: #f7fafc;
+    --muted: #283141;
+    --muted-foreground: #8894a5;
+    --accent: 340 71% 56%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: #ef4444;
+    --destructive-foreground: #f7fafc;
+    --border: #4a5568;
+    --input: #4a5568;
+    --ring: #f7fafc;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: "Lust Display", var(--font-serif);
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: -0.011em;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "pnum" 1, "tnum" 0, "onum" 1, "lnum" 0, "dlig" 0, "ss01" 1;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    cursor: none;
+  }
+
+  * {
+    cursor: none !important;
+  }
+
+  /* Professional Typography Scale */
+  h1 {
+    font-family: "Lust", "Lust Display", var(--font-serif);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    transition: color 0.3s ease;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "dlig" 1, "ss01" 1, "ss02" 1, "ss03" 1, "ss04" 1, "ss05" 1, "ss06" 1, "ss07" 1, "ss08" 1, "swsh" 1, "cswh" 1, "salt" 1;
+    /* Enable all stylistic sets and alternates for Lust Display */
+  }
+
+  h2 {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    transition: color 0.3s ease;
+  }
+
+  h3 {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+    transition: color 0.3s ease;
+  }
+
+  h4 {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    transition: color 0.3s ease;
+  }
+
+  h5,
+  h6 {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: -0.005em;
+    transition: color 0.3s ease;
+  }
+
+  p {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: -0.011em;
+    transition: color 0.3s ease;
+  }
+
+  /* Professional text sizes with proper scaling */
+  .text-display {
+    font-family: "Lust", "Lust Display", var(--font-serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(3rem, 8vw, 6rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "dlig" 1, "ss01" 1, "ss02" 1, "ss03" 1, "ss04" 1, "ss05" 1, "ss06" 1, "ss07" 1, "ss08" 1, "swsh" 1, "cswh" 1, "salt" 1;
+  }
+
+  .text-hero {
+    font-family: "Lust", "Lust Display", var(--font-serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "dlig" 1, "ss01" 1, "ss02" 1, "ss03" 1, "ss04" 1, "ss05" 1, "ss06" 1, "ss07" 1, "ss08" 1, "swsh" 1, "cswh" 1, "salt" 1;
+  }
+
+  .text-headline {
+    font-family: "Lust", "Lust Display", var(--font-serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "dlig" 1, "ss01" 1, "ss02" 1, "ss03" 1, "ss04" 1, "ss05" 1, "ss06" 1, "ss07" 1, "ss08" 1, "swsh" 1, "cswh" 1, "salt" 1;
+  }
+
+  .text-title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+  }
+
+  .text-subtitle {
+    font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+  }
+
+  .text-body-large {
+    font-size: 1.125rem;
+    line-height: 1.55;
+    letter-spacing: -0.008em;
+  }
+
+  .text-body {
+    font-size: 1rem;
+    line-height: 1.6;
+    letter-spacing: -0.011em;
+  }
+
+  .text-body-small {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    letter-spacing: -0.006em;
+  }
+
+  .text-caption {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+    font-weight: 500;
+  }
+
+  /* Professional link styling */
+  a {
+    transition: color 0.3s ease, background-color 0.3s ease;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  /* Button typography */
+  button {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  /* Professional spacing utilities */
+  .prose {
+    max-width: 65ch;
+  }
+
+  .prose p+p {
+    margin-top: 1.5em;
+  }
+
+  .prose h1+p,
+  .prose h2+p,
+  .prose h3+p {
+    margin-top: 0.75em;
+  }
+
+  /* SVG and icon transitions */
+  svg {
+    transition: color 0.3s ease, fill 0.3s ease, stroke 0.3s ease;
+  }
+
+  /* Theme transition classes */
+  .theme-transition {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .theme-transition-fast {
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+
+  /* Professional focus states */
+  *:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Professional text color utilities */
+  .text-primary-strong {
+    color: var(--primary);
+    font-weight: 600;
+  }
+
+  .text-secondary-medium {
+    color: var(--muted-foreground);
+    font-weight: 500;
+  }
+
+  .text-accent-medium {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* Lust Display stylistic alternatives */
+  .lust-stylistic {
+    font-family: "Lust Display", var(--font-serif);
+    font-weight: 400;
+    font-style: italic;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "dlig" 1, "ss01" 1, "ss02" 1, "ss03" 1, "ss04" 1, "ss05" 1, "ss06" 1, "ss07" 1, "ss08" 1, "swsh" 1, "cswh" 1, "salt" 1;
+  }
+
+  /* Lust Display variants */
+  .lust-display {
+    font-family: "Lust Display", var(--font-serif);
+    font-weight: 400;
+    font-style: italic;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "dlig" 1, "ss01" 1, "ss02" 1, "ss03" 1, "ss04" 1, "ss05" 1, "ss06" 1, "ss07" 1, "ss08" 1, "swsh" 1, "cswh" 1, "salt" 1;
+  }
+
+  .lust-roman {
+    font-family: "Lust Display", var(--font-serif);
+    font-weight: 400;
+    font-style: normal;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "dlig" 1, "ss01" 1, "ss02" 1, "ss03" 1, "ss04" 1, "ss05" 1, "ss06" 1, "ss07" 1, "ss08" 1, "swsh" 1, "cswh" 1, "salt" 1;
+  }
+
+  /* Typography matching existing site */
+  .heading-display {
+    font-family: "Lust", "Lust Display", var(--font-serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(3.5rem, 8.5vw, 6rem);
+    line-height: 1.1;
+    margin: 5vw 0;
+    letter-spacing: -0.0em;
+    color: var(--foreground);
+    font-feature-settings: unset;
+    /* font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "dlig" 1, "ss01" 1, "ss02" 1, "ss03" 1, "ss04" 1, "ss05" 1, "ss06" 1, "ss07" 1, "ss08" 1, "swsh" 1, "cswh" 1, "salt" 1; */
+  }
+
+.lust-aalt {
+  font-feature-settings: "aalt";
+}
+
+.lust-salt {
+  font-feature-settings: "salt";
+}
+
+.lust-cswh {
+  font-feature-settings: "cswh";
+}
+
+.lust-swsh {
+  font-feature-settings: "swsh";
+}
+
+.lust-ss01 {
+  font-feature-settings: "ss01";
+}
+
+.lust-ss02 {
+  font-feature-settings: "ss02";
+}
+
+.lust-ss03 {
+  font-feature-settings: "ss03";
+}
+  
+
+
+  .heading-section {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 1.25rem;
+    line-height: 1.4;
+    color: var(--foreground);
+    letter-spacing: -0.01em;
+  }
+
+  .text-body-main {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--muted-foreground);
+    letter-spacing: -0.01em;
+  }
+
+  .text-body-small {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--muted-foreground);
+    letter-spacing: -0.005em;
+  }
+
+  .text-label {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: var(--muted-foreground);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
 }

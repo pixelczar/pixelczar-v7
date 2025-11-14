@@ -39,7 +39,7 @@
     --secondary: #283141;
     --secondary-foreground: #f7fafc;
     --muted: #283141;
-    --muted-foreground: #8894a5;
+    --muted-foreground: #95a1b1;
     --accent: 340 71% 56%;
     --accent-foreground: 210 40% 98%;
     --destructive: #ef4444;
@@ -138,7 +138,7 @@
     font-weight: 400;
     font-style: italic;
     font-size: clamp(3rem, 8vw, 6rem);
-    line-height: 1.05;
+    line-height: 1.1;
     letter-spacing: -0.03em;
     font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "dlig" 1, "ss01" 1, "ss02" 1, "ss03" 1, "ss04" 1, "ss05" 1, "ss06" 1, "ss07" 1, "ss08" 1, "swsh" 1, "cswh" 1, "salt" 1;
   }
@@ -276,6 +276,17 @@
     font-weight: 500;
   }
 
+  .text-muted-foreground {
+    color: var(--muted-foreground);
+  }
+
+  .text-foreground {
+    color: var(--foreground);
+  }
+
+  .text-primary {
+    color: var(--primary);
+  }
   /* Lust Display stylistic alternatives */
   .lust-stylistic {
     font-family: "Lust Display", var(--font-serif);
@@ -305,7 +316,7 @@
     font-weight: 400;
     font-style: italic;
     font-size: clamp(3.5rem, 8.5vw, 6rem);
-    line-height: 1.1;
+    line-height: 1.2;
     margin: 5vw 0;
     letter-spacing: -0.0em;
     color: var(--foreground);

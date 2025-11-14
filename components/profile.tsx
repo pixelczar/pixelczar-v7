@@ -29,7 +29,7 @@ export default function Profile() {
             Will Smith
           </h2>
           <p className="text-sm font-sans font-normal text-left" style={{ color: 'var(--muted-foreground)' }}>
-            Boston, Massachusetts
+            Beverly, Massachusetts
           </p>
         </div>
       </div>

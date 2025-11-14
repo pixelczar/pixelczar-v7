@@ -96,7 +96,7 @@ export default function Footer() {
 
           {/* Giant Watermark Typography - Middle */}
           <div className="w-full flex items-center justify-center pointer-events-none select-none">
-            <div className="w-[96vw] opacity-[0.03] theme-transition">
+            <div className="w-[96vw] opacity-[0.04] theme-transition">
               <svg
                 version="1.1"
                 x="0px"
@@ -123,8 +123,8 @@ export default function Footer() {
 
       {/* Copyright - Bottom */}
       <div className="text-center py-8">
-        <p className="text-base font-sans theme-transition" style={{ color: 'var(--muted-foreground)', opacity: 0.4 }}>
-        Born in Figma, raised in Cursor, assembled pixel-by-pixel in Beverly, MA. ©2025
+        <p className="text-base font-sans theme-transition text-muted-foreground">
+        Born in Figma, raised in Cursor, assembled pixel-by-pixel on Boston's beautiful North Shore. © 2025
         </p>
       </div>
     </motion.footer>

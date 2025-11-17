@@ -123,8 +123,8 @@ export default function Footer() {
 
       {/* Copyright - Bottom */}
       <div className="text-center py-8">
-        <p className="text-base font-sans theme-transition text-muted-foreground">
-        Born in Figma, raised in Cursor, assembled pixel-by-pixel on Boston's beautiful North Shore. © 2025
+        <p className="text-base font-sans theme-transition text-muted-foreground max-w-lg mx-auto">
+        This site was born in Figma, raised in Cursor, assembled pixel-by-pixel on Boston's beautiful North Shore. © 2025
         </p>
       </div>
     </motion.footer>

@@ -32,38 +32,60 @@ export default function AboutPage() {
 
         {/* Content - Wider Container */}
         <div className="max-w-4xl mx-auto">
-          {/* First Paragraph */}
+           {/* Quote */}
           <motion.div variants={itemVariants} className="mb-12 theme-transition">
-            <p className="text-lg text-body-main leading-relaxed theme-transition">
-              I love Design. The typography, the colors, the creative problem
-              solving with multiple moving parts, the work with other parts of
-              the company to achieve something greater than one person or one
-              department.
-            </p>
-          </motion.div>
-
-          {/* Quote */}
-          <motion.div variants={itemVariants} className="mb-12 theme-transition">
-            <p className="text-2xl text-foreground leading-relaxed theme-transition font-light">
+            <p className="text-2xl text-accent leading-relaxed theme-transition font-light">
               You've got to be creative when your name is Will Smith... the easy
               domains are taken.
             </p>
           </motion.div>
-
-          {/* Experience Paragraph */}
+          {/* First Paragraph */}
           <motion.div variants={itemVariants} className="mb-16 theme-transition">
             <p className="text-lg text-body-main leading-relaxed theme-transition">
-              I have been designing at high-growth venture-backed startups for
-              the past 15 years or so. My experience encompasses shaping the
-              visual design, UI, and data visualization of a B2B SaaS app. I'm a
-              sucker for the well-executed basics of a clean layout, vibrant
-              color palette, and ample white space around the typography.
+            The way we produce and consume software is being transformed forever. It's an exciting time to think about how AI will shape interactions, how information is displayed, and how people connect with technology.
+            <br /><br />
+            I love design; the typography, the colors, and the creative problem solving that comes with complex systems. I enjoy collaborating across teams to build something greater than any one person or department.
+            <br /><br />
+            I think in systems. I look for patterns as products evolve and care deeply about the details that make an experience feel effortless.
+            <br /><br />
+            I love learning and finding inspiration in unexpected corners of the internet, then using it to create something new.
             </p>
           </motion.div>
+        </div>
 
+        {/* Separator Line */}
+        <motion.div
+            variants={itemVariants}
+            className="w-full h-px bg-accent/40 max-w-4xl mx-auto mt-16 theme-transition"
+          />
+
+        {/* Principles / Ethos */}
+        <motion.div variants={itemVariants} className="mb-16 theme-transition max-w-4xl mx-auto">
+          <h2 className="text-2xl font-normal my-12 font-sans text-muted-foreground">Product development & design ethos</h2>
+
+        </motion.div>
+        <motion.div variants={itemVariants} className="max-w-6xl mx-auto mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 theme-transition">
+              <div className="text-base text-body-main leading-relaxed theme-transition">
+                <h3 className="text-3xl text-foreground tracking-tight font-medium mb-8">Everything is a product.</h3>
+                <p className="text-lg"> The words you're reading right now are a product.  This site is a product.  It has a job to be done.  It has <span className="line-through">users</span> humans, stakeholders, and other products interacting with it. It's usage elicts a response.</p>  
+              </div>
+              <div className="text-lg text-body-main leading-relaxed theme-transition">
+                <h3 className="text-3xl text-foreground tracking-tight font-medium mb-8">If you can design one thing, you can design everything.</h3>
+                <p className="text-lg">Design skills are transferable.  It's a way of thinking about a multidemensional problem and coming up with a solution. Sometimes the operating space is simple and sometimes it's complex.</p>  
+              </div>
+              <div className="text-lg text-body-main leading-relaxed theme-transition">
+                <h3 className="text-3xl text-foreground tracking-tight font-medium mb-8">AI is changing the game.</h3>
+                <p className="text-lg">The way we produce and consume software is being transformed forever. It's an exciting time to think about how AI will shape interactions, how information is displayed, and how people connect with technology.</p>     
+              </div>
+            </div>
+        </motion.div>
+
+        {/* Content - Wider Container */}
+        <div className="max-w-4xl mx-auto mt-16">
           {/* Photo */}
           <motion.div variants={itemVariants} className="max-w-lg mx-auto">
-            <div className="relative overflow-hidden rounded-lg shadow-2xl theme-transition">
+            <div className="relative overflow-hidden rounded-lg theme-transition">
               <Image
                 src="/images/will-reflective-03.jpg"
                 alt="Will Smith in reflective jacket"

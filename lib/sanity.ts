@@ -1,0 +1,76 @@
+import { createClient } from 'next-sanity'
+import imageUrlBuilder from '@sanity/image-url'
+import type { SanityImageSource } from '@sanity/image-url/lib/types/types'
+import { apiVersion, dataset, projectId } from '@/sanity/env'
+
+export const client = createClient({
+  projectId,
+  dataset,
+  apiVersion,
+  useCdn: process.env.NODE_ENV === 'production',
+  perspective: 'published',
+})
+
+// Image URL builder for optimized images
+const builder = imageUrlBuilder(client)
+
+export function urlFor(source: SanityImageSource) {
+  return builder.image(source)
+}
+
+// Helper function to build image URLs with default optimization
+export function buildImageUrl(
+  source: SanityImageSource | null | undefined,
+  width?: number,
+  height?: number
+): string | null {
+  if (!source) return null
+
+  // Check if the image has a valid asset reference
+  if (typeof source === 'object' && 'asset' in source) {
+    const asset = (source as any).asset
+    if (!asset || !asset._ref) {
+      console.warn('Image asset is missing or has no _ref property')
+      return null
+    }
+  }
+
+  try {
+    let imageBuilder = urlFor(source).auto('format').fit('max')
+
+    if (width) {
+      imageBuilder = imageBuilder.width(width)
+    }
+
+    if (height) {
+      imageBuilder = imageBuilder.height(height)
+    }
+
+    return imageBuilder.url()
+  } catch (error) {
+    console.error('Error building image URL:', error)
+    return null
+  }
+}
+
+// Helper to get gallery image URLs
+export function getGalleryImageUrls(
+  gallery: Array<any> | null | undefined,
+  options?: { width?: number; height?: number }
+) {
+  if (!gallery || !Array.isArray(gallery)) return []
+
+  return gallery
+    .map((image) => {
+      const url = buildImageUrl(image, options?.width, options?.height)
+      if (!url) return null
+      
+      return {
+        url,
+        alt: image.alt || '',
+        caption: image.caption || '',
+      }
+    })
+    .filter((image): image is { url: string; alt: string; caption: string } => image !== null)
+}
+

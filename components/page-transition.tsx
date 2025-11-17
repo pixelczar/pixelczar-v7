@@ -22,16 +22,16 @@ export default function PageTransition({
     visible: {
       opacity: 1,
       transition: {
-        duration: 2.0,
-        ease: [0.19, 1.0, 0.22, 1.0], // easeOutExpo - super smooth
-        staggerChildren: 0.05,
-        delayChildren: 0.06,
+        duration: 2.5,
+        ease: [0.16, 1.0, 0.3, 1.0], // easeOutExpo - extra smooth
+        staggerChildren: 0.08,
+        delayChildren: 0.1,
       },
     },
     exit: {
       opacity: 0,
       transition: {
-        duration: 1.2,
+        duration: 1.5,
         ease: [0.4, 0, 1, 1],
       },
     },
@@ -43,7 +43,7 @@ export default function PageTransition({
       opacity: 1,
       y: 0,
       transition: {
-        duration: 1.6,
+        duration: 2.0,
         ease: [0.16, 1.0, 0.3, 1.0], // easeOutExpo - extra smooth
       },
     },

@@ -133,9 +133,7 @@ export default function RootLayout({
           storageKey="pixel-czar-theme"
           disableTransitionOnChange={false}
         >
-          <CustomCursor />
           {children}
-          <Footer />
         </ThemeProvider>
       </body>
     </html>

@@ -37,7 +37,7 @@ export default function Header() {
         variants={logoVariants}
         initial={isHomepage ? "hidden" : "visible"}
         animate="visible"
-        transition={isHomepage ? { delay: 1.0, duration: 0.8, ease: [0.23, 1, 0.32, 1] } : { duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
+        transition={isHomepage ? { delay: 1.5, duration: 1.2, ease: [0.16, 1.0, 0.3, 1.0] } : { duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
       >
         <Link
           href="/"
@@ -54,8 +54,8 @@ export default function Header() {
           <div id="logo-symbol">
             <AnimatedLogo isHovered={isLogoHovered} />
           </div>
-          <span className="text-body font-sans font-medium theme-transition text-gray-600 dark:text-white/40 group-hover:text-white transition-colors duration-300">
-            Pixel Czar
+          <span className="text-body font-sans font-medium theme-transition text-gray-600 dark:text-white/40 group-hover:text-gray-900 dark:group-hover:text-white transition-colors duration-300">
+            Home
           </span>
         </Link>
       </motion.div>
@@ -65,7 +65,7 @@ export default function Header() {
         variants={navVariants}
         initial={isHomepage ? "hidden" : "visible"}
         animate="visible"
-        transition={isHomepage ? { delay: 1.3, duration: 0.6, ease: [0.19, 1.0, 0.22, 1.0] } : { duration: 0.6, ease: [0.19, 1.0, 0.22, 1.0] }}
+        transition={isHomepage ? { delay: 1.8, duration: 1.0, ease: [0.16, 1.0, 0.3, 1.0] } : { duration: 0.6, ease: [0.19, 1.0, 0.22, 1.0] }}
       >
         <MagneticLink
           href="/work"
@@ -76,11 +76,11 @@ export default function Header() {
           }`}
           style={pathname === "/work" ? { color: 'hsl(var(--accent))' } : { color: 'var(--muted-foreground)' }}
         >
-          Work
+          Pixels Pushed
         </MagneticLink>
         <MagneticLink
           href="/about"
-          className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 mr-6 rounded-full hover:text-white ${
+          className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
             pathname === "/about"
               ? "font-medium"
               : "hover:text-primary"
@@ -100,7 +100,7 @@ export default function Header() {
         >
           Archive
         </MagneticLink> */}
-        <div className="pt-0.5 flex">
+        <div className="pt-0.5 flex pl-6">
           <ThemeToggle />
         </div>
       </motion.nav>

@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 export default function CustomCursor() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
   const [cursorState, setCursorState] = useState({
-    x: 0,
-    y: 0,
+    x: -100,
+    y: -100,
     width: 32, // 2rem
     height: 32, // 2rem
     borderRadius: 50,
@@ -17,14 +17,30 @@ export default function CustomCursor() {
   const [isMagnetized, setIsMagnetized] = useState(false);
   const [hideOuter, setHideOuter] = useState(false);
   const [hideBorder, setHideBorder] = useState(false);
+  const [hasMouseMoved, setHasMouseMoved] = useState(false);
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
       setIsVisible(true);
+      setHasMouseMoved(true);
+
+      // Check if the element or any parent has data-cursor-ignore
+      const target = e.target as Element;
+      if (target.closest("[data-cursor-ignore]")) {
+        setIsMagnetized(false);
+        setCursorState({
+          x: e.clientX - 16,
+          y: e.clientY - 16,
+          width: 32,
+          height: 32,
+          borderRadius: 50,
+        });
+        return;
+      }
 
       // Check for interactable elements
-      const interactable = (e.target as Element).closest(".cursor-hover");
+      const interactable = target.closest(".cursor-hover");
 
       if (interactable) {
         setIsMagnetized(true);
@@ -45,10 +61,10 @@ export default function CustomCursor() {
         const isCircle = interactable.hasAttribute("data-cursor-shape") &&
           interactable.getAttribute("data-cursor-shape") === "circle";
         
-        // Check if the element has rounded-full class or data attribute (like the toggle)
-        const computedStyle = window.getComputedStyle(interactable as Element);
-        const hasRoundedFull = interactable.hasAttribute("data-cursor-rounded") ||
-          interactable.classList.contains("rounded-full") ||
+        // Check if the target element has rounded-full class or data attribute (like the toggle)
+        const computedStyle = window.getComputedStyle(targetElement);
+        const hasRoundedFull = targetElement.hasAttribute("data-cursor-rounded") ||
+          targetElement.classList.contains("rounded-full") ||
           computedStyle.borderRadius.includes("9999") ||
           computedStyle.borderRadius === "50%";
         
@@ -156,6 +172,7 @@ export default function CustomCursor() {
       {/* Main morphing cursor */}
       <motion.div
         className="fixed top-0 left-0 pointer-events-none z-[9999]"
+        initial={false}
         style={{
           opacity: isVisible ? (hideOuter ? 0 : 1) : 0,
           backgroundColor: isClicking
@@ -173,17 +190,20 @@ export default function CustomCursor() {
             ? "50%" 
             : `${cursorState.borderRadius}px`,
         }}
-        transition={{
+        transition={hasMouseMoved ? {
           type: "spring",
-          stiffness: 300,
-          damping: 25,
-          mass: 0.5,
+          stiffness: 400,
+          damping: 18,
+          mass: 0.3,
+        } : {
+          duration: 0,
         }}
       />
 
       {/* Small pointer dot */}
       <motion.div
         className="fixed top-0 left-0 w-2 h-2 rounded-full pointer-events-none z-[10000]"
+        initial={false}
         style={{
           opacity: isVisible ? 1 : 0,
           backgroundColor: "var(--foreground)",

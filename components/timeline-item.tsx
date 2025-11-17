@@ -84,7 +84,7 @@ export default function TimelineItem({
       {/* Content */}
       <div className="flex-1 flex gap-8">
         {/* Left Column - Job Details (Narrow) */}
-        <div className="w-96 space-y-6">
+        <div className="w-2/5 space-y-6">
           <p className="text-base font-semibold theme-transition mb-8" style={{ color: 'var(--muted-foreground)' }}>
             {job.dates} -
             <span
@@ -97,7 +97,7 @@ export default function TimelineItem({
           </p>
 
           <div>
-            <p className="text-sm font-normal mb-1 theme-transition" style={{ color: 'var(--muted-foreground)' }}>
+            <p className="text-sm font-normal mb-1 theme-transition text-muted-foreground" style={{ color: 'var(--muted-foreground)' }}>
               Company
             </p>
             <h3 className="text-base font-semibold text-foreground theme-transition">
@@ -106,7 +106,7 @@ export default function TimelineItem({
           </div>
 
           <div>
-            <p className="text-sm font-normal mb-1 theme-transition" style={{ color: 'var(--muted-foreground)' }}>
+            <p className="text-sm font-normal mb-1 theme-transition text-muted-foreground" style={{ color: 'var(--muted-foreground)' }}>
               Type
             </p>
             <p className="text-base font-semibold text-foreground theme-transition">
@@ -115,7 +115,7 @@ export default function TimelineItem({
           </div>
 
           <div>
-            <p className="text-sm font-normal mb-1 theme-transition" style={{ color: 'var(--muted-foreground)' }}>
+            <p className="text-sm font-normal mb-1 theme-transition text-muted-foreground" style={{ color: 'var(--muted-foreground)' }}>
               Responsibilities
             </p>
             <p className="text-base font-semibold text-foreground theme-transition leading-relaxed">

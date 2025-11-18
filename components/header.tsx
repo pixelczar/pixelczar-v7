@@ -67,17 +67,7 @@ export default function Header() {
         animate="visible"
         transition={isHomepage ? { delay: 1.8, duration: 1.0, ease: [0.16, 1.0, 0.3, 1.0] } : { duration: 0.6, ease: [0.19, 1.0, 0.22, 1.0] }}
       >
-        <MagneticLink
-          href="/work"
-          className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
-            pathname === "/work"
-              ? "font-medium"
-              : "hover:text-primary"
-          }`}
-          style={pathname === "/work" ? { color: 'hsl(var(--accent))' } : { color: 'var(--muted-foreground)' }}
-        >
-          Pixels Pushed
-        </MagneticLink>
+
         <MagneticLink
           href="/about"
           className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
@@ -89,6 +79,18 @@ export default function Header() {
         >
           About
         </MagneticLink>
+        <MagneticLink
+          href="/work"
+          className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
+            pathname === "/work"
+              ? "font-medium"
+              : "hover:text-primary"
+          }`}
+          style={pathname === "/work" ? { color: 'hsl(var(--accent))' } : { color: 'var(--muted-foreground)' }}
+        >
+          Pixels Pushed
+        </MagneticLink>
+        
         {/* <MagneticLink
           href="/archive"
           className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 mr-6 rounded-full hover:text-white ${

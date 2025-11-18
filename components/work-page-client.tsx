@@ -46,7 +46,7 @@ export default function WorkPageClient({ projects, experienceData }: WorkPageCli
         {projects.length > 0 && (
           <div className="max-w-6xl mx-auto mb-24">
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-16">
               {projects.slice(0, 6).map((project, index) => (
                 <RecentProjectCard key={project._id} project={project} index={index} />
               ))}

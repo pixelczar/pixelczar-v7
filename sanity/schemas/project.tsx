@@ -47,6 +47,27 @@ export default defineType({
       description: 'Key results and impact of the project',
     }),
     defineField({
+      name: 'codeSnippet',
+      title: 'Code Snippet',
+      type: 'code',
+      options: {
+        language: 'javascript',
+        languageAlternatives: [
+          { title: 'JavaScript', value: 'javascript' },
+          { title: 'TypeScript', value: 'typescript' },
+          { title: 'HTML', value: 'html' },
+          { title: 'CSS', value: 'css' },
+          { title: 'JSON', value: 'json' },
+          { title: 'JSX', value: 'jsx' },
+          { title: 'TSX', value: 'tsx' },
+          { title: 'Python', value: 'python' },
+          { title: 'Shell', value: 'shell' },
+        ],
+        withFilename: true,
+      },
+      description: 'Optional code snippet related to the project',
+    }),
+    defineField({
       name: 'timeline',
       title: 'Timeline',
       type: 'string',

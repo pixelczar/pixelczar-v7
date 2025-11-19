@@ -28,6 +28,30 @@
   }
 
   .dark {
+    /* Default: Midnight blue theme */
+    --background: #0a0e27;
+    --foreground: #e2e8f0;
+    --card: #0f172a;
+    --card-foreground: #e2e8f0;
+    --popover: #0f172a;
+    --popover-foreground: #e2e8f0;
+    --primary: #e2e8f0;
+    --primary-foreground: #0a0e27;
+    --secondary: #1e293b;
+    --secondary-foreground: #e2e8f0;
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8;
+    --accent: 340 71% 56%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: #ef4444;
+    --destructive-foreground: #e2e8f0;
+    --border: #1e293b;
+    --input: #1e293b;
+    --ring: #e2e8f0;
+  }
+
+  /* Original dark theme variant */
+  .dark[data-dark-variant="original"] {
     --background: #1d232a;
     --foreground: #f7fafc;
     --card: #283141;
@@ -47,6 +71,52 @@
     --border: #4a5568;
     --input: #4a5568;
     --ring: #f7fafc;
+  }
+
+  /* Midnight blue theme variant (default) */
+  .dark[data-dark-variant="midnight"] {
+    --background: #0a0e27;
+    --foreground: #e2e8f0;
+    --card: #0f172a;
+    --card-foreground: #e2e8f0;
+    --popover: #0f172a;
+    --popover-foreground: #e2e8f0;
+    --primary: #e2e8f0;
+    --primary-foreground: #0a0e27;
+    --secondary: #1e293b;
+    --secondary-foreground: #e2e8f0;
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8;
+    --accent: 340 71% 56%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: #ef4444;
+    --destructive-foreground: #e2e8f0;
+    --border: #1e293b;
+    --input: #1e293b;
+    --ring: #e2e8f0;
+  }
+
+  /* Deep teal theme variant (more blue-tinted) */
+  .dark[data-dark-variant="teal"] {
+    --background: #051015;
+    --foreground: #e0f2f5;
+    --card: #0a1f2a;
+    --card-foreground: #e0f2f5;
+    --popover: #0a1f2a;
+    --popover-foreground: #e0f2f5;
+    --primary: #e0f2f5;
+    --primary-foreground: #051015;
+    --secondary: #1e3a45;
+    --secondary-foreground: #e0f2f5;
+    --muted: #1e3a45;
+    --muted-foreground: #80b3c0;
+    --accent: 65 100% 50%;
+    --accent-foreground: 0 0% 10%;
+    --destructive: #ef4444;
+    --destructive-foreground: #e0f2f5;
+    --border: #1e3a45;
+    --input: #1e3a45;
+    --ring: #e0f2f5;
   }
 }
 

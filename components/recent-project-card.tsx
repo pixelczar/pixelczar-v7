@@ -54,7 +54,7 @@ export default function RecentProjectCard({ project, index = 0 }: RecentProjectC
   const cardContent = (
     <>
       {/* Top Section: Title/Description (2/3) + Metadata (1/3) */}
-      <div className="flex flex-col md:flex-row gap-6 md:gap-8 ">
+      <div className="flex flex-col md:flex-row gap-6 md:gap-8 max-w-4xl mx-auto">
         {/* Title and Description - 2/3 width */}
         <div className="flex-[2] min-w-0">
           <div className="flex items-center gap-3 mb-3">
@@ -68,7 +68,7 @@ export default function RecentProjectCard({ project, index = 0 }: RecentProjectC
                 className="inline-flex items-center gap-2 px-2 py-1 rounded-full relative -left-2 cursor-hover"
                 aria-label={`Visit ${project.title}`}
               >
-                <h3 className="text-xl font-semibold font-sans group-hover:text-accent transition-colors duration-300">
+                <h3 className="text-2xl font-semibold font-sans group-hover:text-accent transition-colors duration-300">
                   {project.title}
                 </h3>
                 <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-accent transition-colors duration-300" />
@@ -92,7 +92,7 @@ export default function RecentProjectCard({ project, index = 0 }: RecentProjectC
                 {project.tags.map((tag, idx) => (
                   <span
                     key={idx}
-                    className="text-xs px-2.5 py-0.5 rounded bg-muted/20 border text-muted-foreground font-sans"
+                    className="text-xs px-2 py-0.5 rounded bg-muted/20 border text-muted-foreground font-sans"
                     style={{ borderColor: 'color-mix(in srgb, var(--border) 70%, transparent)' }}
                   >
                     {tag}
@@ -130,7 +130,7 @@ export default function RecentProjectCard({ project, index = 0 }: RecentProjectC
 
       {/* Bottom Section: Images - 3 across */}
       {project.gallery && project.gallery.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-6 max-w-4xl mx-auto">
           {project.gallery.slice(0, 3).map((image, idx) => (
             <TiltImage key={idx} image={image} title={project.title} index={idx} />
           ))}

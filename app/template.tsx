@@ -6,6 +6,7 @@ import Header from "@/components/header";
 import PageTransition from "@/components/page-transition";
 import CustomCursor from "@/components/custom-cursor";
 import Footer from "@/components/footer";
+import DarkThemePicker from "@/components/dark-theme-picker";
 
 export default function Template({
   children,
@@ -22,6 +23,7 @@ export default function Template({
   return (
     <>
       <CustomCursor />
+      <DarkThemePicker />
       <Header />
       <PageTransition>
         {children}

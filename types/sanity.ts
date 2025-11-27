@@ -24,7 +24,7 @@ export interface SanityImage {
   }
 }
 
-// Project type from Sanity
+// Project type from Sanity (for Play page - recent projects)
 export interface Project {
   _id: string
   _type: 'project'
@@ -47,6 +47,50 @@ export interface Project {
   order?: number
 }
 
+// Case Study type from Sanity (for Work page - professional work)
+export interface CaseStudy {
+  _id: string
+  _type: 'caseStudy'
+  _createdAt: string
+  _updatedAt: string
+  title: string
+  slug: {
+    current: string
+    _type: 'slug'
+  }
+  company?: string
+  description?: string
+  role?: string
+  content?: PortableTextBlock[]
+  outcomes?: PortableTextBlock[]
+  timeline?: string
+  mainImage?: SanityImage
+  gallery?: SanityImage[]
+  tags?: string[]
+  projectUrl?: string
+  featured?: boolean
+  order?: number
+}
+
+// Gallery Item type from Sanity
+export interface GalleryItem {
+  _id: string
+  _type: 'galleryItem'
+  title?: string
+  type: 'image' | 'video'
+  size: 'large' | 'medium' | 'small'
+  image?: SanityImage
+  video?: {
+    asset: {
+      _ref: string
+      url?: string
+    }
+  }
+  videoUrl?: string
+  caption?: string
+  order?: number
+}
+
 // Simplified project for listing pages
 export interface ProjectListItem {
   _id: string
@@ -66,6 +110,39 @@ export interface ProjectListItem {
   tags?: string[]
   featured?: boolean
   projectUrl?: string
+}
+
+// Simplified case study for listing pages
+export interface CaseStudyListItem {
+  _id: string
+  title: string
+  slug: string
+  company?: string
+  description?: string
+  role?: string
+  timeline?: string
+  mainImage?: {
+    url: string
+    alt: string
+  }
+  gallery?: Array<{
+    url: string
+    alt: string
+  }>
+  tags?: string[]
+  featured?: boolean
+  projectUrl?: string
+}
+
+// Gallery item for client rendering
+export interface GalleryItemClient {
+  _id: string
+  type: 'image' | 'video'
+  size: 'large' | 'medium' | 'small'
+  src: string
+  alt: string
+  caption?: string
+  videoUrl?: string
 }
 
 // Full project with optimized image URLs

@@ -88,7 +88,18 @@ export default function Header() {
           }`}
           style={pathname === "/work" ? { color: 'hsl(var(--accent))' } : { color: 'var(--muted-foreground)' }}
         >
-          Pixels Pushed
+          Work
+        </MagneticLink>
+        <MagneticLink
+          href="/play"
+          className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
+            pathname === "/play"
+              ? "font-medium"
+              : "hover:text-primary"
+          }`}
+          style={pathname === "/play" ? { color: 'hsl(var(--accent))' } : { color: 'var(--muted-foreground)' }}
+        >
+          Play
         </MagneticLink>
         
         {/* <MagneticLink
@@ -231,6 +242,39 @@ export default function Header() {
                 }}
               >
                 <MagneticLink
+                  href="/about"
+                  className={`text-6xl font-sans tracking-tight font-medium transition-all duration-300 relative px-4 py-2 ${
+                    pathname === "/about"
+                      ? "text-accent"
+                      : "hover:text-accent"
+                  }`}
+                  style={pathname !== "/about" ? { color: 'var(--muted-foreground)' } : undefined}
+                  onClick={() => {
+                    // Hide cursor outline immediately during navigation
+                    window.dispatchEvent(new CustomEvent('hideCursorOuter', { detail: true }));
+                    setIsMenuOpen(false);
+                    setTimeout(() => {
+                      window.dispatchEvent(new CustomEvent('hideCursorOuter', { detail: false }));
+                    }, 2500);
+                  }}
+                >
+                  About
+                </MagneticLink>
+              </motion.div>
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: {
+                      duration: 0.6,
+                      ease: [0.23, 1, 0.32, 1],
+                    },
+                  },
+                }}
+              >
+                <MagneticLink
                   href="/work"
                   className={`text-6xl font-sans tracking-tight font-medium transition-all duration-300 relative px-4 py-2 ${
                     pathname === "/work"
@@ -264,13 +308,13 @@ export default function Header() {
                 }}
               >
                 <MagneticLink
-                  href="/about"
+                  href="/play"
                   className={`text-6xl font-sans tracking-tight font-medium transition-all duration-300 relative px-4 py-2 ${
-                    pathname === "/about"
+                    pathname === "/play"
                       ? "text-accent"
                       : "hover:text-accent"
                   }`}
-                  style={pathname !== "/about" ? { color: 'var(--muted-foreground)' } : undefined}
+                  style={pathname !== "/play" ? { color: 'var(--muted-foreground)' } : undefined}
                   onClick={() => {
                     // Hide cursor outline immediately during navigation
                     window.dispatchEvent(new CustomEvent('hideCursorOuter', { detail: true }));
@@ -280,7 +324,7 @@ export default function Header() {
                     }, 2500);
                   }}
                 >
-                  About
+                  Play
                 </MagneticLink>
               </motion.div>
               {/* <motion.div

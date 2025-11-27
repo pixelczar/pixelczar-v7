@@ -53,6 +53,32 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) to view the site.
 
+## 🔌 MCP (Model Context Protocol) Setup
+
+This project includes MCP server configuration for enhanced AI-assisted development. MCP servers allow Cursor to interact with external services like Figma, Sanity, Firebase, and Supabase.
+
+### Quick Setup
+
+1. **Figma MCP** (Official Support):
+   - See `MCP_QUICK_START.md` for quick setup instructions
+   - Full guide: `MCP_SETUP_GUIDE.md`
+
+2. **Sanity MCP** (Official Support):
+   - Quick install: [Add Sanity MCP to Cursor](https://cursor.sh/mcp?url=https://mcp.sanity.io)
+   - See `MCP_QUICK_START.md` for quick setup instructions
+   - Full guide: `MCP_SETUP_GUIDE.md`
+
+3. **Firebase, Supabase**:
+   - These platforms don't have official MCP servers yet
+   - Use their SDKs directly
+   - See `MCP_SETUP_GUIDE.md` for details
+
+### Configuration Files
+
+- `.cursor-mcp-config.json` - Reference MCP configuration template
+- `MCP_SETUP_GUIDE.md` - Complete setup instructions
+- `MCP_QUICK_START.md` - Quick reference guide
+
 ## 📁 Project Structure
 
 ```

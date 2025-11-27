@@ -1,0 +1,34 @@
+{
+  "mcpServers": {
+    "figma-desktop": {
+      "url": "http://127.0.0.1:3845/mcp",
+      "description": "Figma Desktop MCP Server - Requires Figma desktop app with Dev Mode enabled"
+    },
+    "figma": {
+      "url": "https://mcp.figma.com/mcp",
+      "description": "Figma Remote MCP Server - Browser-based, requires OAuth authentication"
+    },
+    "Sanity": {
+      "url": "https://mcp.sanity.io",
+      "type": "http",
+      "description": "Sanity MCP Server - Official support for Sanity CMS. Uses OAuth by default."
+    }
+  },
+  "_comment": "This is a reference configuration file. To use these MCP servers in Cursor:",
+  "_instructions": [
+    "1. Open Cursor Settings (Cmd+, or Ctrl+,)",
+    "2. Navigate to the MCP tab",
+    "3. Click 'Add Custom MCP'",
+    "4. Copy the configuration for the server you want to use",
+    "5. Save and restart Cursor",
+    "",
+    "Quick Install for Sanity:",
+    "  - Use direct link: https://cursor.sh/mcp?url=https://mcp.sanity.io",
+    "",
+    "Note: Only add the servers you'll actually use. You don't need both Figma servers.",
+    "",
+    "Firebase and Supabase don't have official MCP servers yet.",
+    "See MCP_SETUP_GUIDE.md for detailed instructions."
+  ]
+}
+

@@ -1,12 +1,15 @@
 import { defineField, defineType } from 'sanity'
 import { DocumentIcon } from '@sanity/icons'
+import { orderRankField, orderRankOrdering } from '@sanity/orderable-document-list'
 
 export default defineType({
   name: 'project',
   title: 'Project',
   type: 'document',
   icon: DocumentIcon,
+  orderings: [orderRankOrdering],
   fields: [
+    orderRankField({ type: 'project' }),
     defineField({
       name: 'title',
       title: 'Title',
@@ -160,30 +163,5 @@ export default defineType({
       media: 'mainImage',
     },
   },
-  orderings: [
-    {
-      title: 'Order (Ascending)',
-      name: 'orderAsc',
-      by: [{ field: 'order', direction: 'asc' }],
-    },
-    {
-      title: 'Order (Descending)',
-      name: 'orderDesc',
-      by: [{ field: 'order', direction: 'desc' }],
-    },
-    {
-      title: 'Title (A-Z)',
-      name: 'titleAsc',
-      by: [{ field: 'title', direction: 'asc' }],
-    },
-    {
-      title: 'Featured First',
-      name: 'featuredFirst',
-      by: [
-        { field: 'featured', direction: 'desc' },
-        { field: 'order', direction: 'asc' },
-      ],
-    },
-  ],
 })
 

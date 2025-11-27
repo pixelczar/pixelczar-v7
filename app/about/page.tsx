@@ -86,6 +86,10 @@ export default function AboutPage() {
                 <h3 className="text-4xl text-foreground tracking-tight font-medium mb-8">Make something only you can make.</h3>
                 <p className="text-lg">Now, your mileage may vary with the task at hand.  But generally speaking, make it quality and make it yours.</p>     
               </div>
+              <div className="text-lg text-body-main leading-relaxed theme-transition">
+                <h3 className="text-4xl text-foreground tracking-tight font-medium mb-8">The journey is the destination.</h3>
+                <p className="text-lg">Doing the work is the work. Learning, building, and iterating matter just as much as the final outcome. The process shapes the product and the person making it.</p>     
+              </div>
             </div>
         </motion.div>
 

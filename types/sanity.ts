@@ -59,6 +59,7 @@ export interface CaseStudy {
     _type: 'slug'
   }
   company?: string
+  shortDescription?: string
   description?: string
   role?: string
   content?: PortableTextBlock[]
@@ -118,6 +119,7 @@ export interface CaseStudyListItem {
   title: string
   slug: string
   company?: string
+  shortDescription?: string
   description?: string
   role?: string
   timeline?: string

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 import type { CaseStudyListItem } from '@/types/sanity'
+import { smoothEase } from '@/lib/animations'
 
 interface CaseStudyCardProps {
   caseStudy: CaseStudyListItem
@@ -30,24 +31,16 @@ function TiltImage({ image, title, index }: { image: { url: string; alt: string 
 }
 
 export default function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardProps) {
-  const cardVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.9,
-        delay: index * 0.15,
-        ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
-      },
-    },
-  }
-
   return (
     <motion.div
-      variants={cardVariants}
-      initial="hidden"
-      animate="visible"
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-80px' }}
+      transition={{
+        duration: 0.6,
+        delay: index * 0.12,
+        ease: smoothEase,
+      }}
       className="mb-8 group"
     >
       <div 
@@ -88,9 +81,9 @@ export default function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardPro
                 {caseStudy.company}
               </p>
             )}
-            {caseStudy.description && (
+            {(caseStudy.shortDescription || caseStudy.description) && (
               <p className="text-base text-muted-foreground font-sans leading-relaxed">
-                {caseStudy.description}
+                {caseStudy.shortDescription || caseStudy.description}
               </p>
             )}
             {caseStudy.tags && caseStudy.tags.length > 0 && (

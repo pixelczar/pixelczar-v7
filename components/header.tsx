@@ -1,28 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/theme-toggle";
 import AnimatedLogo from "@/components/animated-logo";
 import MagneticLink from "@/components/magnetic-link";
+import { smoothEase, homepageTransitions, standardTransitions, menuVariants, menuItemVariants } from "@/lib/animations";
 
 const logoVariants = {
-  hidden: { opacity: 0, y: -20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-  },
+  hidden: { opacity: 0, y: -12 },
+  visible: { opacity: 1, y: 0 },
 };
 
 const navVariants = {
   hidden: { opacity: 0, y: -8 },
-  visible: {
-    opacity: 1,
-    y: 0,
-  },
+  visible: { opacity: 1, y: 0 },
 };
 
 export default function Header() {
@@ -37,7 +31,7 @@ export default function Header() {
         variants={logoVariants}
         initial={isHomepage ? "hidden" : "visible"}
         animate="visible"
-        transition={isHomepage ? { delay: 1.5, duration: 1.2, ease: [0.16, 1.0, 0.3, 1.0] } : { duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
+        transition={isHomepage ? homepageTransitions.logo : standardTransitions.logo}
       >
         <Link
           href="/"
@@ -65,15 +59,12 @@ export default function Header() {
         variants={navVariants}
         initial={isHomepage ? "hidden" : "visible"}
         animate="visible"
-        transition={isHomepage ? { delay: 1.8, duration: 1.0, ease: [0.16, 1.0, 0.3, 1.0] } : { duration: 0.6, ease: [0.19, 1.0, 0.22, 1.0] }}
+        transition={isHomepage ? homepageTransitions.nav : standardTransitions.nav}
       >
-
         <MagneticLink
           href="/about"
           className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
-            pathname === "/about"
-              ? "font-medium"
-              : "hover:text-primary"
+            pathname === "/about" ? "font-medium" : "hover:text-primary"
           }`}
           style={pathname === "/about" ? { color: 'hsl(var(--accent))' } : { color: 'var(--muted-foreground)' }}
         >
@@ -82,9 +73,7 @@ export default function Header() {
         <MagneticLink
           href="/work"
           className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
-            pathname === "/work"
-              ? "font-medium"
-              : "hover:text-primary"
+            pathname === "/work" ? "font-medium" : "hover:text-primary"
           }`}
           style={pathname === "/work" ? { color: 'hsl(var(--accent))' } : { color: 'var(--muted-foreground)' }}
         >
@@ -93,32 +82,17 @@ export default function Header() {
         <MagneticLink
           href="/play"
           className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
-            pathname === "/play"
-              ? "font-medium"
-              : "hover:text-primary"
+            pathname === "/play" ? "font-medium" : "hover:text-primary"
           }`}
           style={pathname === "/play" ? { color: 'hsl(var(--accent))' } : { color: 'var(--muted-foreground)' }}
         >
           Play
         </MagneticLink>
-        
-        {/* <MagneticLink
-          href="/archive"
-          className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 mr-6 rounded-full hover:text-white ${
-            pathname === "/archive"
-              ? "font-medium"
-              : "hover:text-primary"
-          }`}
-          style={pathname === "/archive" ? { color: 'hsl(var(--accent))' } : { color: 'var(--muted-foreground)' }}
-        >
-          Archive
-        </MagneticLink> */}
         <div className="pt-0.5 flex pl-6">
           <ThemeToggle />
         </div>
       </motion.nav>
 
-      
       <div className="md:hidden flex items-center space-x-4">
         <ThemeToggle />
         <button
@@ -127,42 +101,21 @@ export default function Header() {
           aria-label="Toggle menu"
         >
           <div className="relative w-6 h-5 flex flex-col justify-between">
-            {/* Top line - morphs to top-left of X */}
             <motion.div
               className="h-0.5 bg-current rounded-full"
-              animate={{
-                rotate: isMenuOpen ? 45 : 0,
-                y: isMenuOpen ? 10 : 0,
-              }}
-              transition={{
-                duration: 0.3,
-                ease: [0.4, 0, 0.2, 1],
-              }}
+              animate={{ rotate: isMenuOpen ? 45 : 0, y: isMenuOpen ? 10 : 0 }}
+              transition={{ duration: 0.3, ease: smoothEase }}
               style={{ transformOrigin: "center" }}
             />
-            {/* Middle line - fades out */}
             <motion.div
               className="h-0.5 bg-current rounded-full"
-              animate={{
-                opacity: isMenuOpen ? 0 : 1,
-                scaleX: isMenuOpen ? 0 : 1,
-              }}
-              transition={{
-                duration: 0.2,
-                ease: [0.4, 0, 0.2, 1],
-              }}
+              animate={{ opacity: isMenuOpen ? 0 : 1, scaleX: isMenuOpen ? 0 : 1 }}
+              transition={{ duration: 0.2, ease: smoothEase }}
             />
-            {/* Bottom line - morphs to bottom-right of X */}
             <motion.div
               className="h-0.5 bg-current rounded-full"
-              animate={{
-                rotate: isMenuOpen ? -45 : 0,
-                y: isMenuOpen ? -8 : 0,
-              }}
-              transition={{
-                duration: 0.3,
-                ease: [0.4, 0, 0.2, 1],
-              }}
+              animate={{ rotate: isMenuOpen ? -45 : 0, y: isMenuOpen ? -8 : 0 }}
+              transition={{ duration: 0.3, ease: smoothEase }}
               style={{ transformOrigin: "center" }}
             />
           </div>
@@ -175,7 +128,7 @@ export default function Header() {
             initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
             animate={{ opacity: 1, backdropFilter: "blur(24px)" }}
             exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
-            transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+            transition={{ duration: 0.4, ease: smoothEase }}
             className="fixed inset-0 dark:bg-gray-900/80 bg-white/30 z-40 md:hidden theme-transition"
             onClick={() => setIsMenuOpen(false)}
           >
@@ -183,176 +136,34 @@ export default function Header() {
               initial="hidden"
               animate="visible"
               exit="hidden"
-              variants={{
-                hidden: { opacity: 0 },
-                visible: {
-                  opacity: 1,
-                  transition: {
-                    staggerChildren: 0.1,
-                    delayChildren: 0.15,
-                  },
-                },
-              }}
+              variants={menuVariants}
               className="flex flex-col items-center justify-center h-full space-y-8 theme-transition"
             >
-              <motion.div
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    transition: {
-                      duration: 0.6,
-                      ease: [0.23, 1, 0.32, 1],
-                    },
-                  },
-                }}
-              >
-                <MagneticLink
-                  href="/"
-                  className={`text-6xl font-sans tracking-tight font-medium transition-all duration-300 relative px-4 py-2 ${
-                    pathname === "/"
-                      ? "text-accent"
-                      : "hover:text-accent"
-                  }`}
-                  style={pathname !== "/" ? { color: 'var(--muted-foreground)' } : undefined}
-                  onClick={() => {
-                    // Hide cursor outline immediately during navigation
-                    window.dispatchEvent(new CustomEvent('hideCursorOuter', { detail: true }));
-                    setIsMenuOpen(false);
-                    setTimeout(() => {
-                      window.dispatchEvent(new CustomEvent('hideCursorOuter', { detail: false }));
-                    }, 2500);
-                  }}
-                >
-                  Home
-                </MagneticLink>
-              </motion.div>
-              <motion.div
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    transition: {
-                      duration: 0.6,
-                      ease: [0.23, 1, 0.32, 1],
-                    },
-                  },
-                }}
-              >
-                <MagneticLink
-                  href="/about"
-                  className={`text-6xl font-sans tracking-tight font-medium transition-all duration-300 relative px-4 py-2 ${
-                    pathname === "/about"
-                      ? "text-accent"
-                      : "hover:text-accent"
-                  }`}
-                  style={pathname !== "/about" ? { color: 'var(--muted-foreground)' } : undefined}
-                  onClick={() => {
-                    // Hide cursor outline immediately during navigation
-                    window.dispatchEvent(new CustomEvent('hideCursorOuter', { detail: true }));
-                    setIsMenuOpen(false);
-                    setTimeout(() => {
-                      window.dispatchEvent(new CustomEvent('hideCursorOuter', { detail: false }));
-                    }, 2500);
-                  }}
-                >
-                  About
-                </MagneticLink>
-              </motion.div>
-              <motion.div
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    transition: {
-                      duration: 0.6,
-                      ease: [0.23, 1, 0.32, 1],
-                    },
-                  },
-                }}
-              >
-                <MagneticLink
-                  href="/work"
-                  className={`text-6xl font-sans tracking-tight font-medium transition-all duration-300 relative px-4 py-2 ${
-                    pathname === "/work"
-                      ? "text-accent"
-                      : "hover:text-accent"
-                  }`}
-                  style={pathname !== "/work" ? { color: 'var(--muted-foreground)' } : undefined}
-                  onClick={() => {
-                    // Hide cursor outline immediately during navigation
-                    window.dispatchEvent(new CustomEvent('hideCursorOuter', { detail: true }));
-                    setIsMenuOpen(false);
-                    setTimeout(() => {
-                      window.dispatchEvent(new CustomEvent('hideCursorOuter', { detail: false }));
-                    }, 2500);
-                  }}
-                >
-                  Work
-                </MagneticLink>
-              </motion.div>
-              <motion.div
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    transition: {
-                      duration: 0.6,
-                      ease: [0.23, 1, 0.32, 1],
-                    },
-                  },
-                }}
-              >
-                <MagneticLink
-                  href="/play"
-                  className={`text-6xl font-sans tracking-tight font-medium transition-all duration-300 relative px-4 py-2 ${
-                    pathname === "/play"
-                      ? "text-accent"
-                      : "hover:text-accent"
-                  }`}
-                  style={pathname !== "/play" ? { color: 'var(--muted-foreground)' } : undefined}
-                  onClick={() => {
-                    // Hide cursor outline immediately during navigation
-                    window.dispatchEvent(new CustomEvent('hideCursorOuter', { detail: true }));
-                    setIsMenuOpen(false);
-                    setTimeout(() => {
-                      window.dispatchEvent(new CustomEvent('hideCursorOuter', { detail: false }));
-                    }, 2500);
-                  }}
-                >
-                  Play
-                </MagneticLink>
-              </motion.div>
-              {/* <motion.div
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    transition: {
-                      duration: 0.6,
-                      ease: [0.23, 1, 0.32, 1],
-                    },
-                  },
-                }}
-              >
-                <MagneticLink
-                  href="/archive"
-                  className={`text-6xl font-sans tracking-tight font-medium transition-all duration-300 relative px-4 py-2 ${
-                    pathname === "/archive"
-                      ? "text-accent"
-                      : "hover:text-accent"
-                  }`}
-                  style={pathname !== "/archive" ? { color: 'var(--muted-foreground)' } : undefined}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Archive
-                </MagneticLink>
-              </motion.div> */}
+              {[
+                { href: "/", label: "Home" },
+                { href: "/about", label: "About" },
+                { href: "/work", label: "Work" },
+                { href: "/play", label: "Play" },
+              ].map((item) => (
+                <motion.div key={item.href} variants={menuItemVariants}>
+                  <MagneticLink
+                    href={item.href}
+                    className={`text-6xl font-sans tracking-tight font-medium transition-all duration-300 relative px-4 py-2 ${
+                      pathname === item.href ? "text-accent" : "hover:text-accent"
+                    }`}
+                    style={pathname !== item.href ? { color: 'var(--muted-foreground)' } : undefined}
+                    onClick={() => {
+                      window.dispatchEvent(new CustomEvent('hideCursorOuter', { detail: true }));
+                      setIsMenuOpen(false);
+                      setTimeout(() => {
+                        window.dispatchEvent(new CustomEvent('hideCursorOuter', { detail: false }));
+                      }, 2000);
+                    }}
+                  >
+                    {item.label}
+                  </MagneticLink>
+                </motion.div>
+              ))}
             </motion.nav>
           </motion.div>
         )}

@@ -4,6 +4,7 @@ import type React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { smoothEase, exitEase } from "@/lib/animations";
 
 export default function PageTransition({
   children,
@@ -22,29 +23,17 @@ export default function PageTransition({
     visible: {
       opacity: 1,
       transition: {
-        duration: 2.5,
-        ease: [0.16, 1.0, 0.3, 1.0], // easeOutExpo - extra smooth
+        duration: 0.5,
+        ease: smoothEase,
         staggerChildren: 0.08,
-        delayChildren: 0.1,
+        delayChildren: 0.05,
       },
     },
     exit: {
       opacity: 0,
       transition: {
-        duration: 1.5,
-        ease: [0.4, 0, 1, 1],
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 2.0,
-        ease: [0.16, 1.0, 0.3, 1.0], // easeOutExpo - extra smooth
+        duration: 0.15,
+        ease: exitEase,
       },
     },
   };
@@ -63,4 +52,3 @@ export default function PageTransition({
     </AnimatePresence>
   );
 }
-

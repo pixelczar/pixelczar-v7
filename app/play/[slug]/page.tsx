@@ -14,6 +14,28 @@ interface ProjectPageProps {
   params: Promise<{ slug: string }>
 }
 
+// Helper to convert Portable Text to plain text
+function toPlainText(value: unknown): string {
+  if (!value) return ''
+  if (typeof value === 'string') return value
+  if (Array.isArray(value)) {
+    return value
+      .map((block: any) => {
+        if (block._type === 'block' && Array.isArray(block.children)) {
+          return block.children.map((child: any) => child.text || '').join('')
+        }
+        return ''
+      })
+      .join(' ')
+      .trim()
+  }
+  // If it's an object with _type, it might be a portable text block
+  if (typeof value === 'object' && value !== null && '_type' in value) {
+    return ''
+  }
+  return String(value)
+}
+
 export async function generateStaticParams() {
   try {
     const projects = await getAllProjects()
@@ -38,7 +60,7 @@ export async function generateMetadata({ params }: ProjectPageProps) {
 
     return {
       title: `${project.title} | Pixelczar`,
-      description: project.description || `${project.title} - Creative project`,
+      description: toPlainText(project.description) || `${project.title} - Creative project`,
       robots: 'noindex', // Don't index project detail pages - link to projectUrl instead
     }
   } catch (error) {
@@ -95,20 +117,20 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               {project.role && (
                 <div>
                   <span className="text-sm font-medium text-foreground">Role: </span>
-                  {project.role}
+                  {toPlainText(project.role)}
                 </div>
               )}
               {project.timeline && (
                 <div>
                   <span className="text-sm font-medium text-foreground">Timeline: </span>
-                  {project.timeline}
+                  {toPlainText(project.timeline)}
                 </div>
               )}
             </div>
 
             {/* Description */}
             {project.description && (
-              <p className="text-xl text-muted-foreground mb-6 font-sans">{project.description}</p>
+              <p className="text-xl text-muted-foreground mb-6 font-sans">{toPlainText(project.description)}</p>
             )}
 
             {/* Tags */}
@@ -148,7 +170,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               </div>
               {mainImage.caption && (
                 <p className="text-sm text-muted-foreground text-center mt-4">
-                  {mainImage.caption}
+                  {toPlainText(mainImage.caption)}
                 </p>
               )}
             </div>
@@ -181,7 +203,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                       />
                     </div>
                     {image.caption && (
-                      <p className="text-sm text-muted-foreground">{image.caption}</p>
+                      <p className="text-sm text-muted-foreground">{toPlainText(image.caption)}</p>
                     )}
                   </div>
                 ))}

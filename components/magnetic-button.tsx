@@ -11,6 +11,7 @@ interface MagneticButtonProps {
   strength?: number;
   hideCursor?: boolean;
   hideBorder?: boolean;
+  "data-cursor-shape"?: "circle" | "default";
 }
 
 export default function MagneticButton({
@@ -21,6 +22,7 @@ export default function MagneticButton({
   strength = 0.3,
   hideCursor = false,
   hideBorder = false,
+  "data-cursor-shape": cursorShape,
 }: MagneticButtonProps) {
   const ref = useRef<HTMLElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -97,6 +99,7 @@ export default function MagneticButton({
         damping: 20,
         mass: 0.5,
       }}
+      data-cursor-shape={cursorShape}
       {...props}
     >
       {children}

@@ -5,6 +5,7 @@ import { ThemeScript } from "@/components/theme-script";
 import CustomCursor from "@/components/custom-cursor";
 import Footer from "@/components/footer";
 import "./globals.css";
+import { PostHogProvider } from "@/components/PostHogProvider";
 
 const archivo = Archivo({
   subsets: ["latin"],
@@ -126,15 +127,17 @@ export default function RootLayout({
         />
       </head>
       <body suppressHydrationWarning>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-          storageKey="pixel-czar-theme"
-          disableTransitionOnChange={false}
-        >
-          {children}
-        </ThemeProvider>
+        <PostHogProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem={false}
+            storageKey="pixel-czar-theme"
+            disableTransitionOnChange={false}
+          >
+            {children}
+          </ThemeProvider>
+        </PostHogProvider>
       </body>
     </html>
   );

@@ -1,126 +1,141 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
+import { motion, useMotionValue, useSpring, animate } from "framer-motion";
 
 export default function CustomCursor() {
-  const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
-  const [cursorState, setCursorState] = useState({
-    x: -100,
-    y: -100,
-    width: 32, // 2rem
-    height: 32, // 2rem
-    borderRadius: 50,
-  });
+  // Use motion values for smooth, performant updates outside React render cycle
+  const mouseX = useMotionValue(-100);
+  const mouseY = useMotionValue(-100);
+  
+  // Spring-smoothed values for the outer ring with ultra-smooth settings
+  const springConfig = { damping: 25, stiffness: 300, mass: 0.5 };
+  const cursorX = useSpring(mouseX, springConfig);
+  const cursorY = useSpring(mouseY, springConfig);
+  
+  // Separate springs for size and border radius with slightly different feel
+  const cursorWidth = useMotionValue(32);
+  const cursorHeight = useMotionValue(32);
+  const cursorBorderRadius = useMotionValue(50);
+  
+  const smoothWidth = useSpring(cursorWidth, { damping: 20, stiffness: 200 });
+  const smoothHeight = useSpring(cursorHeight, { damping: 20, stiffness: 200 });
+  const smoothBorderRadius = useSpring(cursorBorderRadius, { damping: 20, stiffness: 200 });
+  
+  // Offset for centering (half of default size)
+  const offsetX = useMotionValue(-16);
+  const offsetY = useMotionValue(-16);
+  const smoothOffsetX = useSpring(offsetX, springConfig);
+  const smoothOffsetY = useSpring(offsetY, springConfig);
+
   const [isClicking, setIsClicking] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const [isMagnetized, setIsMagnetized] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [hideOuter, setHideOuter] = useState(false);
   const [hideBorder, setHideBorder] = useState(false);
-  const [hasMouseMoved, setHasMouseMoved] = useState(false);
+  const hasMouseMoved = useRef(false);
+  const rafRef = useRef<number>();
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-      setIsVisible(true);
-      setHasMouseMoved(true);
-
-      // Check if the element or any parent has data-cursor-ignore
-      const target = e.target as Element;
-      if (target.closest("[data-cursor-ignore]")) {
-        setIsMagnetized(false);
-        setCursorState({
-          x: e.clientX - 16,
-          y: e.clientY - 16,
-          width: 32,
-          height: 32,
-          borderRadius: 50,
-        });
-        return;
+      // Cancel any pending animation frame
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
       }
-
-      // Check for interactable elements
-      const interactable = target.closest(".cursor-hover");
-
-      if (interactable) {
-        setIsMagnetized(true);
+      
+      // Use requestAnimationFrame for smooth updates
+      rafRef.current = requestAnimationFrame(() => {
+        // On first mouse move, jump directly to position without animation
+        if (!hasMouseMoved.current) {
+          hasMouseMoved.current = true;
+          // Jump springs to current position instantly
+          cursorX.jump(e.clientX);
+          cursorY.jump(e.clientY);
+          mouseX.set(e.clientX);
+          mouseY.set(e.clientY);
+          return;
+        }
         
-        // Check if we should target a specific element (like logo symbol)
-        let targetElement = interactable as HTMLElement;
-        const cursorTarget = interactable.getAttribute("data-cursor-target");
-        if (cursorTarget) {
-          const target = document.getElementById(cursorTarget);
-          if (target) {
-            targetElement = target;
+        mouseX.set(e.clientX);
+        mouseY.set(e.clientY);
+
+        // Check if the element or any parent has data-cursor-ignore
+        const target = e.target as Element;
+        if (target.closest("[data-cursor-ignore]")) {
+          offsetX.set(-16);
+          offsetY.set(-16);
+          cursorWidth.set(32);
+          cursorHeight.set(32);
+          cursorBorderRadius.set(50);
+          return;
+        }
+
+        // Check for interactable elements
+        const interactable = target.closest(".cursor-hover");
+
+        if (interactable) {
+          // Check if we should target a specific element (like logo symbol)
+          let targetElement = interactable as HTMLElement;
+          const cursorTarget = interactable.getAttribute("data-cursor-target");
+          if (cursorTarget) {
+            const specificTarget = document.getElementById(cursorTarget);
+            if (specificTarget) {
+              targetElement = specificTarget;
+            }
           }
-        }
-        
-        const rect = targetElement.getBoundingClientRect();
-        
-        // Check if the element should be circular
-        const isCircle = interactable.hasAttribute("data-cursor-shape") &&
-          interactable.getAttribute("data-cursor-shape") === "circle";
-        
-        // Check if the target element has rounded-full class or data attribute (like the toggle)
-        const computedStyle = window.getComputedStyle(targetElement);
-        const hasRoundedFull = targetElement.hasAttribute("data-cursor-rounded") ||
-          targetElement.classList.contains("rounded-full") ||
-          computedStyle.borderRadius.includes("9999") ||
-          computedStyle.borderRadius === "50%";
-        
-        // Calculate cursor dimensions with padding
-        // Add more padding for rounded-full elements (like toggle)
-        const padding = hasRoundedFull ? 8 : 4;
-        const cursorWidth = rect.width + padding;
-        const cursorHeight = rect.height + padding;
-        
-        // Use circular border radius for circle shape, pill shape for rounded-full, or default
-        let borderRadius: number;
-        let finalWidth = cursorWidth;
-        let finalHeight = cursorHeight;
-        
-        if (isCircle) {
-          // Perfect circle - match the ring size when hovered (90px * 0.75 scale = 67.5px, rounded to 68px)
-          const ringSize = 90 * 0.75;
-          finalWidth = ringSize;
-          finalHeight = ringSize;
-          borderRadius = ringSize / 2;
-          // Center the cursor on the logo element
-          const centerX = rect.left + rect.width / 2;
-          const centerY = rect.top + rect.height / 2;
-          setCursorState({
-            x: centerX - ringSize / 2,
-            y: centerY - ringSize / 2,
-            width: finalWidth,
-            height: finalHeight,
-            borderRadius: borderRadius,
-          });
-          return; // Early return to skip the default setCursorState below
-        } else if (hasRoundedFull) {
-          // Pill shape (half of height)
-          borderRadius = cursorHeight / 2;
+          
+          const rect = targetElement.getBoundingClientRect();
+          
+          // Check if the element should be circular
+          const isCircle = interactable.hasAttribute("data-cursor-shape") &&
+            interactable.getAttribute("data-cursor-shape") === "circle";
+          
+          // Check if the target element has rounded-full class or data attribute
+          const computedStyle = window.getComputedStyle(targetElement);
+          const hasRoundedFull = targetElement.hasAttribute("data-cursor-rounded") ||
+            targetElement.classList.contains("rounded-full") ||
+            computedStyle.borderRadius.includes("9999") ||
+            computedStyle.borderRadius === "50%";
+          
+          // Calculate cursor dimensions with padding
+          const padding = hasRoundedFull ? 8 : 4;
+          
+          if (isCircle) {
+            // Perfect circle - use the larger dimension + padding
+            const size = Math.max(rect.width, rect.height) + 12;
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            // Override mouse position to snap to element center
+            mouseX.set(centerX);
+            mouseY.set(centerY);
+            offsetX.set(-size / 2);
+            offsetY.set(-size / 2);
+            cursorWidth.set(size);
+            cursorHeight.set(size);
+            cursorBorderRadius.set(size / 2);
+          } else {
+            const newWidth = rect.width + padding;
+            const newHeight = rect.height + padding;
+            const newBorderRadius = hasRoundedFull ? newHeight / 2 : 8;
+            
+            // Snap cursor to element position
+            mouseX.set(rect.left + rect.width / 2);
+            mouseY.set(rect.top + rect.height / 2);
+            offsetX.set(-newWidth / 2);
+            offsetY.set(-newHeight / 2);
+            cursorWidth.set(newWidth);
+            cursorHeight.set(newHeight);
+            cursorBorderRadius.set(newBorderRadius);
+          }
         } else {
-          // Default rounded corners
-          borderRadius = 8;
+          // Default cursor state
+          offsetX.set(-16);
+          offsetY.set(-16);
+          cursorWidth.set(32);
+          cursorHeight.set(32);
+          cursorBorderRadius.set(50);
         }
-        
-        setCursorState({
-          x: rect.left - padding / 2,
-          y: rect.top - padding / 2,
-          width: finalWidth,
-          height: finalHeight,
-          borderRadius: borderRadius,
-        });
-      } else {
-        setIsMagnetized(false);
-        setCursorState({
-          x: e.clientX - 16,
-          y: e.clientY - 16,
-          width: 32,
-          height: 32,
-          borderRadius: 50,
-        });
-      }
+      });
     };
 
     const handleMouseDown = () => setIsClicking(true);
@@ -136,7 +151,8 @@ export default function CustomCursor() {
       setHideBorder(e.detail);
     };
 
-    document.addEventListener("mousemove", updateMousePosition);
+    // Use passive event listener for better scroll performance
+    document.addEventListener("mousemove", updateMousePosition, { passive: true });
     document.addEventListener("mousedown", handleMouseDown);
     document.addEventListener("mouseup", handleMouseUp);
     document.addEventListener("mouseleave", handleMouseLeave);
@@ -151,6 +167,9 @@ export default function CustomCursor() {
     );
 
     return () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
       document.removeEventListener("mousemove", updateMousePosition);
       document.removeEventListener("mousedown", handleMouseDown);
       document.removeEventListener("mouseup", handleMouseUp);
@@ -165,56 +184,39 @@ export default function CustomCursor() {
         handleHideCursorBorder as EventListener
       );
     };
-  }, []);
+  }, [mouseX, mouseY, offsetX, offsetY, cursorWidth, cursorHeight, cursorBorderRadius]);
 
   return (
     <>
-      {/* Main morphing cursor */}
+      {/* Main morphing cursor - uses spring-smoothed values */}
       <motion.div
         className="fixed top-0 left-0 pointer-events-none z-[9999]"
-        initial={false}
         style={{
+          x: cursorX,
+          y: cursorY,
+          translateX: smoothOffsetX,
+          translateY: smoothOffsetY,
+          width: smoothWidth,
+          height: smoothHeight,
+          borderRadius: smoothBorderRadius,
           opacity: isVisible ? (hideOuter ? 0 : 1) : 0,
           backgroundColor: isClicking
             ? "hsl(var(--accent) / 0.3)"
             : "transparent",
           border: hideBorder ? "none" : "1px solid hsl(var(--accent))",
         }}
-        animate={{
-          x: cursorState.x,
-          y: cursorState.y,
-          width: cursorState.width,
-          height: cursorState.height,
-          borderRadius: cursorState.borderRadius === 50 || 
-            (cursorState.width === cursorState.height && cursorState.borderRadius === cursorState.width / 2)
-            ? "50%" 
-            : `${cursorState.borderRadius}px`,
-        }}
-        transition={hasMouseMoved ? {
-          type: "spring",
-          stiffness: 400,
-          damping: 18,
-          mass: 0.3,
-        } : {
-          duration: 0,
-        }}
       />
 
-      {/* Small pointer dot */}
+      {/* Small pointer dot - follows mouse exactly for responsiveness */}
       <motion.div
         className="fixed top-0 left-0 w-2 h-2 rounded-full pointer-events-none z-[10000]"
-        initial={false}
         style={{
+          x: mouseX,
+          y: mouseY,
+          translateX: -4,
+          translateY: -4,
           opacity: isVisible ? 1 : 0,
           backgroundColor: "var(--foreground)",
-        }}
-        animate={{
-          x: mousePosition.x - 4,
-          y: mousePosition.y - 4,
-        }}
-        transition={{
-          type: "tween",
-          duration: 0,
         }}
       />
     </>

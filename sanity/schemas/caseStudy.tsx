@@ -33,10 +33,17 @@ export default defineType({
       description: 'Company name for this case study',
     }),
     defineField({
+      name: 'shortDescription',
+      title: 'Short Description',
+      type: 'string',
+      description: 'Brief one-liner for card display (shown on Work page)',
+    }),
+    defineField({
       name: 'description',
-      title: 'Description',
+      title: 'Full Description',
       type: 'text',
       rows: 4,
+      description: 'Detailed description (shown on case study detail page)',
     }),
     defineField({
       name: 'role',

@@ -12,6 +12,27 @@ interface ProjectCardProps {
   index?: number
 }
 
+// Helper to convert Portable Text to plain text
+function toPlainText(value: unknown): string {
+  if (!value) return ''
+  if (typeof value === 'string') return value
+  if (Array.isArray(value)) {
+    return value
+      .map((block: any) => {
+        if (block._type === 'block' && Array.isArray(block.children)) {
+          return block.children.map((child: any) => child.text || '').join('')
+        }
+        return ''
+      })
+      .join(' ')
+      .trim()
+  }
+  if (typeof value === 'object' && value !== null && '_type' in value) {
+    return ''
+  }
+  return String(value)
+}
+
 export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -62,21 +83,21 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
                 </h3>
                 {project.role && (
                   <p className="text-sm text-muted-foreground mb-2 font-sans">
-                    {project.role}
+                    {toPlainText(project.role)}
                   </p>
                 )}
               </div>
 
               {project.description && (
                 <p className="text-muted-foreground line-clamp-3 font-sans">
-                  {project.description}
+                  {toPlainText(project.description)}
                 </p>
               )}
 
               <div className="flex flex-wrap items-center gap-3 pt-2">
                 {project.timeline && (
                   <span className="text-sm text-muted-foreground font-sans">
-                    {project.timeline}
+                    {toPlainText(project.timeline)}
                   </span>
                 )}
                 {project.tags && project.tags.length > 0 && (

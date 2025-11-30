@@ -80,8 +80,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const mainImage = mainImageUrl
     ? {
         url: mainImageUrl,
-        alt: project.mainImage?.alt || project.title,
-        caption: project.mainImage?.caption,
+        alt: toPlainText(project.mainImage?.alt) || project.title,
+        caption: toPlainText(project.mainImage?.caption),
       }
     : null
 
@@ -170,7 +170,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               </div>
               {mainImage.caption && (
                 <p className="text-sm text-muted-foreground text-center mt-4">
-                  {toPlainText(mainImage.caption)}
+                  {mainImage.caption}
                 </p>
               )}
             </div>
@@ -196,14 +196,14 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-muted">
                       <Image
                         src={image.url}
-                        alt={image.alt}
+                        alt={image.alt || `Gallery image ${index + 1}`}
                         fill
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     </div>
                     {image.caption && (
-                      <p className="text-sm text-muted-foreground">{toPlainText(image.caption)}</p>
+                      <p className="text-sm text-muted-foreground">{image.caption}</p>
                     )}
                   </div>
                 ))}

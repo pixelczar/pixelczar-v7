@@ -10,6 +10,27 @@ interface RecentProjectCardProps {
   index?: number
 }
 
+// Helper to convert Portable Text to plain text
+function toPlainText(value: unknown): string {
+  if (!value) return ''
+  if (typeof value === 'string') return value
+  if (Array.isArray(value)) {
+    return value
+      .map((block: any) => {
+        if (block._type === 'block' && Array.isArray(block.children)) {
+          return block.children.map((child: any) => child.text || '').join('')
+        }
+        return ''
+      })
+      .join(' ')
+      .trim()
+  }
+  if (typeof value === 'object' && value !== null && '_type' in value) {
+    return ''
+  }
+  return String(value)
+}
+
 function TiltImage({ image, title, index }: { image: { url: string; alt: string }; title: string; index: number }) {
   return (
     <motion.div
@@ -83,7 +104,7 @@ export default function RecentProjectCard({ project, index = 0 }: RecentProjectC
           </div>
           {project.description && (
             <p className="text-base text-muted-foreground font-sans leading-relaxed">
-              {project.description}
+              {toPlainText(project.description)}
             </p>
           )}
           {project.tags && project.tags.length > 0 && (
@@ -111,7 +132,7 @@ export default function RecentProjectCard({ project, index = 0 }: RecentProjectC
                 Role
               </div>
               <div className="text-sm font-sans text-foreground">
-                {project.role}
+                {toPlainText(project.role)}
               </div>
             </div>
           )}
@@ -121,7 +142,7 @@ export default function RecentProjectCard({ project, index = 0 }: RecentProjectC
                 Timeline
               </div>
               <div className="text-sm font-sans text-foreground">
-                {project.timeline}
+                {toPlainText(project.timeline)}
               </div>
             </div>
           )}

@@ -53,6 +53,27 @@ export function buildImageUrl(
   }
 }
 
+// Helper to convert Portable Text to plain text
+function toPlainText(value: unknown): string {
+  if (!value) return ''
+  if (typeof value === 'string') return value
+  if (Array.isArray(value)) {
+    return value
+      .map((block: any) => {
+        if (block._type === 'block' && Array.isArray(block.children)) {
+          return block.children.map((child: any) => child.text || '').join('')
+        }
+        return ''
+      })
+      .join(' ')
+      .trim()
+  }
+  if (typeof value === 'object' && value !== null && '_type' in value) {
+    return ''
+  }
+  return String(value)
+}
+
 // Helper to get gallery image URLs
 export function getGalleryImageUrls(
   gallery: Array<any> | null | undefined,
@@ -67,8 +88,8 @@ export function getGalleryImageUrls(
       
       return {
         url,
-        alt: image.alt || '',
-        caption: image.caption || '',
+        alt: toPlainText(image.alt) || '',
+        caption: toPlainText(image.caption) || '',
       }
     })
     .filter((image): image is { url: string; alt: string; caption: string } => image !== null)

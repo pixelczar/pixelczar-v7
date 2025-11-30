@@ -22,6 +22,27 @@ interface PlayPageClientProps {
   galleryItems: GalleryItemClient[]
 }
 
+// Helper to convert Portable Text to plain text
+function toPlainText(value: unknown): string {
+  if (!value) return ''
+  if (typeof value === 'string') return value
+  if (Array.isArray(value)) {
+    return value
+      .map((block: any) => {
+        if (block._type === 'block' && Array.isArray(block.children)) {
+          return block.children.map((child: any) => child.text || '').join('')
+        }
+        return ''
+      })
+      .join(' ')
+      .trim()
+  }
+  if (typeof value === 'object' && value !== null && '_type' in value) {
+    return ''
+  }
+  return String(value)
+}
+
 // Project image component - 4:3 ratio, no zoom, images contained
 function ProjectImage({ image, title, index }: { image: { url: string; alt: string }; title: string; index: number }) {
   return (
@@ -76,7 +97,7 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
         {/* Description */}
         {project.description && (
           <p className="text-sm text-muted-foreground font-sans line-clamp-2 mb-4">
-            {project.description}
+            {toPlainText(project.description)}
           </p>
         )}
         

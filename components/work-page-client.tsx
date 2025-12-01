@@ -27,14 +27,14 @@ export default function WorkPageClient({ caseStudies, experienceData }: WorkPage
   return (
     <div className="bg-background text-foreground theme-transition relative overflow-hidden">
       <motion.main 
-        className="px-6 py-12 relative"
+        className="px-4 md:px-6 py-8 md:py-12 relative"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
         {/* Header Content */}
-        <div className="max-w-4xl mx-auto mb-20">
-          <motion.h1 variants={itemVariants} className="heading-display mb-8 text-center">
+        <div className="max-w-4xl mx-auto mb-12 md:mb-20">
+          <motion.h1 variants={itemVariants} className="heading-display mb-6 md:mb-8 text-center">
             <span className="lust-aalt tracking-tightest -mr-4">W</span><span className="tracking-tighter">o</span>r<span className="lust-swsh tracking-tighter">k</span>
           </motion.h1>
         </div>
@@ -48,11 +48,11 @@ export default function WorkPageClient({ caseStudies, experienceData }: WorkPage
             variants={itemVariants}
             className="w-full h-px bg-accent/40 mx-auto mt-16 mb-6 theme-transition"
           />
-          <motion.h2 variants={itemVariants} className="font-normal text-2xl mb-8 text-foreground">
+          <motion.h2 variants={itemVariants} className="font-normal text-xl md:text-2xl mb-6 md:mb-8 text-foreground">
             Apps & Companies
           </motion.h2>
-          <motion.div variants={itemVariants} className="mb-16">
-            <p className="text-body-main">
+          <motion.div variants={itemVariants} className="mb-12 md:mb-16">
+            <p className="text-body-main text-sm md:text-base leading-relaxed">
               I'm a serial founding Designer with deep early-stage experience helping startups
               establish their product, brand, and design foundations. I've spent my career building
               across the full stack of design, from product vision and UX architecture to hands-on

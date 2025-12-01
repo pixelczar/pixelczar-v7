@@ -25,10 +25,10 @@ export default function AboutPage() {
         animate="visible"
       >
         {/* Header Content - Centered and Constrained */}
-        <div className="max-w-4xl mx-auto mb-20">
+        <div className="max-w-4xl mx-auto mb-12 md:mb-20">
           <motion.h1
             variants={itemVariants}
-            className="text-6xl font-serif heading-display italic font-normal text-foreground mb-16 theme-transition text-center"
+            className="text-6xl font-serif heading-display italic font-normal text-foreground mt-12 md:mt-8 mb-24 md:mb-16 theme-transition text-center"
           >
             <span className="lust-aalt">H</span>el<span className="lust-swsh">l</span>o, <span className="lust-aalt">I</span>'<span className="lust-swsh">m</span> <span className="lust-aalt">W</span>il<span className="lust-ss03">l</span>
           </motion.h1>

@@ -19,17 +19,9 @@ export function ThemeToggle() {
     }
   }, [setTheme]);
 
-  // Get the initial theme from localStorage or default to dark
-  // This prevents the toggle from jumping on load
-  const getInitialTheme = () => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem("pixel-czar-theme") || "dark";
-    }
-    return "dark";
-  };
-
-  // Use resolved theme when mounted, otherwise use initial theme
-  const isDark = mounted ? resolvedTheme === "dark" : getInitialTheme() === "dark";
+  // Use resolved theme when mounted, otherwise default to dark for consistent SSR
+  // This prevents hydration mismatches by ensuring server and client render the same initially
+  const isDark = mounted ? resolvedTheme === "dark" : true;
 
   const toggleTheme = () => {
     hasInteracted.current = true;
@@ -38,21 +30,27 @@ export function ThemeToggle() {
     localStorage.setItem("pixel-czar-theme", newTheme);
   };
 
+  // Ensure consistent initial render to prevent hydration mismatch
+  // Only apply dynamic styles after component has mounted
+  const buttonStyle = mounted ? {
+    backgroundColor: isDark ? "#374151" : "#d1d5db",
+  } : {
+    backgroundColor: "#374151", // Default to dark for SSR
+  };
+
   return (
     <button
       onClick={toggleTheme}
       className="cursor-hover relative w-[36px] h-[20px] rounded-full p-0.5 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background"
       data-cursor-rounded="full"
-      style={{
-        backgroundColor: isDark ? "#374151" : "#d1d5db",
-      }}
-      aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
+      style={buttonStyle}
+      aria-label={mounted ? `Switch to ${isDark ? "light" : "dark"} mode` : "Switch theme"}
     >
       <motion.div
         className="w-[16px] h-[16px] bg-white rounded-full relative flex items-center justify-center pt-0.5"
         initial={false}
         animate={{
-          x: isDark ? 14 : 0,
+          x: mounted ? (isDark ? 14 : 0) : 14, // Default to dark position for SSR
         }}
         transition={hasInteracted.current ? {
           type: "spring",
@@ -60,7 +58,7 @@ export function ThemeToggle() {
           damping: 30,
         } : { duration: 0 }}
       >
-        {isDark ? (
+        {(mounted ? isDark : true) ? (
           <motion.div
             className="absolute"
             initial={hasInteracted.current ? { scale: 0, opacity: 0, rotate: -90 } : false}

@@ -26,13 +26,13 @@ export default function HomePage() {
       >
         <motion.h1 
           variants={itemVariants}
-          className="heading-display mb-8 max-w-2xl"
+          className="heading-display py-12 max-w-2xl"
         >
           <span className="lust-aalt">D</span>esi<span className="lust-swsh">g</span><span className="lust-swsh">n</span><span className="lust-salt">e</span><span className="lust-swsh">r</span> <span className="lust-swsh">&</span> <span className="lust-ss02">b</span><span className="lust-swsh">u</span><span className="lust-swsh">i</span><span className="lust-swsh">l</span><span className="lust-salt">d</span><span className="lust-swsh">e</span><span className="lust-ss03">r</span>
         </motion.h1>
         <motion.h2 
           variants={itemVariants}
-          className="font-light text-2xl max-w-xl mx-auto text-muted-foreground mb-10"
+          className="font-light text-xl max-w-xl mx-auto text-muted-foreground my-10"
         >
           Product design, vision, strategy, leadership, visual design, systems thinking, brand, prototyping, and craft.
         </motion.h2>

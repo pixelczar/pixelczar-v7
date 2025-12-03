@@ -132,13 +132,13 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
         
         {/* Gallery Images - stacked on mobile, 3 in a row on desktop */}
         {project.gallery && project.gallery.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 p-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 p-5 lg:px-0">
             {project.gallery.slice(0, 3).map((image, idx) => (
               <ProjectImage key={idx} image={image} title={project.title} index={idx} />
             ))}
           </div>
         ) : project.mainImage ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 p-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 p-5 lg:px-0">
             <ProjectImage image={project.mainImage} title={project.title} index={0} />
           </div>
         ) : null}
@@ -291,7 +291,7 @@ export default function PlayPageClient({ projects, galleryItems }: PlayPageClien
                 className="w-full h-px bg-accent/40 mx-auto mt-16 mb-6 theme-transition"
               />
               <motion.h2 variants={itemVariants} className="font-normal text-2xl mb-8 text-muted-foreground">
-                Gallery
+                Sketches
               </motion.h2>
               <motion.div variants={itemVariants} className="mb-16">
                 <p className="text-body-main">

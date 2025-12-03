@@ -7,7 +7,7 @@ export const revalidate = 60
 
 export const metadata = {
   title: 'Pixels Pushed | Pixelczar',
-  description: 'Creative projects, experiments, and visual explorations',
+  description: 'Creative projects, experiments, and explorations',
 }
 
 // Helper to extract plain text from potentially Portable Text fields

@@ -265,7 +265,7 @@ export default function PlayPageClient({ projects, galleryItems }: PlayPageClien
           </motion.h2>
           <motion.div variants={itemVariants} className="mb-16">
             <p className="text-body-main">
-              It's such an incredible time to be a designer. These are experiments, visual explorations, various other pixels I've been pushing recently.
+              It's such an incredible time to be a designer. These are experiments, explorations, various other pixels I've been pushing recently.
             </p>
           </motion.div>
         </div>

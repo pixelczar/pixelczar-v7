@@ -85,9 +85,9 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
         ease: smoothEase,
       }}
     >
-      <div className="bg-card/30 rounded-xl p-5">
+      <div className="bg-card/30 rounded-xl p-0 md:p-5">
         {/* Title */}
-        <div className="flex items-center gap-2 mb-2">
+        <div className="flex items-center gap-2 mb-2 px-5 md:px-0 pt-5 md:pt-0">
           {project.projectUrl ? (
             <a 
               href={project.projectUrl} 
@@ -110,14 +110,14 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
         
         {/* Description */}
         {project.description && (
-          <p className="text-sm text-muted-foreground font-sans line-clamp-2 mb-4">
+          <p className="text-sm text-muted-foreground font-sans line-clamp-2 mb-4 px-5 md:px-0">
             {toPlainText(project.description)}
           </p>
         )}
         
         {/* Tags */}
         {project.tags && project.tags.length > 0 && (
-          <div className="mb-4 flex flex-wrap gap-1.5">
+          <div className="mb-4 flex flex-wrap gap-1.5 px-5 md:px-0">
             {project.tags.slice(0, 3).map((tag, idx) => (
               <span
                 key={idx}
@@ -130,15 +130,15 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
           </div>
         )}
         
-        {/* Gallery Images - 3 images in a row with 4:3 ratio */}
+        {/* Gallery Images - stacked on mobile, 3 in a row on desktop */}
         {project.gallery && project.gallery.length > 0 ? (
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {project.gallery.slice(0, 3).map((image, idx) => (
               <ProjectImage key={idx} image={image} title={project.title} index={idx} />
             ))}
           </div>
         ) : project.mainImage ? (
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <ProjectImage image={project.mainImage} title={project.title} index={0} />
           </div>
         ) : null}
@@ -167,7 +167,7 @@ function GalleryItemComponent({ item, index }: { item: GalleryItemClient; index:
       }}
       className={`${sizeClasses[item.size]} relative overflow-hidden rounded-lg bg-black/40 group`}
     >
-      <div className="relative w-full aspect-[4/3]">
+      <div className={`relative w-full ${item.type === 'video' || item.size !== 'large' ? 'aspect-[4/3]' : ''}`}>
         {item.type === 'video' ? (
           item.videoUrl ? (
             <a 
@@ -206,13 +206,25 @@ function GalleryItemComponent({ item, index }: { item: GalleryItemClient; index:
               </div>
             </div>
           )
+        ) : item.size === 'large' ? (
+          <div className="relative w-full">
+            <Image
+              src={item.src}
+              alt={item.alt}
+              width={1200}
+              height={800}
+              className="w-full h-auto object-contain"
+              sizes="100vw"
+              quality={90}
+            />
+          </div>
         ) : (
           <Image
             src={item.src}
             alt={item.alt}
             fill
             className="object-contain"
-            sizes={item.size === 'large' ? '100vw' : item.size === 'medium' ? '50vw' : '33vw'}
+            sizes={item.size === 'medium' ? '50vw' : '33vw'}
             quality={90}
           />
         )}

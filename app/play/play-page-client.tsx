@@ -132,13 +132,13 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
         
         {/* Gallery Images - stacked on mobile, 3 in a row on desktop */}
         {project.gallery && project.gallery.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 p-5">
             {project.gallery.slice(0, 3).map((image, idx) => (
               <ProjectImage key={idx} image={image} title={project.title} index={idx} />
             ))}
           </div>
         ) : project.mainImage ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 p-5">
             <ProjectImage image={project.mainImage} title={project.title} index={0} />
           </div>
         ) : null}

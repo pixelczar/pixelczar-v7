@@ -81,8 +81,8 @@ export default async function PlayPage() {
       
       return {
         _id: String(item._id || ''),
-        type: isVideo ? 'video' : 'image',
-        size: ['large', 'medium', 'small'].includes(item.size) ? item.size : 'medium',
+        type: (isVideo ? 'video' : 'image') as 'image' | 'video',
+        size: (['large', 'medium', 'small'].includes(item.size) ? item.size : 'medium') as 'large' | 'medium' | 'small',
         src,
         alt: typeof item.image?.alt === 'string' ? item.image.alt : item.title || 'Gallery item',
         caption: typeof item.caption === 'string' ? item.caption : undefined,

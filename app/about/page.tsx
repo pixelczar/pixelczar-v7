@@ -91,8 +91,8 @@ export default function AboutPage() {
               <p className="text-lg">One of the first things they teach in Design School. Today it means making sure how you convery your message amplifies it.</p>
             </div>
             <div className="text-lg text-body-main leading-relaxed theme-transition">
-              <h3 className="text-4xl text-foreground tracking-tight font-medium mb-8">Make something only you can make.</h3>
-              <p className="text-lg">Now, your mileage may vary with the task at hand. But generally speaking, make it quality and make it yours.</p>
+              <h3 className="text-4xl text-foreground tracking-tight font-medium mb-8">The job is not done until the tools are put away.</h3>
+              <p className="text-lg">It’s extremely rare your work exists in a silo.  Consider what truly needs to be complete to be done.</p>
             </div>
             <div className="text-lg text-body-main leading-relaxed theme-transition">
               <h3 className="text-4xl text-foreground tracking-tight font-medium mb-8">The journey is the destination.</h3>

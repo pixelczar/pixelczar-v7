@@ -86,6 +86,7 @@ export default function RecentProjectCard({ project, index = 0 }: RecentProjectC
                 rel="noopener noreferrer"
                 id={`project-title-${project._id}`}
                 data-cursor-target={`project-title-${project._id}`}
+                data-cursor-rounded="full"
                 className="inline-flex items-center gap-2 px-2 py-1 rounded-full relative -left-2 cursor-hover"
                 aria-label={`Visit ${project.title}`}
               >

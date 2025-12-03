@@ -59,6 +59,7 @@ export default function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardPro
                   rel="noopener noreferrer"
                   id={`case-study-title-${caseStudy._id}`}
                   data-cursor-target={`case-study-title-${caseStudy._id}`}
+                  data-cursor-rounded="full"
                   className="inline-flex items-center gap-2 px-2 py-1 rounded-full relative -left-2 cursor-hover"
                   aria-label={`Visit ${caseStudy.title}`}
                 >

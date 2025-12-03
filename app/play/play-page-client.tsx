@@ -46,7 +46,20 @@ function toPlainText(value: unknown): string {
 // Project image component - 4:3 ratio, no zoom, images contained
 function ProjectImage({ image, title, index }: { image: { url: string; alt: string }; title: string; index: number }) {
   return (
-    <div className="relative w-full aspect-[4/3] overflow-hidden rounded-md bg-black/40 border border-white/10">
+    <motion.div 
+      className="relative w-full aspect-[4/3] overflow-hidden rounded-md bg-black/40 border border-white/10 group cursor-pointer"
+      whileHover={{ 
+        scale: 1.8,
+        y: -16,
+        zIndex: 10,
+      }}
+      transition={{
+        type: "spring",
+        stiffness: 400,
+        damping: 25,
+      }}
+      data-cursor-ignore
+    >
       <Image
         src={image.url}
         alt={image.alt || `${title} - Image ${index + 1}`}
@@ -55,7 +68,7 @@ function ProjectImage({ image, title, index }: { image: { url: string; alt: stri
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
         quality={90}
       />
-    </div>
+    </motion.div>
   )
 }
 
@@ -80,7 +93,8 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
               href={project.projectUrl} 
               target="_blank" 
               rel="noopener noreferrer"
-              className="cursor-hover flex items-center gap-2 group"
+              data-cursor-rounded="full"
+              className="cursor-hover inline-flex items-center gap-2 px-2 py-1 rounded-full relative -left-2 group"
             >
               <h3 className="text-lg font-semibold font-sans transition-colors duration-300 group-hover:text-accent">
                 {project.title}

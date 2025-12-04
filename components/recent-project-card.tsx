@@ -33,28 +33,35 @@ function toPlainText(value: unknown): string {
 
 function TiltImage({ image, title, index }: { image: { url: string; alt: string }; title: string; index: number }) {
   return (
-    <motion.div
-      whileHover={{ 
-        scale: 1.4,
-        y: -16,
-        zIndex: 10,
-      }}
-      transition={{
-        type: "spring",
-        stiffness: 400,
-        damping: 25,
-      }}
-      className="relative w-full aspect-[4/3] overflow-hidden rounded-md bg-muted/50 border hover:shadow-2xl"
-      data-cursor-ignore
-    >
-      <Image
-        src={image.url}
-        alt={image.alt || `${title} - Image ${index + 1}`}
-        fill
-        className="object-cover"
-        sizes="(max-width: 768px) 33vw, (max-width: 1200px) 25vw, 20vw"
-      />
-    </motion.div>
+    <div className="relative w-full aspect-[4/3]">
+      <motion.div
+        className="absolute inset-0 rounded-md hover:shadow-2xl cursor-pointer overflow-hidden"
+        initial={false}
+        whileHover={{ 
+          scale: 1.4,
+          zIndex: 50,
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 300,
+          damping: 30,
+        }}
+        style={{
+          transformOrigin: 'center center',
+        }}
+        data-cursor-ignore
+      >
+        <Image
+          src={image.url}
+          alt={image.alt || `${title} - Image ${index + 1}`}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 40vw, 400px"
+          quality={100}
+          unoptimized={true}
+        />
+      </motion.div>
+    </div>
   )
 }
 

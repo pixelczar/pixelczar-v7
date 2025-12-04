@@ -49,7 +49,7 @@ export const metadata = {
       "Product design, leadership, visuals, systems thinking, brand, and prototypes. 15+ years designing at high-growth venture-backed startups.",
     images: [
       {
-        url: "/images/will-smith-profile.jpg",
+        url: "/images/pixel-czar-og-img.png",
         width: 1200,
         height: 630,
         alt: "Will Smith - Product Designer",
@@ -61,7 +61,7 @@ export const metadata = {
     title: "Will Smith - Product Designer & Design Leader",
     description:
       "Product design, leadership, visuals, systems thinking, brand, and prototypes.",
-    images: ["/images/will-smith-profile.jpg"],
+    images: ["/images/pixel-czar-og-img.png"],
   },
   icons: {
     icon: [
@@ -91,6 +91,11 @@ export default function RootLayout({
         <ThemeScript />
         <link rel="stylesheet" href="https://use.typekit.net/iyr2zsg.css" />
         <script
+          dangerouslySetInnerHTML={{
+            __html: `!function(key) {if (window.reb2b) return;window.reb2b = {loaded: true};var s = document.createElement("script");s.async = true;s.src = "https://ddwl4m2hdecbv.cloudfront.net/b/" + key + "/" + key + ".js.gz";document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.getElementsByTagName("script")[0]);}("W6Z57HZQLXOX");`,
+          }}
+        />
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
@@ -101,7 +106,7 @@ export default function RootLayout({
               description:
                 "Product design, leadership, visuals, systems thinking, brand, and prototypes. 15+ years designing at high-growth venture-backed startups.",
               url: "https://pixelczar.com",
-              image: "https://pixelczar.com/images/will-smith-profile.jpg",
+              image: "https://pixelczar.com/images/pixel-czar-og-img.png",
               address: {
                 "@type": "PostalAddress",
                 addressLocality: "Beverly",

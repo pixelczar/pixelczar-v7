@@ -39,7 +39,15 @@ export interface Project {
   role?: string
   outcomes?: PortableTextBlock[]
   timeline?: string
+  mainMediaType?: 'image' | 'video'
   mainImage?: SanityImage
+  mainVideo?: {
+    asset: {
+      _ref: string
+      url?: string
+    }
+  }
+  mainVideoUrl?: string
   gallery?: SanityImage[]
   tags?: string[]
   projectUrl?: string
@@ -65,7 +73,15 @@ export interface CaseStudy {
   content?: PortableTextBlock[]
   outcomes?: PortableTextBlock[]
   timeline?: string
+  mainMediaType?: 'image' | 'video'
   mainImage?: SanityImage
+  mainVideo?: {
+    asset: {
+      _ref: string
+      url?: string
+    }
+  }
+  mainVideoUrl?: string
   gallery?: SanityImage[]
   tags?: string[]
   projectUrl?: string
@@ -100,10 +116,15 @@ export interface ProjectListItem {
   description?: string
   role?: string
   timeline?: string
+  mainMediaType?: 'image' | 'video'
   mainImage?: {
     url: string
     alt: string
   }
+  mainVideo?: {
+    url: string
+  }
+  mainVideoUrl?: string
   gallery?: Array<{
     url: string
     alt: string
@@ -123,10 +144,15 @@ export interface CaseStudyListItem {
   description?: string
   role?: string
   timeline?: string
+  mainMediaType?: 'image' | 'video'
   mainImage?: {
     url: string
     alt: string
   }
+  mainVideo?: {
+    url: string
+  }
+  mainVideoUrl?: string
   gallery?: Array<{
     url: string
     alt: string

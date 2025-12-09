@@ -12,22 +12,72 @@ interface CaseStudyCardProps {
   index?: number
 }
 
-function TiltImage({ image, title, index }: { image: { url: string; alt: string }; title: string; index: number }) {
-  return (
-    <div
-      className="relative w-full aspect-[4/3] overflow-hidden rounded-md bg-black/40 border border-border/50"
-      data-cursor-ignore
-    >
-      <Image
-        src={image.url}
-        alt={image.alt || `${title} - Image ${index + 1}`}
-        fill
-        className="object-contain"
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
-        quality={90}
-      />
-    </div>
-  )
+function MainMedia({ 
+  caseStudy 
+}: { 
+  caseStudy: CaseStudyListItem 
+}) {
+  const isVideo = caseStudy.mainMediaType === 'video'
+  const videoUrl = caseStudy.mainVideoUrl || caseStudy.mainVideo?.url
+  const imageUrl = caseStudy.mainImage?.url
+
+  if (isVideo && videoUrl) {
+    // External video URL (YouTube, Vimeo, etc.)
+    if (caseStudy.mainVideoUrl) {
+      return (
+        <div className="relative w-full aspect-video overflow-hidden rounded-md bg-black/40">
+          <a
+            href={videoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute inset-0 flex items-center justify-center bg-muted/50 hover:bg-muted/70 transition-colors"
+          >
+            <div className="text-center">
+              <div className="w-12 h-12 rounded-full bg-accent/80 flex items-center justify-center mb-2 mx-auto">
+                <svg className="w-5 h-5 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+              <span className="text-xs text-muted-foreground">Play Video</span>
+            </div>
+          </a>
+        </div>
+      )
+    }
+    // Uploaded video file
+    return (
+      <div className="relative w-full aspect-video overflow-hidden rounded-md bg-black/40">
+        <video
+          src={videoUrl}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      </div>
+    )
+  }
+
+  if (imageUrl) {
+    return (
+      <div
+        className="relative w-full aspect-video overflow-hidden rounded-md bg-black/40"
+        data-cursor-ignore
+      >
+        <Image
+          src={imageUrl}
+          alt={caseStudy.mainImage?.alt || caseStudy.title}
+          fill
+          className="object-contain"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
+          quality={90}
+        />
+      </div>
+    )
+  }
+
+  return null
 }
 
 export default function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardProps) {
@@ -41,16 +91,21 @@ export default function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardPro
         delay: index * 0.12,
         ease: smoothEase,
       }}
-      className="mb-8 group"
+      className="h-full"
     >
       <div 
-        className={`bg-card/30 rounded-lg group-hover:bg-card/50 transition-all duration-300 p-6 ${caseStudy.projectUrl ? 'cursor-hover' : ''}`}
+        className={`rounded-xl group-hover:bg-card/60 transition-all duration-300 h-full flex flex-col ${caseStudy.projectUrl ? 'cursor-hover' : ''}`}
         data-cursor-target={caseStudy.projectUrl ? `case-study-title-${caseStudy._id}` : undefined}
       >
-        {/* Top Section: Title/Description + Metadata */}
-        <div className="flex flex-col md:flex-row gap-6 md:gap-8 max-w-4xl mx-auto">
-          {/* Title and Description - 2/3 width */}
-          <div className="flex-[2] min-w-0">
+        {/* Main Media (Image or Video) - Above Title */}
+        <div className="mb-6">
+          <MainMedia caseStudy={caseStudy} />
+        </div>
+
+        {/* Title/Description + Metadata */}
+        <div className="flex flex-col gap-2 flex-1">
+          {/* Title and Description */}
+          <div>
             <div className="flex items-center gap-3 mb-3">
               {caseStudy.projectUrl ? (
                 <a
@@ -63,84 +118,56 @@ export default function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardPro
                   className="inline-flex items-center gap-2 px-2 py-1 rounded-full relative -left-2 cursor-hover"
                   aria-label={`Visit ${caseStudy.title}`}
                 >
-                  <h3 className="text-2xl font-semibold font-sans group-hover:text-accent transition-colors duration-300">
+                  <h3 className="text-xl md:text-2xl font-semibold font-sans group-hover:text-accent transition-colors duration-300">
                     {caseStudy.title}
                   </h3>
-                  <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-accent transition-colors duration-300" />
+                  <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5 text-muted-foreground group-hover:text-accent transition-colors duration-300" />
                 </a>
               ) : (
                 <Link href={`/work/${caseStudy.slug}`} className="inline-flex items-center gap-2 px-2 py-1 rounded-full relative -left-2">
-                  <h3 className="text-2xl font-semibold font-sans group-hover:text-accent transition-colors duration-300">
+                  <h3 className="text-xl md:text-2xl font-semibold font-sans group-hover:text-accent transition-colors duration-300">
                     {caseStudy.title}
                   </h3>
-                  <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-accent transition-colors duration-300" />
+                  <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5 text-muted-foreground group-hover:text-accent transition-colors duration-300" />
                 </Link>
               )}
             </div>
             {caseStudy.company && (
-              <p className="text-sm text-accent font-medium mb-2 font-sans">
+              <p className="text-sm text-accent font-medium mb-3 font-sans">
                 {caseStudy.company}
               </p>
             )}
             {(caseStudy.shortDescription || caseStudy.description) && (
-              <p className="text-base text-muted-foreground font-sans leading-relaxed">
+              <p className="text-sm md:text-base text-muted-foreground font-sans leading-relaxed mb-4">
                 {caseStudy.shortDescription || caseStudy.description}
               </p>
             )}
-            {caseStudy.tags && caseStudy.tags.length > 0 && (
-              <div className="mt-4">
-                <div className="flex flex-wrap gap-2">
-                  {caseStudy.tags.map((tag, idx) => (
-                    <span
-                      key={idx}
-                      className="text-xs px-2 py-0.5 rounded bg-muted/20 border text-muted-foreground font-sans"
-                      style={{ borderColor: 'color-mix(in srgb, var(--border) 70%, transparent)' }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
 
-          {/* Metadata - 1/3 width */}
-          <div className="flex-[1] flex flex-col gap-4 mt-6">
+          {/* Metadata */}
+          <div className="flex flex-row gap-6 md:gap-8 text-sm">
             {caseStudy.role && (
               <div>
-                <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1 font-sans">
+                <div className="text-xs font-medium text-muted-foreground tracking-wide mb-1 font-sans">
                   Role
                 </div>
-                <div className="text-sm font-sans text-foreground">
+                <div className="font-sans text-foreground">
                   {caseStudy.role}
                 </div>
               </div>
             )}
             {caseStudy.timeline && (
               <div>
-                <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1 font-sans">
+                <div className="text-xs font-medium text-muted-foreground tracking-wide mb-1 font-sans">
                   Timeline
                 </div>
-                <div className="text-sm font-sans text-foreground">
+                <div className="font-sans text-foreground">
                   {caseStudy.timeline}
                 </div>
               </div>
             )}
           </div>
         </div>
-
-        {/* Bottom Section: 3 Images across */}
-        {caseStudy.gallery && caseStudy.gallery.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-6 max-w-4xl mx-auto">
-            {caseStudy.gallery.slice(0, 3).map((image, idx) => (
-              <TiltImage key={idx} image={image} title={caseStudy.title} index={idx} />
-            ))}
-          </div>
-        ) : caseStudy.mainImage ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-6 max-w-4xl mx-auto">
-            <TiltImage image={caseStudy.mainImage} title={caseStudy.title} index={0} />
-          </div>
-        ) : null}
       </div>
     </motion.div>
   )

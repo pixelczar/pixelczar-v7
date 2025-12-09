@@ -6,6 +6,11 @@ import { useEffect } from "react"
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
+    // Only initialize PostHog in production
+    if (process.env.NODE_ENV !== "production") {
+      return
+    }
+
     // Only initialize if we have a PostHog key
     const posthogKey = process.env.NEXT_PUBLIC_POSTHOG_KEY
     
@@ -21,11 +26,9 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
         ui_host: "https://us.posthog.com",
         defaults: '2025-05-24',
         capture_exceptions: true,
-        debug: process.env.NODE_ENV === "development",
+        debug: false,
         loaded: (posthog) => {
-          if (process.env.NODE_ENV === "development") {
-            console.log("PostHog loaded successfully")
-          }
+          // PostHog loaded successfully in production
         },
       })
     }

@@ -11,8 +11,83 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.08,
+      staggerChildren: 0.1,
       delayChildren: 0.05,
+    },
+  },
+}
+
+// Project card container with smooth stagger - cards come just after header
+const projectCardContainerVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: smoothEase,
+      staggerChildren: 0.08,
+      delayChildren: 1.15, // Just barely after header (header finishes ~1.05s)
+    },
+  },
+}
+
+// Individual card variants - smooth entrance
+const projectCardVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.75,
+      ease: smoothEase,
+    },
+  },
+}
+
+// Card content variants - faster internal animation
+const cardContentVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.02,
+      delayChildren: 0,
+    },
+  },
+}
+
+// Image grid container for staggering individual images
+const imageGridVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.04,
+      delayChildren: 0.01,
+    },
+  },
+}
+
+const cardImageVariants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: smoothEase,
+    },
+  },
+}
+
+const cardTextVariants = {
+  hidden: { opacity: 0, y: 8 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: smoothEase,
     },
   },
 }
@@ -51,13 +126,13 @@ function ProjectImage({ image, title, index }: { image: { url: string; alt: stri
         className="absolute inset-0 rounded-md cursor-pointer overflow-hidden shadow-lg"
         initial={false}
         whileHover={{ 
-          scale: 1.8,
+          scale: 1.5,
           zIndex: 50,
         }}
         transition={{
           type: "spring",
-          stiffness: 300,
-          damping: 30,
+          stiffness: 500,
+          damping: 25,
         }}
         style={{
           transformOrigin: 'center center',
@@ -82,48 +157,77 @@ function ProjectImage({ image, title, index }: { image: { url: string; alt: stri
 function ProjectCard({ project, index }: { project: ProjectListItem; index: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      variants={projectCardVariants}
+      initial="hidden"
+      whileInView="visible"
       viewport={{ once: true, margin: '-50px' }}
-      transition={{
-        duration: 0.6,
-        delay: index * 0.1,
-        ease: smoothEase,
-      }}
     >
-      <div className="bg-card/30 rounded-xl p-0 md:p-5">
+      <motion.div 
+        className="bg-card/30 rounded-xl"
+        variants={cardContentVariants}
+      >
+        {/* Gallery Images - Above Title (show 2 images) */}
+        {project.gallery && project.gallery.length > 0 ? (
+          <motion.div 
+            className="grid grid-cols-2 gap-6 mb-6"
+            variants={imageGridVariants}
+          >
+            {project.gallery.slice(0, 2).map((image, idx) => (
+              <motion.div key={idx} variants={cardImageVariants}>
+                <ProjectImage image={image} title={project.title} index={idx} />
+              </motion.div>
+            ))}
+          </motion.div>
+        ) : project.mainImage ? (
+          <motion.div 
+            className="mb-6"
+            variants={cardImageVariants}
+          >
+            <ProjectImage image={project.mainImage} title={project.title} index={0} />
+          </motion.div>
+        ) : null}
+
         {/* Title */}
-        <div className="flex items-center gap-2 mb-2 px-5 md:px-0 pt-5 md:pt-0">
+        <motion.div 
+          className="flex items-center gap-2 mb-2"
+          variants={cardTextVariants}
+        >
           {project.projectUrl ? (
             <a 
               href={project.projectUrl} 
               target="_blank" 
               rel="noopener noreferrer"
               data-cursor-rounded="full"
-              className="cursor-hover inline-flex items-center gap-2 px-2 py-1 rounded-full relative -left-2 group"
+              className="cursor-hover inline-flex items-center gap-3 px-2 py-1 rounded-full relative -left-2 group"
             >
-              <h3 className="text-lg font-semibold font-sans transition-colors duration-300 group-hover:text-accent">
+              <h3 className="text-xl md:text-2xl font-semibold font-sans transition-colors duration-300 group-hover:text-accent">
                 {project.title}
               </h3>
-              <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-accent transition-colors duration-300" />
+              <ArrowUpRight className="w-5 h-5 md:w-6 md:h-6 group-hover:text-accent transition-colors duration-300" />
             </a>
           ) : (
-            <h3 className="text-lg font-semibold font-sans">
+            <h3 className="text-xl md:text-2xl font-semibold font-sans">
               {project.title}
             </h3>
           )}
-        </div>
+        </motion.div>
         
         {/* Description */}
         {project.description && (
-          <p className="text-sm text-muted-foreground font-sans line-clamp-2 mb-4 px-5 md:px-0">
+          <motion.p 
+            className="text-sm text-muted-foreground font-sans line-clamp-2 mb-4"
+            variants={cardTextVariants}
+          >
             {toPlainText(project.description)}
-          </p>
+          </motion.p>
         )}
         
         {/* Tags */}
         {project.tags && project.tags.length > 0 && (
-          <div className="mb-4 flex flex-wrap gap-1.5 px-5 md:px-0">
+          <motion.div 
+            className="mb-4 flex flex-wrap gap-1.5"
+            variants={cardTextVariants}
+          >
             {project.tags.slice(0, 3).map((tag, idx) => (
               <span
                 key={idx}
@@ -133,22 +237,9 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
                 {tag}
               </span>
             ))}
-          </div>
+          </motion.div>
         )}
-        
-        {/* Gallery Images - stacked on mobile, 3 in a row on desktop */}
-        {project.gallery && project.gallery.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 p-5 lg:px-0">
-            {project.gallery.slice(0, 3).map((image, idx) => (
-              <ProjectImage key={idx} image={image} title={project.title} index={idx} />
-            ))}
-          </div>
-        ) : project.mainImage ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 p-5 lg:px-0">
-            <ProjectImage image={project.mainImage} title={project.title} index={0} />
-          </div>
-        ) : null}
-      </div>
+      </motion.div>
     </motion.div>
   )
 }
@@ -278,13 +369,18 @@ export default function PlayPageClient({ projects, galleryItems }: PlayPageClien
 
         {/* Projects Section - 2 Column Grid */}
         {projects.length > 0 && (
-          <div className="max-w-7xl mx-auto mb-24">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <motion.div 
+            className="max-w-7xl mx-auto mb-24"
+            variants={projectCardContainerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
               {projects.map((project, index) => (
                 <ProjectCard key={project._id} project={project} index={index} />
               ))}
             </div>
-          </div>
+          </motion.div>
         )}
 
         {/* Gallery Section */}
@@ -295,8 +391,8 @@ export default function PlayPageClient({ projects, galleryItems }: PlayPageClien
                 variants={itemVariants}
                 className="w-full h-px bg-accent/40 mx-auto mt-16 mb-6 theme-transition"
               />
-              <motion.h2 variants={itemVariants} className="font-normal text-2xl mb-8 text-muted-foreground">
-                Sketches
+              <motion.h2 variants={itemVariants} className="font-normal text-2xl mb-8">
+                Various Pixels
               </motion.h2>
               <motion.div variants={itemVariants} className="mb-16">
                 <p className="text-body-main">

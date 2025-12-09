@@ -1,8 +1,8 @@
-import { getCaseStudiesList } from '@/lib/sanity-queries'
+import { getCaseStudiesList, getGalleryItems } from '@/lib/sanity-queries'
 import { buildImageUrl } from '@/lib/sanity'
 import { experienceData } from '@/lib/data'
 import WorkPageClient from '@/components/work-page-client'
-import type { CaseStudyListItem } from '@/types/sanity'
+import type { CaseStudyListItem, GalleryItemClient } from '@/types/sanity'
 
 export const revalidate = 60
 
@@ -31,12 +31,26 @@ function toPlainText(value: unknown): string | undefined {
 
 export default async function WorkPage() {
   let caseStudies: CaseStudyListItem[] = []
+  let galleryItems: GalleryItemClient[] = []
 
   try {
     const rawCaseStudies = await getCaseStudiesList()
 
     caseStudies = rawCaseStudies.map((cs: any) => {
-      const imageUrl = cs.mainImage ? buildImageUrl(cs.mainImage, 1200) : null
+      const isVideo = cs.mainMediaType === 'video'
+      let imageUrl = null
+      let videoUrl = null
+      let videoAssetUrl = null
+      
+      if (isVideo) {
+        // For video, get video URL or uploaded video asset
+        videoUrl = typeof cs.mainVideoUrl === 'string' ? cs.mainVideoUrl : undefined
+        videoAssetUrl = cs.mainVideo?.asset?.url || null
+      } else {
+        // For image, use the existing logic
+        imageUrl = cs.mainImage ? buildImageUrl(cs.mainImage, 1200) : null
+      }
+      
       const galleryUrls = cs.gallery?.map((img: any) => ({
         url: buildImageUrl(img, 1200),
         alt: typeof img.alt === 'string' ? img.alt : cs.title,
@@ -53,12 +67,15 @@ export default async function WorkPage() {
         tags: Array.isArray(cs.tags) ? cs.tags.filter((t: any) => typeof t === 'string') : undefined,
         featured: Boolean(cs.featured),
         projectUrl: typeof cs.projectUrl === 'string' ? cs.projectUrl : undefined,
+        mainMediaType: isVideo ? 'video' : 'image',
         mainImage: imageUrl
           ? {
               url: imageUrl,
               alt: typeof cs.mainImage?.alt === 'string' ? cs.mainImage.alt : cs.title,
             }
           : undefined,
+        mainVideo: videoAssetUrl ? { url: videoAssetUrl } : undefined,
+        mainVideoUrl: videoUrl,
         gallery: galleryUrls,
       }
     })
@@ -66,5 +83,34 @@ export default async function WorkPage() {
     console.error('Error fetching case studies:', error)
   }
 
-  return <WorkPageClient caseStudies={caseStudies} experienceData={experienceData} />
+  try {
+    const rawGalleryItems = await getGalleryItems()
+    galleryItems = rawGalleryItems.map((item: any) => {
+      let src = ''
+      const isVideo = item.type === 'video'
+      const externalVideoUrl = typeof item.videoUrl === 'string' ? item.videoUrl : undefined
+      
+      if (isVideo) {
+        src = item.video?.asset?.url || ''
+      } else {
+        src = item.image ? buildImageUrl(item.image, 1600) || '' : ''
+      }
+      
+      return {
+        _id: String(item._id || ''),
+        type: (isVideo ? 'video' : 'image') as 'image' | 'video',
+        size: (['large', 'medium', 'small'].includes(item.size) ? item.size : 'medium') as 'large' | 'medium' | 'small',
+        src,
+        alt: typeof item.image?.alt === 'string' ? item.image.alt : item.title || 'Gallery item',
+        caption: typeof item.caption === 'string' ? item.caption : undefined,
+        videoUrl: externalVideoUrl,
+      }
+    }).filter((item: GalleryItemClient) => {
+      return item.src || item.videoUrl
+    })
+  } catch (error) {
+    console.error('Error fetching gallery items:', error)
+  }
+
+  return <WorkPageClient caseStudies={caseStudies} experienceData={experienceData} galleryItems={galleryItems} />
 }

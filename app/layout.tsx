@@ -84,7 +84,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${archivo.variable} dark`}
+      className={archivo.variable}
       suppressHydrationWarning
     >
       <head>
@@ -136,8 +136,8 @@ export default function RootLayout({
         <PostHogProvider>
           <ThemeProvider
             attribute="class"
-            defaultTheme="dark"
-            enableSystem={false}
+            defaultTheme="system"
+            enableSystem={true}
             storageKey="pixel-czar-theme"
             disableTransitionOnChange={false}
           >

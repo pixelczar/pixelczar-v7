@@ -8,7 +8,7 @@ type DarkThemeVariant = 'midnight' | 'original' | 'teal'
 
 export default function DarkThemePicker() {
   const { theme } = useTheme()
-  const [variant, setVariant] = useState<DarkThemeVariant>('midnight')
+  const [variant, setVariant] = useState<DarkThemeVariant>('original')
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export default function DarkThemePicker() {
       setVariant(saved)
       document.documentElement.setAttribute('data-dark-variant', saved)
     } else {
-      document.documentElement.setAttribute('data-dark-variant', 'midnight')
+      document.documentElement.setAttribute('data-dark-variant', 'original')
     }
   }, [])
 
@@ -81,7 +81,7 @@ export default function DarkThemePicker() {
               : 'opacity-70 hover:opacity-100 hover:scale-105'
           }`}
           style={{ 
-            backgroundColor: '#051015',
+            backgroundColor: '#070d10',
             borderColor: variant === 'teal'
               ? 'color-mix(in srgb, var(--border) 30%, transparent)'
               : 'color-mix(in srgb, var(--border) 50%, transparent)'

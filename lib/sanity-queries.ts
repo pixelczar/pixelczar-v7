@@ -69,12 +69,20 @@ const CASE_STUDY_LIST_FIELDS = `
   description,
   role,
   timeline,
+  mainMediaType,
   mainImage {
     asset,
     alt,
     hotspot,
     crop
   },
+  mainVideo {
+    asset-> {
+      url,
+      _id
+    }
+  },
+  mainVideoUrl,
   gallery[] {
     asset,
     alt,
@@ -99,7 +107,35 @@ const CASE_STUDY_FULL_FIELDS = `
   shortDescription,
   description,
   role,
-  content,
+  content[] {
+    _type,
+    _key,
+    ...,
+    _type == "image" => {
+      asset->,
+      alt,
+      caption,
+      layout,
+      hotspot,
+      crop
+    },
+    _type == "twoColumnBlock" => {
+      image {
+        asset->,
+        alt,
+        caption,
+        hotspot,
+        crop
+      },
+      content,
+      imagePosition
+    },
+    _type == "calloutBlock" => {
+      content,
+      variant,
+      title
+    }
+  },
   outcomes,
   timeline,
   mainImage {

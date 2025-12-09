@@ -58,6 +58,34 @@ export default defineType({
       of: [
         {
           type: 'block',
+          marks: {
+            annotations: [
+              {
+                name: 'callout',
+                type: 'object',
+                title: 'Callout',
+                icon: () => '💡',
+                fields: [
+                  {
+                    name: 'variant',
+                    type: 'string',
+                    title: 'Style',
+                    options: {
+                      list: [
+                        { title: 'Info (Blue)', value: 'info' },
+                        { title: 'Warning (Yellow)', value: 'warning' },
+                        { title: 'Success (Green)', value: 'success' },
+                        { title: 'Error (Red)', value: 'error' },
+                        { title: 'Muted (Gray)', value: 'muted' },
+                      ],
+                      layout: 'radio',
+                    },
+                    initialValue: 'info',
+                  },
+                ],
+              },
+            ],
+          },
         },
         {
           type: 'image',
@@ -65,7 +93,31 @@ export default defineType({
           fields: [
             { name: 'alt', type: 'string', title: 'Alt text' },
             { name: 'caption', type: 'string', title: 'Caption' },
+            {
+              name: 'layout',
+              type: 'string',
+              title: 'Layout',
+              description: 'How should this image be displayed?',
+              options: {
+                list: [
+                  { title: 'Narrow (default)', value: 'narrow' },
+                  { title: 'Full Width', value: 'full-width' },
+                  { title: 'Half Left (50-50)', value: 'half-left' },
+                  { title: 'Half Right (50-50)', value: 'half-right' },
+                ],
+                layout: 'radio',
+              },
+              initialValue: 'narrow',
+            },
           ],
+        },
+        {
+          type: 'twoColumnBlock',
+          title: 'Two Column (Image + Text)',
+        },
+        {
+          type: 'calloutBlock',
+          title: 'Callout Block',
         },
       ],
       description: 'Full case study content with rich text and images',
@@ -84,6 +136,20 @@ export default defineType({
       description: 'e.g., "2021-2023" or "18 months"',
     }),
     defineField({
+      name: 'mainMediaType',
+      title: 'Main Media Type',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Image', value: 'image' },
+          { title: 'Video', value: 'video' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'image',
+      description: 'Choose whether the main media is an image or video',
+    }),
+    defineField({
       name: 'mainImage',
       title: 'Main Image',
       type: 'image',
@@ -92,6 +158,23 @@ export default defineType({
         { name: 'alt', type: 'string', title: 'Alt text' },
         { name: 'caption', type: 'string', title: 'Caption' },
       ],
+      hidden: ({ parent }) => parent?.mainMediaType === 'video',
+    }),
+    defineField({
+      name: 'mainVideo',
+      title: 'Main Video',
+      type: 'file',
+      options: {
+        accept: 'video/*',
+      },
+      hidden: ({ parent }) => parent?.mainMediaType === 'image',
+    }),
+    defineField({
+      name: 'mainVideoUrl',
+      title: 'Main Video URL',
+      type: 'url',
+      description: 'External video URL (YouTube, Vimeo, etc.) - alternative to uploading',
+      hidden: ({ parent }) => parent?.mainMediaType === 'image',
     }),
     defineField({
       name: 'gallery',
@@ -141,6 +224,14 @@ export default defineType({
       title: 'title',
       subtitle: 'company',
       media: 'mainImage',
+      mediaType: 'mainMediaType',
+    },
+    prepare({ title, subtitle, media, mediaType }) {
+      return {
+        title: title || 'Untitled',
+        subtitle: subtitle || 'No company',
+        media: mediaType === 'video' ? undefined : media,
+      }
     },
   },
 })

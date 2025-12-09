@@ -98,18 +98,18 @@
 
   /* Deep teal theme variant (more blue-tinted) */
   .dark[data-dark-variant="teal"] {
-    --background: #051015;
+    --background: #070d10;
     --foreground: #e0f2f5;
     --card: #0a1f2a;
     --card-foreground: #e0f2f5;
     --popover: #0a1f2a;
     --popover-foreground: #e0f2f5;
     --primary: #e0f2f5;
-    --primary-foreground: #051015;
+    --primary-foreground: #070d10;
     --secondary: #1e3a45;
     --secondary-foreground: #e0f2f5;
     --muted: #1e3a45;
-    --muted-foreground: #52838f;
+    --muted-foreground: #658188;
     --accent: 65 100% 50%;
     --accent-foreground: 0 0% 10%;
     --destructive: #ef4444;

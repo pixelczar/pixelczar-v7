@@ -176,7 +176,7 @@ export default function WorkPageClient({ caseStudies, experienceData, galleryIte
                       delay: 0 * 0.1,
                       ease: [0.25, 0.1, 0.25, 1],
                     }}
-                    className="relative w-full aspect-video rounded-lg overflow-hidden bg-muted/20"
+                    className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-muted/20"
                   >
                     {gridItems[0].type === 'video' ? (
                       gridItems[0].videoUrl ? (
@@ -230,7 +230,7 @@ export default function WorkPageClient({ caseStudies, experienceData, galleryIte
                       delay: 1 * 0.1,
                       ease: [0.25, 0.1, 0.25, 1],
                     }}
-                    className="relative w-full aspect-video rounded-lg overflow-hidden bg-muted/20"
+                    className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-muted/20"
                   >
                     {prismVideo.type === 'video' ? (
                       prismVideo.videoUrl ? (

@@ -136,7 +136,7 @@
     font-family: "Lust Display", var(--font-serif);
     font-weight: 400;
     line-height: 1.6;
-    letter-spacing: -0.011em;
+    /* letter-spacing: -0.011em; */
     font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "pnum" 1, "tnum" 0, "onum" 1, "lnum" 0, "dlig" 0, "ss01" 1;
     transition: background-color 0.3s ease, color 0.3s ease;
     text-rendering: optimizeLegibility;
@@ -198,7 +198,7 @@
     font-family: var(--font-sans);
     font-weight: 400;
     line-height: 1.6;
-    letter-spacing: -0.011em;
+    /* letter-spacing: -0.011em; */
     transition: color 0.3s ease;
   }
 
@@ -315,6 +315,43 @@
 
   .theme-transition-fast {
     transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+
+  /* Smooth color transitions during theme changes - prevents flicker */
+  /* Only apply to text and background elements, exclude animated elements */
+  h1, h2, h3, h4, h5, h6, p, span, a, li, td, th, label, button, input, textarea, select {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 200ms;
+  }
+
+  /* Exclude elements that shouldn't transition */
+  img, video, svg, canvas, iframe, [data-framer-component] {
+    transition-property: none !important;
+  }
+
+  /* Exclude framer-motion animated elements from color transitions during their animations */
+  [data-framer-name] {
+    transition-property: none !important;
+  }
+
+  /* During theme changes, ensure smooth transitions without flicker */
+  /* Force consistent transitions during theme change to prevent multiple restarts */
+  html.theme-changing * {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke !important;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition-duration: 200ms !important;
+  }
+  
+  /* Exclude media and animated elements */
+  html.theme-changing img,
+  html.theme-changing video,
+  html.theme-changing svg,
+  html.theme-changing canvas,
+  html.theme-changing iframe,
+  html.theme-changing [data-framer-component],
+  html.theme-changing [data-framer-name] {
+    transition-property: none !important;
   }
 
   /* Professional focus states */

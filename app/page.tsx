@@ -32,7 +32,7 @@ export default function HomePage() {
         </motion.h1>
         <motion.h2 
           variants={itemVariants}
-          className="font-light text-xl max-w-xl mx-auto text-muted-foreground my-10"
+          className="font-light text-xl max-w-xl mx-auto text-muted-foreground my-10 tracking-normal"
         >
           Product design, vision, strategy, leadership, visual design, systems thinking, brand, prototyping, and craft.
         </motion.h2>

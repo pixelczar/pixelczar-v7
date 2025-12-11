@@ -28,7 +28,7 @@ export const NarrowTextContainer = ({ children }: { children: React.ReactNode })
 // Full-width container for images that break out
 export const FullWidthContainer = ({ children }: { children: React.ReactNode }) => (
   <div className="relative left-1/2 -translate-x-1/2 my-12">
-    <div className="w-full">
+    <div className="w-full max-w-6xl mx-auto">
       {children}
     </div>
   </div>
@@ -82,7 +82,6 @@ function CaseStudyImage({ value }: { value: any }) {
   }
 
   const layout = imageValue.layout || 'narrow'
-  const aspectRatio = imageValue.hotspot ? 'aspect-video' : 'aspect-[4/3]'
   
   // Debug logging (remove in production if needed)
   if (process.env.NODE_ENV === 'development') {
@@ -99,12 +98,13 @@ function CaseStudyImage({ value }: { value: any }) {
     return (
       <FullWidthContainer>
         <div className="">
-          <div className={`relative w-full ${aspectRatio} overflow-hidden bg-muted rounded-lg md:rounded-xl`}>
+          <div className="relative w-full min-h-[200px] overflow-hidden bg-muted rounded-lg md:rounded-xl flex items-center justify-center">
             <Image
               src={imageUrl}
               alt={imageValue.alt || 'Case study image'}
-              fill
-              className="object-cover"
+              width={1920}
+              height={1080}
+              className="w-full h-auto max-h-[80vh] object-contain"
               sizes="100vw"
               quality={90}
             />
@@ -125,12 +125,13 @@ function CaseStudyImage({ value }: { value: any }) {
   if (layout === 'half-left' || layout === 'half-right') {
     return (
       <div className="my-4">
-        <div className={`relative w-full ${aspectRatio} overflow-hidden bg-muted rounded-lg md:rounded-xl`}>
+        <div className="relative w-full min-h-[200px] overflow-hidden bg-muted rounded-lg md:rounded-xl flex items-center justify-center">
           <Image
             src={imageUrl}
             alt={imageValue.alt || 'Case study image'}
-            fill
-            className="object-cover"
+            width={1200}
+            height={800}
+            className="w-full h-auto max-h-[60vh] object-contain"
             sizes="(max-width: 768px) 100vw, 50vw"
             quality={90}
           />
@@ -145,12 +146,13 @@ function CaseStudyImage({ value }: { value: any }) {
   // Narrow layout (default)
   return (
     <div className="my-8">
-      <div className={`relative w-full ${aspectRatio} overflow-hidden bg-muted rounded-lg md:rounded-xl`}>
+      <div className="relative w-full min-h-[200px] overflow-hidden bg-muted rounded-lg md:rounded-xl flex items-center justify-center">
         <Image
           src={imageUrl}
           alt={imageValue.alt || 'Case study image'}
-          fill
-          className="object-cover"
+          width={1400}
+          height={1000}
+          className="w-full h-auto max-h-[70vh] object-contain"
           sizes="(max-width: 768px) 100vw, 700px"
           quality={90}
         />
@@ -201,15 +203,13 @@ function TwoColumnBlock({ value }: { value: any }) {
     imageUrl = buildImageUrl(image as SanityImageSource, 1200)
   }
 
-  const aspectRatio = image?.hotspot ? 'aspect-video' : 'aspect-[4/3]'
-
   // Base components for nested PortableText (without custom types to avoid circular dependency)
   const baseComponents: PortableTextComponents = {
     block: {
       h1: ({ children }) => <h1 className="text-2xl font-semibold mb-4 font-sans">{children}</h1>,
       h2: ({ children }) => <h2 className="text-xl font-semibold mb-3 font-sans">{children}</h2>,
       h3: ({ children }) => <h3 className="text-lg font-semibold mb-2 font-sans">{children}</h3>,
-      normal: ({ children }) => <p className="text-base leading-relaxed mb-4 font-sans">{children}</p>,
+      normal: ({ children }) => <p className="text-body-main leading-relaxed mb-4 font-sans">{children}</p>,
       blockquote: ({ children }) => (
         <blockquote className="border-l-4 border-accent pl-4 py-2 my-4 italic text-muted-foreground">
           {children}
@@ -221,8 +221,8 @@ function TwoColumnBlock({ value }: { value: any }) {
       number: ({ children }) => <ol className="list-decimal list-inside space-y-1 mb-4 font-sans">{children}</ol>,
     },
     listItem: {
-      bullet: ({ children }) => <li className="mb-1">{children}</li>,
-      number: ({ children }) => <li className="mb-1">{children}</li>,
+      bullet: ({ children }) => <li className="mb-1 text-body-main">{children}</li>,
+      number: ({ children }) => <li className="mb-1 text-body-main">{children}</li>,
     },
     marks: {
       strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
@@ -241,12 +241,13 @@ function TwoColumnBlock({ value }: { value: any }) {
       <div className={isImageRight ? 'md:order-2' : ''}>
         {imageUrl ? (
           <div className="my-4">
-            <div className={`relative w-full ${aspectRatio} overflow-hidden bg-muted rounded-lg md:rounded-xl`}>
+            <div className="relative w-full min-h-[200px] overflow-hidden bg-muted rounded-lg md:rounded-xl flex items-center justify-center">
               <Image
                 src={imageUrl}
                 alt={image.alt || 'Case study image'}
-                fill
-                className="object-cover"
+                width={1200}
+                height={800}
+                className="w-full h-auto max-h-[60vh] object-contain"
                 sizes="(max-width: 768px) 100vw, 50vw"
                 quality={90}
               />
@@ -287,7 +288,7 @@ function CalloutBlock({ value }: { value: any }) {
       h1: ({ children }) => <h1 className="text-2xl font-semibold mb-4 font-sans">{children}</h1>,
       h2: ({ children }) => <h2 className="text-xl font-semibold mb-3 font-sans">{children}</h2>,
       h3: ({ children }) => <h3 className="text-lg font-semibold mb-2 font-sans">{children}</h3>,
-      normal: ({ children }) => <p className="text-base leading-relaxed mb-4 font-sans">{children}</p>,
+      normal: ({ children }) => <p className="text-body-main leading-relaxed mb-4 font-sans">{children}</p>,
       blockquote: ({ children }) => (
         <blockquote className="border-l-4 border-accent pl-4 py-2 my-4 italic text-muted-foreground">
           {children}
@@ -350,7 +351,7 @@ export const caseStudyComponents: PortableTextComponents = {
     // Paragraphs in narrow column
     normal: ({ children }) => (
       <NarrowTextContainer>
-        <p className="text-base md:text-lg leading-relaxed mb-6 font-sans text-foreground">
+        <p className="text-body-main leading-relaxed mb-6 font-sans">
           {children}
         </p>
       </NarrowTextContainer>
@@ -378,8 +379,8 @@ export const caseStudyComponents: PortableTextComponents = {
     ),
   },
   listItem: {
-    bullet: ({ children }) => <li className="mb-2">{children}</li>,
-    number: ({ children }) => <li className="mb-2">{children}</li>,
+    bullet: ({ children }) => <li className="mb-2 text-body-main">{children}</li>,
+    number: ({ children }) => <li className="mb-2 text-body-main">{children}</li>,
   },
   // Marks (inline formatting)
   marks: {

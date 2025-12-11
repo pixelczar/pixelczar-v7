@@ -3,9 +3,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
+import { memo } from 'react'
 import type { CaseStudyListItem } from '@/types/sanity'
-import { smoothEase } from '@/lib/animations'
+import { itemVariants } from '@/lib/animations'
+import MagneticWrapper from '@/components/magnetic-wrapper'
 
 interface CaseStudyCardProps {
   caseStudy: CaseStudyListItem
@@ -80,21 +82,14 @@ function MainMedia({
   return null
 }
 
-export default function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardProps) {
+function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-80px' }}
-      transition={{
-        duration: 0.6,
-        delay: index * 0.12,
-        ease: smoothEase,
-      }}
+      variants={itemVariants}
       className="h-full"
     >
       <div 
-        className={`rounded-xl group-hover:bg-card/60 transition-all duration-300 h-full flex flex-col ${caseStudy.projectUrl ? 'cursor-hover' : ''}`}
+        className={`rounded-xl group-hover:bg-card/60 h-full flex flex-col ${caseStudy.projectUrl ? 'cursor-hover' : ''}`}
         data-cursor-target={caseStudy.projectUrl ? `case-study-title-${caseStudy._id}` : undefined}
       >
         {/* Main Media (Image or Video) - Above Title */}
@@ -108,28 +103,29 @@ export default function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardPro
           <div>
             <div className="flex items-center gap-3 mb-3">
               {caseStudy.projectUrl ? (
-                <a
-                  href={caseStudy.projectUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  id={`case-study-title-${caseStudy._id}`}
-                  data-cursor-target={`case-study-title-${caseStudy._id}`}
+                <MagneticWrapper
+                  strength={0.3}
                   data-cursor-rounded="full"
-                  className="inline-flex items-center gap-2 px-2 py-1 rounded-full relative -left-2 cursor-hover"
-                  aria-label={`Visit ${caseStudy.title}`}
                 >
-                  <h3 className="text-xl md:text-2xl font-semibold font-sans group-hover:text-accent transition-colors duration-300">
-                    {caseStudy.title}
-                  </h3>
-                  <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5 text-muted-foreground group-hover:text-accent transition-colors duration-300" />
-                </a>
+                  <a
+                    href={caseStudy.projectUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    id={`case-study-title-${caseStudy._id}`}
+                    data-cursor-target={`case-study-title-${caseStudy._id}`}
+                    className="cursor-hover inline-flex items-center gap-3 px-2 py-1 rounded-full relative -left-2 group"
+                    aria-label={`Visit ${caseStudy.title}`}
+                  >
+                    <h3 className="text-xl md:text-2xl font-semibold font-sans transition-colors duration-300 group-hover:text-accent">
+                      {caseStudy.title}
+                    </h3>
+                    <ArrowRight className="w-5 h-5 md:w-6 md:h-6 transition-colors duration-300 group-hover:text-accent" />
+                  </a>
+                </MagneticWrapper>
               ) : (
-                <Link href={`/work/${caseStudy.slug}`} className="inline-flex items-center gap-2 px-2 py-1 rounded-full relative -left-2">
-                  <h3 className="text-xl md:text-2xl font-semibold font-sans group-hover:text-accent transition-colors duration-300">
-                    {caseStudy.title}
-                  </h3>
-                  <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5 text-muted-foreground group-hover:text-accent transition-colors duration-300" />
-                </Link>
+                <h3 className="text-xl md:text-2xl font-semibold font-sans">
+                  {caseStudy.title}
+                </h3>
               )}
             </div>
             {caseStudy.company && (
@@ -145,7 +141,7 @@ export default function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardPro
           </div>
 
           {/* Metadata */}
-          <div className="flex flex-row gap-6 md:gap-8 text-sm">
+          <div className="flex flex-row gap-6 md:gap-8 text-sm hidden">
             {caseStudy.role && (
               <div>
                 <div className="text-xs font-medium text-muted-foreground tracking-wide mb-1 font-sans">
@@ -172,3 +168,5 @@ export default function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardPro
     </motion.div>
   )
 }
+
+export default memo(CaseStudyCard)

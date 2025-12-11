@@ -215,7 +215,7 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
         {/* Description */}
         {project.description && (
           <motion.p 
-            className="text-sm text-muted-foreground font-sans line-clamp-2 mb-4"
+            className="text-sm text-muted-foreground font-sans mb-4"
             variants={cardTextVariants}
           >
             {toPlainText(project.description)}
@@ -362,7 +362,7 @@ export default function PlayPageClient({ projects, galleryItems }: PlayPageClien
           </motion.h2>
           <motion.div variants={itemVariants} className="mb-16">
             <p className="text-body-main">
-              It's such an incredible time to be a designer. These are experiments, explorations, various other pixels I've been pushing recently.
+              It's such an incredible time to be a designer. These are experiments, explorations, various other pixels I've been pushing recently.  All design and build implementations are 100% my own.
             </p>
           </motion.div>
         </div>

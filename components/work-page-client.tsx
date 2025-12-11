@@ -21,6 +21,16 @@ const containerVariants = {
   },
 }
 
+const gridContainerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.1,
+    },
+  },
+}
+
 interface WorkPageClientProps {
   caseStudies: CaseStudyListItem[]
   experienceData: Experience[]
@@ -37,34 +47,39 @@ export default function WorkPageClient({ caseStudies, experienceData, galleryIte
         animate="visible"
       >
         {/* Header Content */}
-        <div className="max-w-4xl mx-auto mb-12 md:mb-20">
+        <div className="max-w-3xl mx-auto mb-12 md:mb-20">
           <motion.h1 variants={itemVariants} className="heading-display mb-6 md:mb-8 text-center">
             <span className="lust-aalt tracking-tightest -mr-4">W</span><span className="tracking-tighter">o</span>r<span className="lust-swsh tracking-tighter">k</span>
           </motion.h1>
         </div>
 
         {/* Case Studies Section */}
-        <div className="max-w-4xl mx-auto mb-12 md:mb-20 hidden">
+        <div className="max-w-3xl mx-auto mb-12 md:mb-20">
           <motion.div
             variants={itemVariants}
             className="w-full h-px bg-accent/40 mx-auto mt-16 mb-6 theme-transition"
           />
           <motion.h2 variants={itemVariants} className="font-normal text-xl md:text-2xl mb-6 md:mb-8 text-foreground">
-            Case Studies
+            Recent Professional Work
           </motion.h2>
           <motion.div variants={itemVariants} className="mb-12 md:mb-16">
-            <p className="text-body-main text-sm md:text-base leading-relaxed">
-              Selected projects showcasing product design, UX strategy, and design leadership work.
+            <p className="text-body-main leading-relaxed text-body-main">
+              These recent projects from my extensive time at Reprise showcase my product design, experience, and end-to-end bringing ideas from 0 to 1.
             </p>
           </motion.div>
         </div>
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16 hidden">
+        <motion.div 
+          variants={gridContainerVariants}
+          initial="hidden"
+          animate="visible"
+          className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16"
+        >
             {caseStudies.map((caseStudy, index) => (
               <CaseStudyCard key={caseStudy._id} caseStudy={caseStudy} index={index} />
             ))}
-          </div>
+          </motion.div>
         {/* Apps & Companies Timeline */}
-        <div className="max-w-4xl mx-auto mb-12">
+        <div className="max-w-3xl mx-auto mb-12">
           <motion.div
             variants={itemVariants}
             className="w-full h-px bg-accent/40 mx-auto mt-16 mb-6 theme-transition"
@@ -82,7 +97,7 @@ export default function WorkPageClient({ caseStudies, experienceData, galleryIte
           </motion.div>
         </div>
 
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-3xl mx-auto">
           <motion.div variants={itemVariants} className="relative">
             {experienceData.map((job, index) => (
               <TimelineItem
@@ -97,37 +112,48 @@ export default function WorkPageClient({ caseStudies, experienceData, galleryIte
 
         {/* Play Section Preview */}
         {(() => {
-          // Find the priism video from gallery items
-          const priismVideo = galleryItems.find(
+          // Find the prism video from gallery items
+          const prismVideo = galleryItems.find(
             (item) =>
               item.type === 'video' &&
-              (item.alt?.toLowerCase().includes('priism') ||
-                item.alt?.toLowerCase().includes('prism'))
+              (item.alt?.toLowerCase().includes('prism'))
           ) || galleryItems.find((item) => item.type === 'video')
 
-          if (!priismVideo) return null
+          if (!prismVideo) return null
 
-          // Get other gallery items (excluding priism)
+          // Get other gallery items (excluding prism)
           const otherItems = galleryItems
-            .filter((item) => item._id !== priismVideo._id)
-            .slice(0, 2)
+            .filter((item) => item._id !== prismVideo._id)
 
-          // Ensure we have at least 2 other items, or pad with first item
+          // Get first item (for left position)
           const firstItem = otherItems[0] || galleryItems[0]
-          const secondItem = otherItems[1] || otherItems[0] || galleryItems[0]
+          
+          // Check if first item is "Encore" related
+          const isFirstItemEncore = firstItem?.alt?.toLowerCase().includes('encore') || 
+                                    firstItem?.alt?.toLowerCase().includes('editor')
+          
+          // Get third item (for desktop only, right position) - make sure it's different from first
+          // If first is Encore, find something that's NOT Encore/Editor related
+          const thirdItem = isFirstItemEncore
+            ? otherItems.find((item) => 
+                item._id !== firstItem?._id && 
+                !item.alt?.toLowerCase().includes('encore') &&
+                !item.alt?.toLowerCase().includes('editor')
+              ) || otherItems.find((item) => item._id !== firstItem?._id) || otherItems[1] || otherItems[0]
+            : otherItems.find((item) => item._id !== firstItem?._id) || otherItems[1] || otherItems[0] || galleryItems[0]
 
-          // Create array: [first image, priism video, second image]
+          // Create array: [first image, prism video, third image for desktop]
           const gridItems: GalleryItemClient[] = [
             firstItem,
-            priismVideo,
-            secondItem,
+            prismVideo,
+            thirdItem,
           ].filter((item): item is GalleryItemClient => item !== null && item !== undefined)
 
-          if (gridItems.length < 3) return null
+          if (gridItems.length < 2) return null
 
           return (
             <div className="max-w-7xl mx-auto mt-24 md:mt-32">
-              {/* 3 Grid Items */}
+              {/* Grid Items - 2 on mobile, 3 on desktop */}
               <motion.div
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
@@ -136,25 +162,26 @@ export default function WorkPageClient({ caseStudies, experienceData, galleryIte
                   duration: 0.8,
                   ease: [0.25, 0.1, 0.25, 1],
                 }}
-                className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-12"
+                className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-6"
               >
-                {gridItems.map((item, index) => (
+                {/* First item - always visible */}
+                {gridItems[0] && (
                   <motion.div
-                    key={item._id}
+                    key={gridItems[0]._id}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: '-50px' }}
                     transition={{
                       duration: 0.6,
-                      delay: index * 0.1,
+                      delay: 0 * 0.1,
                       ease: [0.25, 0.1, 0.25, 1],
                     }}
-                    className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-muted/20"
+                    className="relative w-full aspect-video rounded-lg overflow-hidden bg-muted/20"
                   >
-                    {item.type === 'video' ? (
-                      item.videoUrl ? (
+                    {gridItems[0].type === 'video' ? (
+                      gridItems[0].videoUrl ? (
                         <a
-                          href={item.videoUrl}
+                          href={gridItems[0].videoUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="absolute inset-0 flex items-center justify-center bg-muted/50"
@@ -168,9 +195,9 @@ export default function WorkPageClient({ caseStudies, experienceData, galleryIte
                             <span className="text-xs text-muted-foreground">Play Video</span>
                           </div>
                         </a>
-                      ) : item.src ? (
+                      ) : gridItems[0].src ? (
                         <video
-                          src={item.src}
+                          src={gridItems[0].src}
                           autoPlay
                           loop
                           muted
@@ -178,18 +205,126 @@ export default function WorkPageClient({ caseStudies, experienceData, galleryIte
                           className="absolute inset-0 w-full h-full object-cover"
                         />
                       ) : null
-                    ) : item.src ? (
+                    ) : gridItems[0].src ? (
                       <Image
-                        src={item.src}
-                        alt={item.alt}
+                        src={gridItems[0].src}
+                        alt={gridItems[0].alt}
                         fill
                         className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 33vw"
+                        sizes="(max-width: 768px) 50vw, 33vw"
                         quality={90}
                       />
                     ) : null}
                   </motion.div>
-                ))}
+                )}
+                
+                {/* Prism video - always visible */}
+                {prismVideo && (
+                  <motion.div
+                    key={prismVideo._id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-50px' }}
+                    transition={{
+                      duration: 0.6,
+                      delay: 1 * 0.1,
+                      ease: [0.25, 0.1, 0.25, 1],
+                    }}
+                    className="relative w-full aspect-video rounded-lg overflow-hidden bg-muted/20"
+                  >
+                    {prismVideo.type === 'video' ? (
+                      prismVideo.videoUrl ? (
+                        <a
+                          href={prismVideo.videoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="absolute inset-0 flex items-center justify-center bg-muted/50"
+                        >
+                          <div className="text-center">
+                            <div className="w-12 h-12 rounded-full bg-accent/80 flex items-center justify-center mb-2 mx-auto">
+                              <svg className="w-5 h-5 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                              </svg>
+                            </div>
+                            <span className="text-xs text-muted-foreground">Play Video</span>
+                          </div>
+                        </a>
+                      ) : prismVideo.src ? (
+                        <video
+                          src={prismVideo.src}
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
+                      ) : null
+                    ) : prismVideo.src ? (
+                      <Image
+                        src={prismVideo.src}
+                        alt={prismVideo.alt}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 50vw, 33vw"
+                        quality={90}
+                      />
+                    ) : null}
+                  </motion.div>
+                )}
+                
+                {/* Third item - only visible on desktop, different from first */}
+                {gridItems[2] && (
+                  <motion.div
+                    key={gridItems[2]._id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-50px' }}
+                    transition={{
+                      duration: 0.6,
+                      delay: 2 * 0.1,
+                      ease: [0.25, 0.1, 0.25, 1],
+                    }}
+                    className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-muted/20 hidden md:block"
+                  >
+                    {gridItems[2].type === 'video' ? (
+                      gridItems[2].videoUrl ? (
+                        <a
+                          href={gridItems[2].videoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="absolute inset-0 flex items-center justify-center bg-muted/50"
+                        >
+                          <div className="text-center">
+                            <div className="w-12 h-12 rounded-full bg-accent/80 flex items-center justify-center mb-2 mx-auto">
+                              <svg className="w-5 h-5 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                              </svg>
+                            </div>
+                            <span className="text-xs text-muted-foreground">Play Video</span>
+                          </div>
+                        </a>
+                      ) : gridItems[2].src ? (
+                        <video
+                          src={gridItems[2].src}
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
+                      ) : null
+                    ) : gridItems[2].src ? (
+                      <Image
+                        src={gridItems[2].src}
+                        alt={gridItems[2].alt}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 50vw, 33vw"
+                        quality={90}
+                      />
+                    ) : null}
+                  </motion.div>
+                )}
               </motion.div>
 
               {/* Colored Divider */}
@@ -202,7 +337,7 @@ export default function WorkPageClient({ caseStudies, experienceData, galleryIte
                     duration: 0.8,
                     ease: [0.25, 0.1, 0.25, 1],
                   }}
-                  className="w-full h-px bg-accent/40 mx-auto mb-12 theme-transition"
+                  className="w-full h-px bg-accent/40 mx-auto mb-6 theme-transition"
                 />
               </div>
 
@@ -220,7 +355,7 @@ export default function WorkPageClient({ caseStudies, experienceData, galleryIte
                 >
                   <MagneticLink
                     href="/play"
-                    className="flex items-center gap-3 rounded-full px-4 py-2 group"
+                    className="flex items-center gap-3 rounded-full px-4 py-2 group -mr-4"
                     strength={0.4}
                   >
                     <span className="text-base md:text-lg text-foreground font-sans transition-colors duration-300 group-hover:text-accent">

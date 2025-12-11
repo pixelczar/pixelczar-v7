@@ -67,6 +67,7 @@ export default function Header() {
             pathname === "/about" ? "font-medium" : "hover:text-primary"
           }`}
           style={pathname === "/about" ? { color: 'hsl(var(--accent))' } : { color: 'var(--muted-foreground)' }}
+          data-cursor-rounded="full"
         >
           About
         </MagneticLink>
@@ -76,6 +77,7 @@ export default function Header() {
             pathname === "/work" ? "font-medium" : "hover:text-primary"
           }`}
           style={pathname === "/work" ? { color: 'hsl(var(--accent))' } : { color: 'var(--muted-foreground)' }}
+          data-cursor-rounded="full"
         >
           Work
         </MagneticLink>
@@ -85,6 +87,7 @@ export default function Header() {
             pathname === "/play" ? "font-medium" : "hover:text-primary"
           }`}
           style={pathname === "/play" ? { color: 'hsl(var(--accent))' } : { color: 'var(--muted-foreground)' }}
+          data-cursor-rounded="full"
         >
           Play
         </MagneticLink>
@@ -152,6 +155,7 @@ export default function Header() {
                       pathname === item.href ? "text-accent" : "hover:text-accent"
                     }`}
                     style={pathname !== item.href ? { color: 'var(--muted-foreground)' } : undefined}
+                    data-cursor-rounded="full"
                     onClick={() => {
                       window.dispatchEvent(new CustomEvent('hideCursorOuter', { detail: true }));
                       setIsMenuOpen(false);

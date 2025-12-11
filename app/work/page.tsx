@@ -36,7 +36,14 @@ export default async function WorkPage() {
   try {
     const rawCaseStudies = await getCaseStudiesList()
 
-    caseStudies = rawCaseStudies.map((cs: any) => {
+    caseStudies = rawCaseStudies
+      .filter((cs: any) => {
+        // Filter out AI Card Generator
+        const title = String(cs.title || '').toLowerCase()
+        const slug = String(cs.slug || '').toLowerCase()
+        return !title.includes('ai card generator') && !slug.includes('ai-card-generator')
+      })
+      .map((cs: any) => {
       const isVideo = cs.mainMediaType === 'video'
       let imageUrl = null
       let videoUrl = null

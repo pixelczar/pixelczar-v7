@@ -58,20 +58,6 @@ export default function Footer() {
     >
       <div className="relative z-10 mx-auto px-6">
         <div className="flex flex-col items-center space-y-24">
-          <div className="flex space-x-6">
-            {socialLinks.map(({ name, href, label, icon }) => (
-              <MagneticButton
-                key={name}
-                href={href}
-                className="hover:text-accent transition-colors duration-300 theme-transition p-3 rounded-full hover:bg-accent/10"
-                strength={0.4}
-                data-cursor-shape="circle"
-              >
-                <span aria-label={label} style={{ color: 'var(--muted-foreground)', opacity: 0.5 }}>{icon}</span>
-              </MagneticButton>
-            ))}
-          </div>
-
           <div className="w-full flex items-center justify-center pointer-events-none select-none">
             <div className="w-[96vw] theme-transition">
               <svg version="1.1" x="0px" y="0px" viewBox="0 0 324 75" className="w-full h-auto fill-current text-foreground">
@@ -88,6 +74,20 @@ export default function Footer() {
                 </g>
               </svg>
             </div>
+          </div>
+
+          <div className="flex space-x-6">
+            {socialLinks.map(({ name, href, label, icon }) => (
+              <MagneticButton
+                key={name}
+                href={href}
+                className="hover:text-accent transition-colors duration-300 theme-transition p-3 rounded-full hover:bg-accent/10"
+                strength={0.4}
+                data-cursor-shape="circle"
+              >
+                <span aria-label={label} style={{ color: 'var(--muted-foreground)', opacity: 0.5 }}>{icon}</span>
+              </MagneticButton>
+            ))}
           </div>
         </div>
       </div>

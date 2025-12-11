@@ -100,8 +100,9 @@ export default function CustomCursor() {
           const padding = hasRoundedFull ? 8 : 4;
           
           if (isCircle) {
-            // Perfect circle - use the larger dimension + padding
-            const size = Math.max(rect.width, rect.height) + 12;
+            // Perfect circle - use the larger dimension + padding to match ring size
+            // Logo rings are 90px at scale 0.75 = 67.5px, so we need more padding to match visual size
+            const size = Math.max(rect.width, rect.height) + 20;
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
             

@@ -43,7 +43,7 @@ export default function DarkThemePicker() {
       >
         <button
           onClick={() => handleVariantChange('midnight')}
-          className={`w-6 h-6 rounded border transition-all duration-200 ${
+          className={`w-6 h-6 rounded border transition-all duration-200 hidden ${
             variant === 'midnight'
               ? 'ring-1 ring-accent/60 scale-105'
               : 'opacity-70 hover:opacity-100 hover:scale-105'

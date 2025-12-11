@@ -78,7 +78,7 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           <CardContent className="p-6">
             <div className="space-y-3">
               <div>
-                <h3 className="text-2xl font-semibold mb-2 line-clamp-2 font-sans">
+                <h3 className="text-2xl font-semibold mb-2 font-sans">
                   {project.title}
                 </h3>
                 {project.role && (

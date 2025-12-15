@@ -27,7 +27,7 @@ function MainMedia({
     // External video URL (YouTube, Vimeo, etc.)
     if (caseStudy.mainVideoUrl) {
       return (
-        <div className="relative w-full aspect-video overflow-hidden rounded-md bg-black/40">
+        <div className="relative w-full aspect-video overflow-hidden rounded-md bg-primary/10 shadow-lg">
           <a
             href={videoUrl}
             target="_blank"
@@ -48,7 +48,7 @@ function MainMedia({
     }
     // Uploaded video file
     return (
-      <div className="relative w-full aspect-video overflow-hidden rounded-md bg-black/40">
+      <div className="relative w-full aspect-video overflow-hidden rounded-md bg-primary/10 shadow-lg">
         <video
           src={videoUrl}
           autoPlay
@@ -64,7 +64,7 @@ function MainMedia({
   if (imageUrl) {
     return (
       <div
-        className="relative w-full aspect-video overflow-hidden rounded-md bg-black/40"
+        className="relative w-full aspect-video overflow-hidden rounded-md bg-primary/10 shadow-lg"
         data-cursor-ignore
       >
         <Image

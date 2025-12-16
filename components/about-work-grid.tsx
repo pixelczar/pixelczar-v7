@@ -46,7 +46,11 @@ export default function AboutWorkGrid({ caseStudies }: AboutWorkGridProps) {
         className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-6"
       >
         {gridItems.map((item, index) => (
-          <Link key={item._id} href="/work">
+          <Link 
+            key={item._id} 
+            href="/work"
+            className={isDataStudio(item) ? 'hidden md:block' : ''}
+          >
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -56,7 +60,7 @@ export default function AboutWorkGrid({ caseStudies }: AboutWorkGridProps) {
                 delay: index * 0.1,
                 ease: [0.25, 0.1, 0.25, 1],
               }}
-              className={`relative w-full aspect-video rounded-lg overflow-hidden bg-muted/20 cursor-pointer ${isDataStudio(item) ? 'hidden md:block' : ''}`}
+              className="relative w-full aspect-video rounded-lg overflow-hidden bg-muted/20 cursor-pointer"
             >
               {item.mainMediaType === 'video' ? (
                 item.mainVideo?.url ? (
@@ -116,7 +120,7 @@ export default function AboutWorkGrid({ caseStudies }: AboutWorkGridProps) {
             strength={0.4}
           >
             <span className="text-base md:text-lg text-foreground font-sans transition-colors duration-300 group-hover:text-accent">
-              See the work
+              Show me the work
             </span>
             <ArrowRight className="w-5 h-5 md:w-6 md:h-6 text-accent transition-colors duration-300 group-hover:text-accent" />
           </MagneticLink>

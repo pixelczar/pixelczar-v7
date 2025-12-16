@@ -76,5 +76,5 @@ export async function generateMetadata({ params }: CaseStudyPageProps) {
 export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   // Temporarily hide all detail pages - return 404
   // TODO: Restore detail page functionality when ready
-  notFound()
+    notFound()
 }

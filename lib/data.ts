@@ -31,7 +31,7 @@ export const experienceData: Experience[] = [
     imageAlt: "Catalant company branding with flowing blue design elements",
   },
   {
-    dates: "Spring '15 - Fall '17, 2y+",
+    dates: "Spring '11 - Fall '17, 6y",
     company: "InsightSquared",
     title: "VP of Design",
     location: "Greater Boston",
@@ -41,7 +41,7 @@ export const experienceData: Experience[] = [
     imageAlt: "InsightSquared company branding with geometric logo design",
   },
   {
-    dates: "Spring '09 - Spring '15, 6y",
+    dates: "Spring '09 - Spring '11, 2y",
     company: "LevelUp",
     title: "Co-Founder & VP of Design",
     location: "Greater Boston",

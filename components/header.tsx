@@ -5,8 +5,10 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/theme-toggle";
+import DarkThemePicker from "@/components/dark-theme-picker";
 import AnimatedLogo from "@/components/animated-logo";
 import MagneticLink from "@/components/magnetic-link";
+import MagneticWrapper from "@/components/magnetic-wrapper";
 import { smoothEase, homepageTransitions, standardTransitions, menuVariants, menuItemVariants } from "@/lib/animations";
 
 const logoVariants = {
@@ -63,41 +65,58 @@ export default function Header() {
       >
         <MagneticLink
           href="/about"
-          className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
+          className={`text-lg font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
             pathname === "/about" ? "font-medium" : "hover:text-primary"
           }`}
-          style={pathname === "/about" ? { color: 'hsl(var(--accent))' } : { color: 'var(--muted-foreground)' }}
+          style={pathname === "/about" ? { color: 'hsl(var(--accent))', opacity: 1 } : { color: 'var(--muted-foreground)' }}
           data-cursor-rounded="full"
+          strength={0.3}
         >
           About
         </MagneticLink>
         <MagneticLink
           href="/work"
-          className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
+          className={`text-lg font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
             pathname === "/work" ? "font-medium" : "hover:text-primary"
           }`}
-          style={pathname === "/work" ? { color: 'hsl(var(--accent))' } : { color: 'var(--muted-foreground)' }}
+          style={pathname === "/work" ? { color: 'hsl(var(--accent))', opacity: 1 } : { color: 'var(--muted-foreground)' }}
           data-cursor-rounded="full"
+          strength={0.3}
         >
           Work
         </MagneticLink>
         <MagneticLink
           href="/play"
-          className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
+          className={`text-lg font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
             pathname === "/play" ? "font-medium" : "hover:text-primary"
           }`}
-          style={pathname === "/play" ? { color: 'hsl(var(--accent))' } : { color: 'var(--muted-foreground)' }}
+          style={pathname === "/play" ? { color: 'hsl(var(--accent))', opacity: 1 } : { color: 'var(--muted-foreground)' }}
           data-cursor-rounded="full"
+          strength={0.3}
         >
           Play
         </MagneticLink>
-        <div className="pt-0.5 flex pl-6">
-          <ThemeToggle />
-        </div>
+        <MagneticWrapper
+          strength={0.3}
+          data-cursor-rounded="full"
+        >
+          <div className="pt-0.5 flex items-center gap-3 pl-6">
+            <DarkThemePicker />
+            <ThemeToggle />
+          </div>
+        </MagneticWrapper>
       </motion.nav>
 
       <div className="md:hidden flex items-center space-x-4">
-        <ThemeToggle />
+        <MagneticWrapper
+          strength={0.3}
+          data-cursor-rounded="full"
+        >
+          <div className="flex items-center space-x-4">
+            <DarkThemePicker />
+            <ThemeToggle />
+          </div>
+        </MagneticWrapper>
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           className="text-muted-foreground hover:text-primary transition-colors duration-300 z-50 relative w-8 h-8 flex items-center justify-center"

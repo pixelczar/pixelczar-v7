@@ -93,7 +93,7 @@ function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardProps) {
         data-cursor-target={caseStudy.projectUrl ? `case-study-title-${caseStudy._id}` : undefined}
       >
         {/* Main Media (Image or Video) - Above Title */}
-        <div className="mb-6">
+        <div className="mb-8">
           <MainMedia caseStudy={caseStudy} />
         </div>
 
@@ -116,14 +116,14 @@ function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardProps) {
                     className="cursor-hover inline-flex items-center gap-3 px-2 py-1 rounded-full relative -left-2 group"
                     aria-label={`Visit ${caseStudy.title}`}
                   >
-                    <h3 className="text-xl md:text-2xl font-semibold font-sans transition-colors duration-300 group-hover:text-accent">
+                    <h3 className="text-3xl font-medium font-sans tracking-tight my-2 transition-colors duration-300 group-hover:text-accent">
                       {caseStudy.title}
                     </h3>
                     <ArrowRight className="w-5 h-5 md:w-6 md:h-6 transition-colors duration-300 group-hover:text-accent" />
                   </a>
                 </MagneticWrapper>
               ) : (
-                <h3 className="text-xl md:text-2xl font-semibold font-sans">
+                <h3 className="text-3xl font-medium font-sans tracking-tight my-2">
                   {caseStudy.title}
                 </h3>
               )}
@@ -134,7 +134,7 @@ function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardProps) {
               </p>
             )}
             {(caseStudy.shortDescription || caseStudy.description) && (
-              <p className="text-sm md:text-base text-muted-foreground font-sans leading-relaxed mb-4">
+              <p className="text-lg text-muted-foreground font-sans leading-snug mb-4">
                 {caseStudy.shortDescription || caseStudy.description}
               </p>
             )}

@@ -19,7 +19,7 @@ export default function MagneticLink({
   className = "",
   style,
   onClick,
-  strength = 0.3,
+  strength = 0.3, // Strength prop is now decorative
   "data-cursor-rounded": dataCursorRounded,
 }: MagneticLinkProps) {
   return (

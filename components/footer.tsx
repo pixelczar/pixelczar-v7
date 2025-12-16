@@ -92,9 +92,9 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="text-center py-8">
-        <p className="text-base font-sans theme-transition text-muted-foreground max-w-lg mx-auto opacity-70">
-          This site was born in Figma, raised in Cursor, assembled pixel-by-pixel on Boston's beautiful North Shore. © 2025
+      <div className="text-center py-8 px-4 mt-8">
+        <p className="text-base font-sans theme-transition text-muted-foreground max-w-lg mx-auto opacity-70 max-w-md">
+          This site was born in Figma, raised in Cursor, assembled pixel-by-pixel on Boston's beautiful North Shore.  <span className="ml-4">© 2025</span>
         </p>
       </div>
     </motion.footer>

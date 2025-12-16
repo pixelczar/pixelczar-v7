@@ -187,57 +187,56 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
           </motion.div>
         ) : null}
 
-        {/* Title */}
+        {/* Title and Tags Row */}
         <motion.div 
-          className="flex items-center gap-2 mb-2"
+          className="flex items-center justify-between gap-4 mb-2"
           variants={cardTextVariants}
         >
-          {project.projectUrl ? (
-            <a 
-              href={project.projectUrl} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              data-cursor-rounded="full"
-              className="cursor-hover inline-flex items-center gap-3 px-2 py-1 rounded-full relative -left-2 group"
-            >
-              <h3 className="text-xl md:text-2xl font-semibold font-sans transition-colors duration-300 group-hover:text-accent">
+          <div className="flex items-center gap-2">
+            {project.projectUrl ? (
+              <a 
+                href={project.projectUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                data-cursor-rounded="full"
+                className="cursor-hover inline-flex items-center gap-3 px-2 py-1 rounded-full relative -left-2 group"
+              >
+                <h3 className="text-xl md:text-2xl font-semibold font-sans transition-colors duration-300 group-hover:text-accent">
+                  {project.title}
+                </h3>
+                <ArrowUpRight className="w-5 h-5 md:w-6 md:h-6 group-hover:text-accent transition-colors duration-300" />
+              </a>
+            ) : (
+              <h3 className="text-xl md:text-2xl font-semibold font-sans">
                 {project.title}
               </h3>
-              <ArrowUpRight className="w-5 h-5 md:w-6 md:h-6 group-hover:text-accent transition-colors duration-300" />
-            </a>
-          ) : (
-            <h3 className="text-xl md:text-2xl font-semibold font-sans">
-              {project.title}
-            </h3>
+            )}
+          </div>
+          
+          {/* Tags - Right Aligned */}
+          {project.tags && project.tags.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 justify-end">
+              {project.tags.slice(0, 3).map((tag, idx) => (
+                <span
+                  key={idx}
+                  className="text-xs px-2 py-0.5 rounded-full bg-muted/20 border text-muted-foreground font-sans"
+                  style={{ borderColor: 'color-mix(in srgb, var(--border) 70%, transparent)' }}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
           )}
         </motion.div>
         
         {/* Description */}
         {project.description && (
           <motion.p 
-            className="text-sm text-muted-foreground font-sans mb-4"
+            className="text-base text-muted-foreground font-sans mb-4"
             variants={cardTextVariants}
           >
             {toPlainText(project.description)}
           </motion.p>
-        )}
-        
-        {/* Tags */}
-        {project.tags && project.tags.length > 0 && (
-          <motion.div 
-            className="mb-4 flex flex-wrap gap-1.5"
-            variants={cardTextVariants}
-          >
-            {project.tags.slice(0, 3).map((tag, idx) => (
-              <span
-                key={idx}
-                className="text-xs px-2 py-0.5 rounded bg-muted/20 border text-muted-foreground font-sans"
-                style={{ borderColor: 'color-mix(in srgb, var(--border) 70%, transparent)' }}
-              >
-                {tag}
-              </span>
-            ))}
-          </motion.div>
         )}
       </motion.div>
     </motion.div>
@@ -346,7 +345,7 @@ export default function PlayPageClient({ projects, galleryItems }: PlayPageClien
         animate="visible"
       >
         {/* Header Content */}
-        <div className="max-w-4xl mx-auto mb-20">
+        <div className="max-w-3xl mx-auto mb-20">
           <motion.h1 variants={itemVariants} className="heading-display mb-8 text-center">
             <span className="lust-aalt">P</span>ixe<span className="lust-swsh">l</span>
             <span className="lust-ss03">s</span> <span className="lust-aalt">P</span>ushe
@@ -386,7 +385,7 @@ export default function PlayPageClient({ projects, galleryItems }: PlayPageClien
         {/* Gallery Section */}
         {galleryItems.length > 0 && (
           <>
-            <div className="max-w-4xl mx-auto mb-12">
+            <div className="max-w-3xl mx-auto mb-12">
               <motion.div
                 variants={itemVariants}
                 className="w-full h-px bg-accent/40 mx-auto mt-16 mb-6 theme-transition"

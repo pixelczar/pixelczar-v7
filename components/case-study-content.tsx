@@ -42,7 +42,7 @@ export const TwoColumnContainer = ({
   children: React.ReactNode
   reverse?: boolean 
 }) => (
-  <div className={`grid grid-cols-1 md:grid-cols-2 gap-8 my-12 ${reverse ? 'md:flex-row-reverse' : ''}`}>
+  <div className={`grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-8 my-12 ${reverse ? 'md:flex-row-reverse' : ''}`}>
     {children}
   </div>
 )
@@ -132,7 +132,7 @@ function CaseStudyImage({ value }: { value: any }) {
             width={1200}
             height={800}
             className="w-full h-auto max-h-[60vh] object-contain"
-            sizes="(max-width: 768px) 100vw, 50vw"
+            sizes="(max-width: 768px) 50vw, 50vw"
             quality={90}
           />
         </div>
@@ -248,7 +248,7 @@ function TwoColumnBlock({ value }: { value: any }) {
                 width={1200}
                 height={800}
                 className="w-full h-auto max-h-[60vh] object-contain"
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes="(max-width: 768px) 50vw, 50vw"
                 quality={90}
               />
             </div>

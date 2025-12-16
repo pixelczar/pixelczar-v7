@@ -84,7 +84,7 @@ export default function TimelineItem({
       {/* Content */}
       <div className="flex-1 flex flex-col md:flex-row gap-6 md:gap-8">
         {/* Left Column - Job Details */}
-        <div className="w-full md:w-2/5 space-y-4 md:space-y-6">
+        <div className="w-full md:w-2/5 space-y-4 md:4">
           <p className="text-sm md:text-base font-semibold theme-transition mb-4 md:mb-8" style={{ color: 'var(--muted-foreground)' }}>
             {job.dates} -
             <span

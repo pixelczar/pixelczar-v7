@@ -29,6 +29,16 @@ function toPlainText(value: unknown): string | undefined {
   return undefined
 }
 
+// Map specific case study titles to updated versions
+function mapCaseStudyTitle(title: string): string {
+  const titleMap: Record<string, string> = {
+    'Data Studio': 'Edit Demo Data Like a Spreadsheet',
+    'Encore': 'The Product for Selling Your Product',
+    'Replicate Capture Extension': 'Better Captures for Better Demos',
+  }
+  return titleMap[title] || title
+}
+
 export default async function WorkPage() {
   let caseStudies: CaseStudyListItem[] = []
   let galleryItems: GalleryItemClient[] = []
@@ -63,9 +73,10 @@ export default async function WorkPage() {
         alt: typeof img.alt === 'string' ? img.alt : cs.title,
       }))?.filter((img: any): img is { url: string; alt: string } => img.url !== null)
       
+      const originalTitle = String(cs.title || '')
       return {
         _id: String(cs._id || ''),
-        title: String(cs.title || ''),
+        title: mapCaseStudyTitle(originalTitle),
         slug: String(cs.slug || ''),
         company: typeof cs.company === 'string' ? cs.company : undefined,
         description: toPlainText(cs.description),

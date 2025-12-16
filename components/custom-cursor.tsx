@@ -32,8 +32,44 @@ export default function CustomCursor() {
   const [isVisible, setIsVisible] = useState(true);
   const [hideOuter, setHideOuter] = useState(false);
   const [hideBorder, setHideBorder] = useState(false);
+  const [isOverDark, setIsOverDark] = useState(false);
   const hasMouseMoved = useRef(false);
   const rafRef = useRef<number>();
+
+  // Helper function to get background color of element
+  const getBackgroundColor = (element: Element | null): string | null => {
+    if (!element) return null;
+    
+    const computed = window.getComputedStyle(element);
+    let bgColor = computed.backgroundColor;
+    
+    // If background is transparent, check parent
+    if (bgColor === 'rgba(0, 0, 0, 0)' || bgColor === 'transparent') {
+      const parent = element.parentElement;
+      if (parent && parent !== document.body) {
+        return getBackgroundColor(parent);
+      }
+      // Default to body background
+      return window.getComputedStyle(document.body).backgroundColor;
+    }
+    
+    return bgColor;
+  };
+
+  // Helper function to calculate brightness from RGB
+  const getBrightness = (rgb: string): number => {
+    // Parse rgb/rgba string
+    const match = rgb.match(/\d+/g);
+    if (!match || match.length < 3) return 128; // Default to medium brightness
+    
+    const r = parseInt(match[0]);
+    const g = parseInt(match[1]);
+    const b = parseInt(match[2]);
+    
+    // Calculate relative luminance (perceived brightness)
+    // Using the formula: 0.299*R + 0.587*G + 0.114*B
+    return (r * 0.299 + g * 0.587 + b * 0.114);
+  };
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
@@ -57,6 +93,17 @@ export default function CustomCursor() {
         
         mouseX.set(e.clientX);
         mouseY.set(e.clientY);
+
+        // Detect if cursor is over a dark element for dot inversion
+        const elementUnderCursor = document.elementFromPoint(e.clientX, e.clientY);
+        if (elementUnderCursor) {
+          const bgColor = getBackgroundColor(elementUnderCursor);
+          if (bgColor) {
+            const brightness = getBrightness(bgColor);
+            // If brightness is less than 128 (midpoint), it's dark
+            setIsOverDark(brightness < 128);
+          }
+        }
 
         // Check if the element or any parent has data-cursor-ignore
         const target = e.target as Element;
@@ -217,7 +264,15 @@ export default function CustomCursor() {
           translateX: -4,
           translateY: -4,
           opacity: isVisible ? 1 : 0,
-          backgroundColor: "var(--foreground)",
+        }}
+        animate={{
+          backgroundColor: isOverDark ? "white" : "var(--foreground)",
+        }}
+        transition={{
+          backgroundColor: {
+            duration: 0.2,
+            ease: "easeOut",
+          },
         }}
       />
     </>

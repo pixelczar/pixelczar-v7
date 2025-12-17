@@ -34,7 +34,7 @@ export default function CustomCursor() {
   const [hideBorder, setHideBorder] = useState(false);
   const [isOverDark, setIsOverDark] = useState(false);
   const hasMouseMoved = useRef(false);
-  const rafRef = useRef<number>();
+  const rafRef = useRef<number | undefined>(undefined);
 
   // Helper function to get background color of element
   const getBackgroundColor = (element: Element | null): string | null => {
@@ -264,15 +264,8 @@ export default function CustomCursor() {
           translateX: -4,
           translateY: -4,
           opacity: isVisible ? 1 : 0,
-        }}
-        animate={{
-          backgroundColor: isOverDark ? "white" : "var(--foreground)",
-        }}
-        transition={{
-          backgroundColor: {
-            duration: 0.2,
-            ease: "easeOut",
-          },
+          backgroundColor: "var(--foreground)",
+          mixBlendMode: "exclusion",
         }}
       />
     </>

@@ -44,7 +44,7 @@ function TiltImage({ image, title, index }: { image: { url: string; alt: string 
         transition={{
           type: "spring",
           stiffness: 300,
-          damping: 30,
+          damping: 50,
         }}
         style={{
           transformOrigin: 'center center',

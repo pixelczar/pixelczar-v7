@@ -328,7 +328,7 @@ export default function WorkPageClient({ caseStudies, experienceData, galleryIte
               </motion.div>
 
               {/* Colored Divider */}
-              <div className="max-w-4xl mx-auto">
+              <div className="max-w-3xl mx-auto mt-2">
                 <motion.div
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
@@ -342,7 +342,7 @@ export default function WorkPageClient({ caseStudies, experienceData, galleryIte
               </div>
 
               {/* Text with Magnetic Arrow */}
-              <div className="max-w-4xl mx-auto">
+              <div className="max-w-3xl mx-auto">
                 <motion.div
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}

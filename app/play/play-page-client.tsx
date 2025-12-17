@@ -131,8 +131,8 @@ function ProjectImage({ image, title, index }: { image: { url: string; alt: stri
         }}
         transition={{
           type: "spring",
-          stiffness: 500,
-          damping: 25,
+          stiffness: 600,
+          damping: 30,
         }}
         style={{
           transformOrigin: 'center center',

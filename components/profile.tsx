@@ -138,7 +138,7 @@ export default function Profile() {
           <h2 className="text-lg font-sans font-medium text-foreground">
             Will Smith
           </h2>
-          <p className="text-sm font-sans font-normal" style={{ color: 'var(--muted-foreground)' }}>
+          <p className="text-sm font-sans font-normal text-muted-foreground">
             Beverly, Massachusetts
           </p>
         </motion.div>
@@ -146,7 +146,7 @@ export default function Profile() {
 
       {/* Divider Line */}
       <motion.div 
-        className="h-px bg-accent w-32 mb-4"
+        className="h-px bg-accent/40 w-32 mb-4"
         variants={dividerVariants}
       />
 

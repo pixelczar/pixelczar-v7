@@ -76,7 +76,8 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="flex space-x-6">
+          {/* Social links hidden for now */}
+          {/* <div className="flex space-x-6">
             {socialLinks.map(({ name, href, label, icon }) => (
               <MagneticButton
                 key={name}
@@ -88,7 +89,7 @@ export default function Footer() {
                 <span aria-label={label} style={{ color: 'var(--muted-foreground)', opacity: 0.5 }}>{icon}</span>
               </MagneticButton>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
 

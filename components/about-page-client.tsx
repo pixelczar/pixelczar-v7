@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { itemVariants } from "@/lib/animations";
 import type { CaseStudyListItem } from '@/types/sanity'
 import AboutWorkGrid from '@/components/about-work-grid'
+import GridDistortion from '@/components/grid-distortion'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -30,7 +31,7 @@ export default function AboutPageClient({ caseStudies }: AboutPageClientProps) {
         initial="hidden"
         animate="visible"
       >
-        {/* Header Content - Centered and Constrained */}
+        {/* Giant Header */}
         <div className="max-w-3xl mx-auto mb-12">
           <motion.h1
             variants={itemVariants}
@@ -45,18 +46,28 @@ export default function AboutPageClient({ caseStudies }: AboutPageClientProps) {
           />
         </div>
 
-        {/* Content */}
-        <div className="max-w-3xl mx-auto">
+        {/* Will Smith Quote */}
+        <div className="max-w-3xl mx-auto mb-12">
           <motion.div variants={itemVariants} className="mb-6 theme-transition">
-            <p className="text-2xl text-accent leading-relaxed theme-transition font-light">
-              You've got to be creative when your name is Will Smith... the easy
-              domains are taken.
+            <p className="text-2xl text-primary theme-transition font-light">
+              You've got to be creative when your name is <span className="text-accent">Will Smith</span>... the easy domains are taken.
             </p>
           </motion.div>
+        </div>
 
-          <motion.div variants={itemVariants} className="mb-16 theme-transition">
-            <p className="text-base text-body-main leading-relaxed theme-transition">
-            I love the design; the experience, the typography, the colors, the creative problem solving that comes with complex systems. I think in patterns and care about the details and craft that bring it all together to be greater than the sum of its parts.           </p>
+        {/* Photo */}
+        <div className="max-w-6xl mx-auto mb-24">
+          <motion.div variants={itemVariants} className="">
+            <div className="relative overflow-hidden rounded-xl theme-transition aspect-[3/2] w-full">
+              <GridDistortion
+                imageSrc="/images/will-ocean-headshot.jpg"
+                grid={20}
+                mouse={0.15}
+                strength={0.2}
+                relaxation={0.92}
+                className="w-full h-full absolute inset-0"
+              />
+            </div>
           </motion.div>
         </div>
 
@@ -68,14 +79,14 @@ export default function AboutPageClient({ caseStudies }: AboutPageClientProps) {
         {/* Principles / Ethos */}
         <motion.div variants={itemVariants} className="mb-16 theme-transition max-w-3xl mx-auto">
           <h2 className="text-2xl font-normal my-8 font-sans text-foreground">Product & Design Ethos</h2>
-          <p className="text-lg text-body-main leading-relaxed theme-transition">
+          <p className="text-lg text-body-main theme-transition">
             These anecdotes and principles have stuck with me over the years, guiding my approach to designing and building.
           </p>
         </motion.div>
 
         <motion.div variants={itemVariants} className="max-w-6xl mx-auto mb-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 theme-transition">
-            <div className="text-base text-body-main leading-relaxed theme-transition">
+            <div className="text-base text-body-main theme-transition">
               <p className="mb-2 opacity-50 text-base theme-transition">01</p>
               <h3 className="text-4xl text-foreground tracking-tight font-medium mb-8">Everything is a product.</h3>
               <p className="text-lg">The words you're reading right now are a product. This site is a product. It has a job to be done. It has <span className="line-through">users</span> humans, stakeholders, and other products interacting with it.</p>
@@ -107,22 +118,6 @@ export default function AboutPageClient({ caseStudies }: AboutPageClientProps) {
             </div>
           </div>
         </motion.div>
-
-        {/* Photo */}
-        <div className="max-w-6xl mx-auto mt-32">
-          <motion.div variants={itemVariants} className="">
-            <div className="relative overflow-hidden rounded-lg md:rounded-xl theme-transition">
-              <Image
-                src="/images/will-ocean-headshot.jpg"
-                alt="Will Smith"
-                width={500}
-                height={700}
-                className="w-full h-auto object-cover theme-transition"
-                priority
-              />
-            </div>
-          </motion.div>
-        </div>
 
         {/* Work Grid with Link */}
         <AboutWorkGrid caseStudies={caseStudies} />

@@ -46,6 +46,7 @@
     "@sanity/image-url": "^1.2.0",
     "@sanity/orderable-document-list": "^1.4.0",
     "@sanity/vision": "^3.99.0",
+    "@types/three": "^0.182.0",
     "@vercel/analytics": "^1.6.1",
     "autoprefixer": "^10.4.20",
     "class-variance-authority": "^0.7.1",
@@ -73,6 +74,7 @@
     "styled-components": "^6.1.19",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
+    "three": "^0.182.0",
     "vaul": "^1.1.2",
     "zod": "^3.24.1"
   },

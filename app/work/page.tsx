@@ -7,7 +7,7 @@ import type { CaseStudyListItem, GalleryItemClient } from '@/types/sanity'
 export const revalidate = 60
 
 export const metadata = {
-  title: 'Work | Pixelczar',
+  title: 'Work • Will Smith',
   description: 'Case studies, portfolio projects, and professional experience',
 }
 

@@ -4,8 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
-import { ThemeToggle } from "@/components/theme-toggle";
-import DarkThemePicker from "@/components/dark-theme-picker";
+import ThemeSwatches from "@/components/theme-swatches";
 import AnimatedLogo from "@/components/animated-logo";
 import MagneticLink from "@/components/magnetic-link";
 import MagneticWrapper from "@/components/magnetic-wrapper";
@@ -100,9 +99,8 @@ export default function Header() {
           strength={0.3}
           data-cursor-rounded="full"
         >
-          <div className="pt-0.5 flex items-center gap-3 pl-6">
-            <DarkThemePicker />
-            <ThemeToggle />
+          <div className="pt-0.5 flex items-center pl-6">
+            <ThemeSwatches />
           </div>
         </MagneticWrapper>
       </motion.nav>
@@ -112,9 +110,8 @@ export default function Header() {
           strength={0.3}
           data-cursor-rounded="full"
         >
-          <div className="flex items-center space-x-4">
-            <DarkThemePicker />
-            <ThemeToggle />
+          <div className="flex items-center">
+            <ThemeSwatches />
           </div>
         </MagneticWrapper>
         <button

@@ -148,6 +148,7 @@ export interface CaseStudyListItem {
   mainImage?: {
     url: string
     alt: string
+    caption?: string
   }
   mainVideo?: {
     url: string

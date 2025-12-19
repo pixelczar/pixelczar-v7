@@ -1,8 +1,10 @@
 'use client'
 
 import Image from 'next/image'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
+import { useState } from 'react'
+import { Skeleton } from '@/components/ui/skeleton'
 import type { ProjectListItem, GalleryItemClient } from '@/types/sanity'
 import { itemVariants, smoothEase } from '@/lib/animations'
 
@@ -120,8 +122,25 @@ function toPlainText(value: unknown): string {
 
 // Project image component - expands on hover to show larger crisp image
 function ProjectImage({ image, title, index }: { image: { url: string; alt: string }; title: string; index: number }) {
+  const [isLoading, setIsLoading] = useState(true)
+  const [hasError, setHasError] = useState(false)
+
   return (
     <div className="relative w-full aspect-[4/3]">
+      {/* Loading skeleton */}
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="absolute inset-0 rounded-md overflow-hidden"
+          >
+            <Skeleton className="w-full h-full" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <motion.div 
         className="absolute inset-0 rounded-md cursor-pointer overflow-hidden shadow-lg"
         initial={false}
@@ -129,25 +148,40 @@ function ProjectImage({ image, title, index }: { image: { url: string; alt: stri
           scale: 1.5,
           zIndex: 50,
         }}
+        animate={{
+          opacity: isLoading ? 0 : 1,
+        }}
         transition={{
           type: "spring",
           stiffness: 600,
           damping: 30,
+          opacity: { duration: 0.3 },
         }}
         style={{
           transformOrigin: 'center center',
         }}
         data-cursor-ignore
       >
-        <Image
-          src={image.url}
-          alt={image.alt || `${title} - Image ${index + 1}`}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-          quality={100}
-          unoptimized={true}
-        />
+        {!hasError ? (
+          <Image
+            src={image.url}
+            alt={image.alt || `${title} - Image ${index + 1}`}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 600px"
+            quality={85}
+            loading="lazy"
+            onLoad={() => setIsLoading(false)}
+            onError={() => {
+              setIsLoading(false)
+              setHasError(true)
+            }}
+          />
+        ) : (
+          <div className="w-full h-full bg-muted/20 flex items-center justify-center">
+            <span className="text-xs text-muted-foreground">Failed to load</span>
+          </div>
+        )}
       </motion.div>
     </div>
   )
@@ -245,6 +279,9 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
 
 // Gallery item component - all 4:3 ratio, rounded-lg
 function GalleryItemComponent({ item, index }: { item: GalleryItemClient; index: number }) {
+  const [isLoading, setIsLoading] = useState(true)
+  const [hasError, setHasError] = useState(false)
+  
   const sizeClasses = {
     small: 'w-full md:w-[calc(33.333%-1rem)]',
     medium: 'w-full md:w-[calc(50%-0.75rem)]',
@@ -264,6 +301,20 @@ function GalleryItemComponent({ item, index }: { item: GalleryItemClient; index:
       className={`${sizeClasses[item.size]} relative overflow-hidden rounded-lg bg-black/40 group`}
     >
       <div className={`relative w-full ${item.type === 'video' || item.size !== 'large' ? 'aspect-[4/3]' : ''}`}>
+        {/* Loading skeleton */}
+        <AnimatePresence>
+          {isLoading && item.type !== 'video' && (
+            <motion.div
+              initial={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="absolute inset-0"
+            >
+              <Skeleton className="w-full h-full" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {item.type === 'video' ? (
           item.videoUrl ? (
             <a 
@@ -289,6 +340,7 @@ function GalleryItemComponent({ item, index }: { item: GalleryItemClient; index:
               muted
               playsInline
               className="absolute inset-0 w-full h-full object-cover"
+              onLoadedData={() => setIsLoading(false)}
             />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center bg-muted/50">
@@ -304,25 +356,55 @@ function GalleryItemComponent({ item, index }: { item: GalleryItemClient; index:
           )
         ) : item.size === 'large' ? (
           <div className="relative w-full">
-            <Image
-              src={item.src}
-              alt={item.alt}
-              width={1200}
-              height={800}
-              className="w-full h-auto object-contain"
-              sizes="100vw"
-              quality={90}
-            />
+            {!hasError ? (
+              <Image
+                src={item.src}
+                alt={item.alt}
+                width={1200}
+                height={800}
+                className="w-full h-auto object-contain"
+                sizes="100vw"
+                quality={85}
+                loading="lazy"
+                onLoad={() => setIsLoading(false)}
+                onError={() => {
+                  setIsLoading(false)
+                  setHasError(true)
+                }}
+              />
+            ) : (
+              <div className="w-full aspect-[4/3] bg-muted/20 flex items-center justify-center">
+                <span className="text-xs text-muted-foreground">Failed to load</span>
+              </div>
+            )}
           </div>
         ) : (
-          <Image
-            src={item.src}
-            alt={item.alt}
-            fill
-            className="object-contain"
-            sizes={item.size === 'medium' ? '50vw' : '33vw'}
-            quality={90}
-          />
+          <>
+            {!hasError ? (
+              <Image
+                src={item.src}
+                alt={item.alt}
+                fill
+                className="object-contain"
+                sizes={item.size === 'medium' ? '50vw' : '33vw'}
+                quality={85}
+                loading="lazy"
+                onLoad={() => setIsLoading(false)}
+                onError={() => {
+                  setIsLoading(false)
+                  setHasError(true)
+                }}
+                style={{
+                  opacity: isLoading ? 0 : 1,
+                  transition: 'opacity 0.3s ease-in-out',
+                }}
+              />
+            ) : (
+              <div className="absolute inset-0 bg-muted/20 flex items-center justify-center">
+                <span className="text-xs text-muted-foreground">Failed to load</span>
+              </div>
+            )}
+          </>
         )}
         
         {item.caption && (
@@ -348,7 +430,7 @@ export default function PlayPageClient({ projects, galleryItems }: PlayPageClien
         <div className="max-w-3xl mx-auto mb-20">
           <motion.h1 variants={itemVariants} className="heading-display mb-8 text-center">
             <span className="lust-aalt">P</span>ixe<span className="lust-swsh">l</span>
-            <span className="lust-ss03">s</span> <span className="lust-aalt">P</span>ushe
+            <span className="lust-ss03">s</span> <span className="">P</span>ushe
             <span className="lust-swsh">d</span>
           </motion.h1>
 

@@ -8,6 +8,7 @@ import { memo } from 'react'
 import type { CaseStudyListItem } from '@/types/sanity'
 import { itemVariants } from '@/lib/animations'
 import MagneticWrapper from '@/components/magnetic-wrapper'
+import { ImageTooltip } from '@/components/image-tooltip'
 
 interface CaseStudyCardProps {
   caseStudy: CaseStudyListItem
@@ -23,59 +24,72 @@ function MainMedia({
   const videoUrl = caseStudy.mainVideoUrl || caseStudy.mainVideo?.url
   const imageUrl = caseStudy.mainImage?.url
 
+  // Get tooltip text: prefer image caption, then shortDescription, then title
+  // Skip description as it's usually too long for a tooltip
+  const tooltipText = 
+    caseStudy.mainImage?.caption || 
+    caseStudy.shortDescription || 
+    caseStudy.title
+
   if (isVideo && videoUrl) {
     // External video URL (YouTube, Vimeo, etc.)
     if (caseStudy.mainVideoUrl) {
       return (
-        <div className="relative w-full aspect-video overflow-hidden rounded-md bg-primary/10 shadow-lg">
-          <a
-            href={videoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="absolute inset-0 flex items-center justify-center bg-muted/50 hover:bg-muted/70 transition-colors"
-          >
-            <div className="text-center">
-              <div className="w-12 h-12 rounded-full bg-accent/80 flex items-center justify-center mb-2 mx-auto">
-                <svg className="w-5 h-5 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
+        <ImageTooltip text={tooltipText}>
+          <div className="relative w-full aspect-video overflow-hidden rounded-md bg-primary/10 shadow-lg" data-cursor-ignore>
+            <a
+              href={videoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="absolute inset-0 flex items-center justify-center bg-muted/50 hover:bg-muted/70 transition-colors"
+            >
+              <div className="text-center">
+                <div className="w-12 h-12 rounded-full bg-accent/80 flex items-center justify-center mb-2 mx-auto">
+                  <svg className="w-5 h-5 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+                <span className="text-xs text-muted-foreground">Play Video</span>
               </div>
-              <span className="text-xs text-muted-foreground">Play Video</span>
-            </div>
-          </a>
-        </div>
+            </a>
+          </div>
+        </ImageTooltip>
       )
     }
     // Uploaded video file
     return (
-      <div className="relative w-full aspect-video overflow-hidden rounded-md bg-primary/10 shadow-lg">
-        <video
-          src={videoUrl}
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-      </div>
+      <ImageTooltip text={tooltipText}>
+        <div className="relative w-full aspect-video overflow-hidden rounded-md bg-primary/10 shadow-lg" data-cursor-ignore>
+          <video
+            src={videoUrl}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        </div>
+      </ImageTooltip>
     )
   }
 
   if (imageUrl) {
     return (
-      <div
-        className="relative w-full aspect-video overflow-hidden rounded-md bg-primary/10 shadow-lg"
-        data-cursor-ignore
-      >
-        <Image
-          src={imageUrl}
-          alt={caseStudy.mainImage?.alt || caseStudy.title}
-          fill
-          className="object-contain"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
-          quality={90}
-        />
-      </div>
+      <ImageTooltip text={tooltipText}>
+        <div
+          className="relative w-full aspect-video overflow-hidden rounded-md bg-primary/10 shadow-lg"
+          data-cursor-ignore
+        >
+          <Image
+            src={imageUrl}
+            alt={caseStudy.mainImage?.alt || caseStudy.title}
+            fill
+            className="object-contain"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
+            quality={90}
+          />
+        </div>
+      </ImageTooltip>
     )
   }
 

@@ -21,7 +21,7 @@ const archivo = Archivo({
 export const metadata = {
   title: {
     default: "Will Smith - Product Designer & Design Leader",
-    template: "%s | Will Smith",
+    template: "%s • Will Smith",
   },
   description:
     "Product design, leadership, visuals, systems thinking, brand, and prototypes. 15+ years designing at high-growth venture-backed startups.",

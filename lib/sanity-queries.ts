@@ -73,6 +73,7 @@ const CASE_STUDY_LIST_FIELDS = `
   mainImage {
     asset,
     alt,
+    caption,
     hotspot,
     crop
   },

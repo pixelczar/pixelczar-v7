@@ -156,9 +156,37 @@
     font-style: italic;
     line-height: 1.1;
     letter-spacing: -0.025em;
-    transition: color 0.3s ease;
+    transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "dlig" 1, "ss01" 1, "ss02" 1, "ss03" 1, "ss04" 1, "ss05" 1, "ss06" 1, "ss07" 1, "ss08" 1, "swsh" 1, "cswh" 1, "salt" 1;
     /* Enable all stylistic sets and alternates for Lust Display */
+  }
+
+  /* Disable transitions on heading-display during theme changes to prevent flicker */
+  html.theme-changing h1.heading-display,
+  html.theme-changing h1.heading-display span {
+    transition: none !important;
+  }
+
+  /* Prevent flicker on spans with stylistic font features during theme changes */
+  html.theme-changing .lust-aalt,
+  html.theme-changing .lust-swsh,
+  html.theme-changing .lust-ss03,
+  html.theme-changing .lust-salt,
+  html.theme-changing .lust-cswh,
+  html.theme-changing .lust-ss01,
+  html.theme-changing .lust-ss02,
+  html.theme-changing .lust-ss04,
+  html.theme-changing .lust-ss05,
+  html.theme-changing .lust-ss06,
+  html.theme-changing .lust-ss07,
+  html.theme-changing .lust-ss08 {
+    transition: none !important;
+    transition-property: none !important;
+    will-change: auto !important;
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translateZ(0); /* Force hardware acceleration */
   }
 
   h2 {
@@ -366,6 +394,11 @@
     transition-property: none !important;
   }
 
+  /* Exclude motion elements from color transitions to prevent flicker */
+  [style*="--framer"] {
+    transition-property: none !important;
+  }
+
   /* During theme changes, ensure smooth transitions without flicker */
   /* Force consistent transitions during theme change to prevent multiple restarts */
   html.theme-changing * {
@@ -381,7 +414,16 @@
   html.theme-changing canvas,
   html.theme-changing iframe,
   html.theme-changing [data-framer-component],
-  html.theme-changing [data-framer-name] {
+  html.theme-changing [data-framer-name],
+  html.theme-changing [style*="--framer"] {
+    transition-property: none !important;
+  }
+
+  /* Exclude motion h1 elements from color transitions to prevent character flicker */
+  html.theme-changing h1[style*="--framer"],
+  html.theme-changing .heading-display[style*="--framer"],
+  html.theme-changing h1.heading-display,
+  html.theme-changing h1.heading-display * {
     transition-property: none !important;
   }
 

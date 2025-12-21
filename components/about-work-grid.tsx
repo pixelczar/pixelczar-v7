@@ -12,7 +12,7 @@ interface AboutWorkGridProps {
 }
 
 export default function AboutWorkGrid({ caseStudies }: AboutWorkGridProps) {
-  // Get first 3 case studies with media, excluding encore
+  // Get first 2 case studies with media, excluding encore
   const gridItems = caseStudies
     .filter((cs) => {
       const hasMedia = cs.mainImage || cs.mainVideo
@@ -21,16 +21,9 @@ export default function AboutWorkGrid({ caseStudies }: AboutWorkGridProps) {
       const isEncore = title.includes('encore') || alt.includes('encore')
       return hasMedia && !isEncore
     })
-    .slice(0, 3)
+    .slice(0, 2)
 
   if (gridItems.length === 0) return null
-
-  // Identify Data Studio item
-  const isDataStudio = (item: CaseStudyListItem) => 
-    item.title?.toLowerCase().includes('data studio') || 
-    item.title?.toLowerCase().includes('datastudio') ||
-    item.mainImage?.alt?.toLowerCase().includes('data studio') ||
-    item.mainImage?.alt?.toLowerCase().includes('datastudio')
 
   return (
     <div className="max-w-6xl mx-auto mt-24 md:mt-32">
@@ -43,13 +36,12 @@ export default function AboutWorkGrid({ caseStudies }: AboutWorkGridProps) {
           duration: 0.8,
           ease: [0.25, 0.1, 0.25, 1],
         }}
-        className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-6"
+        className="grid grid-cols-2 gap-4 md:gap-6 mb-6"
       >
         {gridItems.map((item, index) => (
           <Link 
             key={item._id} 
             href="/work"
-            className={isDataStudio(item) ? 'hidden md:block' : ''}
           >
             <motion.div
               initial={{ opacity: 0, y: 20 }}

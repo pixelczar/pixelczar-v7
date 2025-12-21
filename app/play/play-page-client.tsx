@@ -144,21 +144,11 @@ function ProjectImage({ image, title, index }: { image: { url: string; alt: stri
       <motion.div 
         className="absolute inset-0 rounded-md cursor-pointer overflow-hidden shadow-lg"
         initial={false}
-        whileHover={{ 
-          scale: 1.5,
-          zIndex: 50,
-        }}
         animate={{
           opacity: isLoading ? 0 : 1,
         }}
         transition={{
-          type: "spring",
-          stiffness: 600,
-          damping: 30,
           opacity: { duration: 0.3 },
-        }}
-        style={{
-          transformOrigin: 'center center',
         }}
         data-cursor-ignore
       >
@@ -168,7 +158,7 @@ function ProjectImage({ image, title, index }: { image: { url: string; alt: stri
             alt={image.alt || `${title} - Image ${index + 1}`}
             fill
             className="object-cover"
-            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 600px"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1200px"
             quality={85}
             loading="lazy"
             onLoad={() => setIsLoading(false)}
@@ -200,13 +190,13 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
         className="bg-card/30 rounded-xl"
         variants={cardContentVariants}
       >
-        {/* Gallery Images - Above Title (show 2 images) */}
+        {/* Gallery Images - Above Title (show 1 image) */}
         {project.gallery && project.gallery.length > 0 ? (
           <motion.div 
-            className="grid grid-cols-2 gap-6 mb-6"
+            className="grid grid-cols-1 gap-6 mb-6"
             variants={imageGridVariants}
           >
-            {project.gallery.slice(0, 2).map((image, idx) => (
+            {project.gallery.slice(0, 1).map((image, idx) => (
               <motion.div key={idx} variants={cardImageVariants}>
                 <ProjectImage image={image} title={project.title} index={idx} />
               </motion.div>
@@ -226,14 +216,14 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
           className="flex items-center justify-between gap-4 mb-2"
           variants={cardTextVariants}
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             {project.projectUrl ? (
               <a 
                 href={project.projectUrl} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 data-cursor-rounded="full"
-                className="cursor-hover inline-flex items-center gap-3 px-2 py-1 rounded-full relative -left-2 group"
+                className="cursor-hover inline-flex items-center gap-1 px-2 py-1 mb-1 rounded-full relative -left-2 group"
               >
                 <h3 className="text-xl md:text-2xl font-semibold font-sans transition-colors duration-300 group-hover:text-accent">
                   {project.title}
@@ -249,12 +239,11 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
           
           {/* Tags - Right Aligned */}
           {project.tags && project.tags.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 justify-end">
-              {project.tags.slice(0, 3).map((tag, idx) => (
+            <div className="flex flex-wrap gap-1 justify-end">
+              {project.tags.slice(0, 2).map((tag, idx) => (
                 <span
                   key={idx}
-                  className="text-xs px-2 py-0.5 rounded-full bg-muted/20 border text-muted-foreground font-sans"
-                  style={{ borderColor: 'color-mix(in srgb, var(--border) 70%, transparent)' }}
+                  className="text-xs px-1.5 py-0.5 rounded-full border opacity-80 text-muted-foreground font-sans"
                 >
                   {tag}
                 </span>
@@ -448,7 +437,7 @@ export default function PlayPageClient({ projects, galleryItems }: PlayPageClien
           </motion.div>
         </div>
 
-        {/* Projects Section - 2 Column Grid */}
+        {/* Projects Section - 3 Column Grid */}
         {projects.length > 0 && (
           <motion.div 
             className="max-w-7xl mx-auto mb-24"
@@ -456,7 +445,7 @@ export default function PlayPageClient({ projects, galleryItems }: PlayPageClien
             initial="hidden"
             animate="visible"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
               {projects.map((project, index) => (
                 <ProjectCard key={project._id} project={project} index={index} />
               ))}

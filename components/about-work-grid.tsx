@@ -26,7 +26,7 @@ export default function AboutWorkGrid({ caseStudies }: AboutWorkGridProps) {
   if (gridItems.length === 0) return null
 
   return (
-    <div className="max-w-6xl mx-auto mt-24 md:mt-32">
+    <div className="max-w-7xl mx-auto mt-24 md:mt-32">
       {/* Grid Items - 2 on mobile, 4 on desktop */}
       <motion.div
         initial={{ opacity: 0 }}

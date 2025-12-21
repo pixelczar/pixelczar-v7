@@ -28,7 +28,7 @@ export const NarrowTextContainer = ({ children }: { children: React.ReactNode })
 // Full-width container for images that break out
 export const FullWidthContainer = ({ children }: { children: React.ReactNode }) => (
   <div className="relative left-1/2 -translate-x-1/2 my-12">
-    <div className="w-full max-w-6xl mx-auto">
+    <div className="w-full max-w-7xl mx-auto">
       {children}
     </div>
   </div>

@@ -56,7 +56,7 @@ export default async function WorkPage() {
 
         {/* Recent Projects Section */}
         {projectsWithImages.length > 0 && (
-          <div className="max-w-6xl mx-auto mb-24">
+          <div className="max-w-7xl mx-auto mb-24">
             <h2 className="text-3xl font-normal mb-12 font-sans">Recent Projects</h2>
             <div>
               {projectsWithImages.slice(0, 6).map((project, index) => (

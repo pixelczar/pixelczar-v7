@@ -56,7 +56,7 @@ export default function AboutPageClient({ caseStudies }: AboutPageClientProps) {
         </div>
 
         {/* Photo */}
-        <div className="max-w-6xl mx-auto mb-24">
+        <div className="max-w-7xl mx-auto mb-24">
           <motion.div variants={itemVariants} className="">
             <div className="relative overflow-hidden rounded-xl theme-transition aspect-[3/2] w-full">
               <GridDistortion
@@ -84,7 +84,7 @@ export default function AboutPageClient({ caseStudies }: AboutPageClientProps) {
           </p>
         </motion.div>
 
-        <motion.div variants={itemVariants} className="max-w-6xl mx-auto mb-12">
+        <motion.div variants={itemVariants} className="max-w-7xl mx-auto mb-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 theme-transition">
             <div className="text-base text-body-main theme-transition">
               <p className="mb-2 opacity-50 text-base theme-transition">01</p>

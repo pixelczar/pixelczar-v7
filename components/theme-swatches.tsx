@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 import { motion } from 'framer-motion'
 import MagneticWrapper from '@/components/magnetic-wrapper'
+import { ImageTooltip } from '@/components/image-tooltip'
 
 type ThemeOption = 'light' | 'dark-original' | 'dark-teal'
 
@@ -19,14 +20,14 @@ interface ThemeSwatch {
 const swatches: ThemeSwatch[] = [
   {
     id: 'light',
-    label: 'Light theme',
+    label: 'OG Light',
     backgroundColor: '#ffffff', // white
     borderColor: '#ffffff', // white
     theme: 'light',
   },
   {
     id: 'dark-original',
-    label: 'Original dark theme',
+    label: 'OG Dark',
     backgroundColor: 'hsl(340 71% 56%)', // accent color from dark original theme
     borderColor: 'hsl(340 71% 56%)', // accent color from dark original theme
     theme: 'dark',
@@ -34,7 +35,7 @@ const swatches: ThemeSwatch[] = [
   },
   {
     id: 'dark-teal',
-    label: 'Teal dark theme',
+    label: 'Czarface',
     backgroundColor: 'hsl(65 100% 50%)', // accent color from dark teal theme
     borderColor: 'hsl(65 100% 50%)', // accent color from dark teal theme
     theme: 'dark',
@@ -195,32 +196,32 @@ export default function ThemeSwatches() {
           : swatch.backgroundColor
         
         return (
-          <MagneticWrapper
-            key={swatch.id}
-            strength={0.3}
-            data-cursor-rounded="full"
-            className="p-0.5"
-          >
-            <motion.button
-              onClick={() => handleSwatchClick(swatch)}
-              className={`cursor-hover relative w-5 h-5 rounded-md border focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background group ${
-                hasInitialized ? 'transition-all duration-300' : ''
-              }`}
-              style={{
-                backgroundColor: isSelected 
-                  ? colorToRgba(fillColor, 0.2) // 30% fill when active
-                  : colorToRgba(fillColor, 0.3), // 60% fill when inactive
-                borderColor: borderColor, // Border color - dark for light swatch in light mode
-                opacity: isSelected ? 1 : 0.6, // Element opacity: 100% when active, 60% when inactive (affects border too)
-              }}
-              whileHover={{ 
-                opacity: 1, // 100% on hover
-                backgroundColor: colorToRgba(fillColor, 1), // Full opacity fill on hover
-              }}
-              aria-label={swatch.label}
-              title={swatch.label}
-            />
-          </MagneticWrapper>
+          <ImageTooltip key={swatch.id} text={swatch.label} alignRight>
+            <MagneticWrapper
+              strength={0.3}
+              data-cursor-rounded="full"
+              className="p-0.5"
+            >
+              <motion.button
+                onClick={() => handleSwatchClick(swatch)}
+                className={`cursor-hover relative w-5 h-5 rounded-md border focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background group ${
+                  hasInitialized ? 'transition-all duration-300' : ''
+                }`}
+                style={{
+                  backgroundColor: isSelected 
+                    ? colorToRgba(fillColor, 0.2) // 30% fill when active
+                    : colorToRgba(fillColor, 0.3), // 60% fill when inactive
+                  borderColor: borderColor, // Border color - dark for light swatch in light mode
+                  opacity: isSelected ? 1 : 0.6, // Element opacity: 100% when active, 60% when inactive (affects border too)
+                }}
+                whileHover={{ 
+                  opacity: 1, // 100% on hover
+                  backgroundColor: colorToRgba(fillColor, 1), // Full opacity fill on hover
+                }}
+                aria-label={swatch.label}
+              />
+            </MagneticWrapper>
+          </ImageTooltip>
         )
       })}
     </div>

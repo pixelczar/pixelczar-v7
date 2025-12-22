@@ -19,7 +19,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://pixelczar.com/archive</loc>
+    <loc>https://pixelczar.com/play</loc>
+    <lastmod>2025-11-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pixelczar.com/studio</loc>
     <lastmod>2025-11-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>

@@ -7,7 +7,7 @@ export const revalidate = 60
 
 export const metadata = {
   title: 'About | Pixelczar',
-  description: 'About Will Smith - Product designer and design leader',
+  description: 'About Will Smith - Product Designer and Design Leader',
 }
 
 // Helper to extract plain text from potentially Portable Text fields
@@ -46,14 +46,14 @@ export default async function AboutPage() {
         let imageUrl = null
         let videoUrl = null
         let videoAssetUrl = null
-        
+
         if (isVideo) {
           videoUrl = typeof cs.mainVideoUrl === 'string' ? cs.mainVideoUrl : undefined
           videoAssetUrl = cs.mainVideo?.asset?.url || null
         } else {
           imageUrl = cs.mainImage ? buildImageUrl(cs.mainImage, 1200) : null
         }
-        
+
         return {
           _id: String(cs._id || ''),
           title: String(cs.title || ''),
@@ -68,9 +68,9 @@ export default async function AboutPage() {
           mainMediaType: isVideo ? 'video' : 'image',
           mainImage: imageUrl
             ? {
-                url: imageUrl,
-                alt: typeof cs.mainImage?.alt === 'string' ? cs.mainImage.alt : cs.title,
-              }
+              url: imageUrl,
+              alt: typeof cs.mainImage?.alt === 'string' ? cs.mainImage.alt : cs.title,
+            }
             : undefined,
           mainVideo: videoAssetUrl ? { url: videoAssetUrl } : undefined,
           mainVideoUrl: videoUrl,

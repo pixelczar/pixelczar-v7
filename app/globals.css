@@ -99,7 +99,7 @@
   /* Deep teal theme variant (more blue-tinted) */
   .dark[data-dark-variant="teal"] {
     --background: #070d10;
-    --foreground: #e0f2f5;
+    --foreground: #FFFFFF;
     --card: #0a1f2a;
     --card-foreground: #e0f2f5;
     --popover: #0a1f2a;

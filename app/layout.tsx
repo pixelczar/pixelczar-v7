@@ -43,7 +43,7 @@ export const metadata = {
     type: "website",
     locale: "en_US",
     url: "https://pixelczar.com",
-    siteName: "Will Smith - Product Designer",
+    siteName: "Will Smith - Designer & Builder",
     title: "Will Smith - Product Designer & Design Leader",
     description:
       "Product design, leadership, visuals, systems thinking, brand, and prototypes. 15+ years designing at high-growth venture-backed startups.",

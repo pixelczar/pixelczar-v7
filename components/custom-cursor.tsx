@@ -153,9 +153,9 @@ export default function CustomCursor() {
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
             
-            // Override mouse position to snap to element center
-            mouseX.set(centerX);
-            mouseY.set(centerY);
+            // Snap outer ring to element center while keeping inner dot free to move
+            cursorX.set(centerX);
+            cursorY.set(centerY);
             offsetX.set(-size / 2);
             offsetY.set(-size / 2);
             cursorWidth.set(size);
@@ -166,9 +166,9 @@ export default function CustomCursor() {
             const newHeight = rect.height + padding;
             const newBorderRadius = hasRoundedFull ? newHeight / 2 : 8;
             
-            // Snap cursor to element position
-            mouseX.set(rect.left + rect.width / 2);
-            mouseY.set(rect.top + rect.height / 2);
+            // Snap outer ring to element position while keeping inner dot free to move
+            cursorX.set(rect.left + rect.width / 2);
+            cursorY.set(rect.top + rect.height / 2);
             offsetX.set(-newWidth / 2);
             offsetY.set(-newHeight / 2);
             cursorWidth.set(newWidth);

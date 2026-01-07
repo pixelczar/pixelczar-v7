@@ -99,7 +99,7 @@ export default function Header() {
           strength={0.3}
           data-cursor-rounded="full"
         >
-          <div className="pt-0.5 flex items-center pl-6">
+          <div className="pt-0.5 flex items-center">
             <ThemeSwatches />
           </div>
         </MagneticWrapper>

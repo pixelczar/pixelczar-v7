@@ -20,7 +20,7 @@ interface ThemeSwatch {
 const swatches: ThemeSwatch[] = [
   {
     id: 'light',
-    label: 'OG Light',
+    label: 'Polar Express',
     backgroundColor: '#ffffff', // white
     borderColor: '#ffffff', // white
     theme: 'light',
@@ -167,7 +167,7 @@ export default function ThemeSwatches() {
 
   return (
     <div 
-      className="flex items-center gap-1.5 h-5" 
+      className="flex items-center h-5 -space-x-2" 
       style={{ 
         width: '5.5rem', // Fixed width: 3 swatches (1.5rem each with padding) + 2 gaps (0.5rem each) = 5.5rem
         opacity: mounted ? 1 : 0,
@@ -177,41 +177,53 @@ export default function ThemeSwatches() {
     >
       {swatches.map((swatch) => {
         const isSelected = currentTheme === swatch.id
-        // Use dark border and dark fill for light swatch when in light mode
-        const borderColor = swatch.id === 'light' && isLightMode 
-          ? '#2d3748' // Use foreground color from light theme
-          : swatch.borderColor
         
-        // For light swatch in light mode, use dark color for fill
-        const fillColor = swatch.id === 'light' && isLightMode
-          ? '#2d3748' // Dark color for fill
-          : swatch.backgroundColor
+        // Light mode overrides for each swatch
+        let borderColor = swatch.borderColor
+        let fillColor = swatch.backgroundColor
+        
+        if (isLightMode) {
+          if (swatch.id === 'light') {
+            borderColor = '#f0f1f2'
+            fillColor = '#f0f1f2'
+          } else if (swatch.id === 'dark-original') {
+            // OG Pink: pink border, pink bg
+            borderColor = swatch.backgroundColor // pink
+            fillColor = swatch.backgroundColor // pink
+          } else if (swatch.id === 'dark-teal') {
+            // Czarface: dark border, yellow bg
+            borderColor = '#1a1a1a'
+            fillColor = swatch.backgroundColor // yellow
+          }
+        }
         
         return (
           <ImageTooltip key={swatch.id} text={swatch.label} alignRight>
             <MagneticWrapper
               strength={0.3}
-              data-cursor-rounded="full"
-              className="p-1"
+              className=""
             >
               <motion.button
                 onClick={() => handleSwatchClick(swatch)}
-                className={`cursor-hover relative w-4 h-4 rounded border focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background group ${
+                data-cursor-rounded="full"
+                className={`cursor-hover relative w-8 h-8 rounded-full flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 transition-all focus:ring-offset-background group ${
                   hasInitialized ? 'transition-all duration-300' : ''
                 }`}
-                style={{
-                  backgroundColor: isSelected 
-                    ? colorToRgba(fillColor, 0.2) // 30% fill when active
-                    : colorToRgba(fillColor, 0.3), // 60% fill when inactive
-                  borderColor: borderColor, // Border color - dark for light swatch in light mode
-                  opacity: isSelected ? 1 : 0.6, // Element opacity: 100% when active, 60% when inactive (affects border too)
-                }}
                 whileHover={{ 
                   opacity: 1, // 100% on hover
-                  backgroundColor: colorToRgba(fillColor, 1), // Full opacity fill on hover
                 }}
                 aria-label={swatch.label}
-              />
+              >
+                <span 
+                  className={`w-2.5 h-2.5 border ${hasInitialized ? 'transition-all duration-300' : ''}`}
+                  style={{
+                    backgroundColor: isSelected 
+                      ? colorToRgba(fillColor, 1) 
+                      : colorToRgba(fillColor, 1), 
+                    borderColor: borderColor,
+                  }}
+                />
+              </motion.button>
             </MagneticWrapper>
           </ImageTooltip>
         )

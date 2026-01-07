@@ -221,14 +221,13 @@ const GridDistortion = ({
   return (
     <div
       ref={containerRef}
-      className={className}
+      className={`${className} bg-background`}
       style={{
         width: "100%",
         height: "100%",
         position: "relative",
         overflow: "hidden",
         cursor: "pointer",
-        backgroundColor: "#000",
       }}
     >
       {tiles.map((i) => {

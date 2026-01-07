@@ -30,10 +30,12 @@ export default function AboutPageClient({ caseStudies }: AboutPageClientProps) {
     hoverDistance: 3.1,
     clickExplosion: 500,
     strength: 0.82,
-    relaxation: 0.19,
+    relaxation: 0.16,
     bounceCount: 4,
     monochrome: false,
   })
+  const [clickCount, setClickCount] = useState(0)
+  const controlsVisible = clickCount >= 3
 
   return (
     <div className="bg-background text-foreground theme-transition relative overflow-hidden">
@@ -70,7 +72,10 @@ export default function AboutPageClient({ caseStudies }: AboutPageClientProps) {
         {/* Photo */}
         <div className="max-w-7xl mx-auto mb-24">
           <motion.div variants={itemVariants} className="">
-            <div className="relative overflow-hidden rounded-xl theme-transition aspect-[3/2] w-full">
+            <div 
+              className="relative overflow-hidden rounded-xl theme-transition aspect-[3/2] w-full"
+              onClick={() => setClickCount(c => c + 1)}
+            >
               <GridDistortion
                 imageSrc="/images/will-ocean-headshot.jpg"
                 grid={effectParams.grid}
@@ -82,8 +87,8 @@ export default function AboutPageClient({ caseStudies }: AboutPageClientProps) {
                 monochrome={effectParams.monochrome}
                 className="w-full h-full absolute inset-0"
               />
-              {/* Effect Controls - positioned on the image */}
-              <MosaicControls params={effectParams} onParamsChange={setEffectParams} />
+              {/* Effect Controls - positioned on the image, appears after 3 clicks */}
+              <MosaicControls params={effectParams} onParamsChange={setEffectParams} visible={controlsVisible} />
             </div>
           </motion.div>
         </div>

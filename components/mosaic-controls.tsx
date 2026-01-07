@@ -9,6 +9,7 @@ import type { EffectParams } from "./grid-distortion"
 interface MosaicControlsProps {
   params: EffectParams
   onParamsChange: (params: EffectParams) => void
+  visible?: boolean
 }
 
 interface SliderProps {
@@ -86,12 +87,12 @@ function MagneticSlider({ value, min, max, step, onChange, label, format }: Slid
   }
 
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-0.5">
       <div className="flex items-center justify-between">
-                <label className="text-[10px] text-white/50 font-sans lowercase tracking-wide">
-                  {label}
-                </label>
-        <span className="text-[10px] text-white/40 font-sans tabular-nums">
+        <label className="text-xs text-white/50 font-sans lowercase tracking-wide">
+          {label}
+        </label>
+        <span className="text-xs text-white/40 font-sans tabular-nums">
           {format ? format(value) : value}
         </span>
       </div>
@@ -139,7 +140,7 @@ function MagneticSlider({ value, min, max, step, onChange, label, format }: Slid
   )
 }
 
-export default function MosaicControls({ params, onParamsChange }: MosaicControlsProps) {
+export default function MosaicControls({ params, onParamsChange, visible = true }: MosaicControlsProps) {
   const [isExpanded, setIsExpanded] = useState(false)
 
   const updateParam = useCallback((key: keyof EffectParams, value: number | boolean) => {
@@ -150,109 +151,119 @@ export default function MosaicControls({ params, onParamsChange }: MosaicControl
   }, [params, onParamsChange])
 
   return (
-    <div className="absolute top-3 right-3 z-10 hidden md:block">
-      <AnimatePresence mode="wait">
-        {!isExpanded ? (
-          <motion.button
-            key="toggle"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.15 }}
-            onClick={() => setIsExpanded(true)}
-            className="w-8 h-8 rounded-md bg-black/40 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-black/60 transition-colors duration-150"
-            aria-label="Open effect controls"
-          >
-            <SlidersHorizontal className="w-4 h-4 text-white/70" />
-          </motion.button>
-        ) : (
-          <motion.div
-            key="panel"
-            initial={{ opacity: 0, scale: 0.95, y: -4 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: -4 }}
-            transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-            className="bg-black/80 backdrop-blur-md border border-white/10 rounded-lg shadow-xl overflow-hidden min-w-[180px]"
-          >
-            {/* Header */}
-            <div className="flex items-center justify-between px-3 py-2 border-b border-white/10">
-              <span className="text-[11px] font-medium text-white/80 font-sans tracking-wide">
-                Effect
-              </span>
-              <button
-                onClick={() => setIsExpanded(false)}
-                className="w-5 h-5 rounded flex items-center justify-center hover:bg-white/10 transition-colors duration-150"
-                aria-label="Close controls"
+    <AnimatePresence>
+      {visible && (
+        <motion.div 
+          className="absolute top-3 right-3 z-10 hidden md:block"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+        >
+          <AnimatePresence mode="wait">
+            {!isExpanded ? (
+              <motion.button
+                key="toggle"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.15 }}
+                onClick={() => setIsExpanded(true)}
+                className="w-8 h-8 rounded-md bg-black/80 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-black/60 transition-colors duration-150"
+                aria-label="Open effect controls"
               >
-                <X className="w-3 h-3 text-white/60" />
-              </button>
-            </div>
+                <SlidersHorizontal className="w-4 h-4 text-[hsl(var(--accent))]" />
+              </motion.button>
+            ) : (
+              <motion.div
+                key="panel"
+                initial={{ opacity: 0, scale: 0.95, y: -4 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: -4 }}
+                transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+                className="bg-black/80 backdrop-blur-md border border-white/10 rounded-lg shadow-xl overflow-hidden min-w-[180px]"
+              >
+                {/* Header */}
+                <div className="flex items-center justify-between px-3 py-2 border-b border-white/10">
+                  <span className="text-sm font-medium text-white/80 font-sans tracking-wide">
+                    Effect
+                  </span>
+                  <button
+                    onClick={() => setIsExpanded(false)}
+                    className="w-6 h-6 rounded flex items-center justify-center hover:bg-white/10 transition-colors duration-150"
+                    aria-label="Close controls"
+                  >
+                    <X className="w-4 h-4 text-white/60" />
+                  </button>
+                </div>
 
-            {/* Controls */}
-            <div className="px-3 py-2.5 space-y-2.5">
-              <MagneticSlider
-                value={params.grid}
-                min={8}
-                max={40}
-                step={1}
-                onChange={(v) => updateParam("grid", v)}
-                label="Grid"
-              />
+                {/* Controls */}
+                <div className="px-3 py-2.5 space-y-2">
+                  <MagneticSlider
+                    value={params.grid}
+                    min={4}
+                    max={24}
+                    step={1}
+                    onChange={(v) => updateParam("grid", v)}
+                    label="grid"
+                  />
 
-              <MagneticSlider
-                value={params.hoverDistance}
-                min={0.5}
-                max={6}
-                step={0.1}
-                onChange={(v) => updateParam("hoverDistance", v)}
-                label="Radius"
-                format={(v) => v.toFixed(1)}
-              />
+                  <MagneticSlider
+                    value={params.hoverDistance}
+                    min={0.5}
+                    max={6}
+                    step={0.1}
+                    onChange={(v) => updateParam("hoverDistance", v)}
+                    label="radius"
+                    format={(v) => v.toFixed(1)}
+                  />
 
-              <MagneticSlider
-                value={params.strength}
-                min={0.05}
-                max={1}
-                step={0.01}
-                onChange={(v) => updateParam("strength", v)}
-                label="Strength"
-                format={(v) => v.toFixed(2)}
-              />
+                  <MagneticSlider
+                    value={params.strength}
+                    min={0.05}
+                    max={1}
+                    step={0.01}
+                    onChange={(v) => updateParam("strength", v)}
+                    label="strength"
+                    format={(v) => v.toFixed(2)}
+                  />
 
-              <MagneticSlider
-                value={params.relaxation}
-                min={0.03}
-                max={0.3}
-                step={0.01}
-                onChange={(v) => updateParam("relaxation", v)}
-                label="Heal"
-                format={(v) => v.toFixed(2)}
-              />
+                  <MagneticSlider
+                    value={params.relaxation}
+                    min={0.03}
+                    max={0.3}
+                    step={0.01}
+                    onChange={(v) => updateParam("relaxation", v)}
+                    label="heal"
+                    format={(v) => v.toFixed(2)}
+                  />
 
-              <MagneticSlider
-                value={params.clickExplosion}
-                min={0}
-                max={500}
-                step={10}
-                onChange={(v) => updateParam("clickExplosion", v)}
-                label="Click"
-              />
+                  <MagneticSlider
+                    value={params.clickExplosion}
+                    min={0}
+                    max={500}
+                    step={10}
+                    onChange={(v) => updateParam("clickExplosion", v)}
+                    label="click"
+                  />
 
-              {/* Monochrome Toggle */}
-              <div className="flex items-center justify-between pt-1.5 border-t border-white/10">
-                <label className="text-[10px] text-white/50 font-sans lowercase tracking-wide">
-                  mono
-                </label>
-                <Switch
-                  checked={params.monochrome}
-                  onCheckedChange={(checked) => updateParam("monochrome", checked)}
-                  className="scale-[0.65] origin-right data-[state=checked]:bg-[hsl(var(--accent))] data-[state=unchecked]:bg-white/15"
-                />
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+                  {/* Monochrome Toggle */}
+                  <div className="flex items-center justify-between pt-1.5 border-t border-white/10">
+                    <label className="text-xs text-white/50 font-sans lowercase tracking-wide">
+                      mono
+                    </label>
+                    <Switch
+                      checked={params.monochrome}
+                      onCheckedChange={(checked) => updateParam("monochrome", checked)}
+                      className="scale-[0.65] origin-right data-[state=checked]:bg-[hsl(var(--accent))] data-[state=unchecked]:bg-white/15"
+                    />
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      )}
+    </AnimatePresence>
   )
 }

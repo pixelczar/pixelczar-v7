@@ -120,7 +120,7 @@ const GridDistortion = ({
       const radiusSq = radius * radius
       const push = p.strength * tileW
       const hoverHeal = p.relaxation
-      const clickHeal = p.relaxation * 0.15 // Much slower heal for click
+      const clickHeal = p.relaxation * 0.7 // Much faster heal for click
 
       // Click explosion
       if (mouse.clicked) {
@@ -177,7 +177,7 @@ const GridDistortion = ({
           hoverOffsets[idx] = hx
           hoverOffsets[idx + 1] = hy
 
-          // Heal click (slow)
+          // Heal click (much faster now)
           let cx2 = clickOffsets[idx]
           let cy2 = clickOffsets[idx + 1]
           cx2 *= 1 - clickHeal
@@ -244,8 +244,8 @@ const GridDistortion = ({
               position: "absolute",
               left: `${(col / n) * 100}%`,
               top: `${(row / n) * 100}%`,
-              width: `${100 / n}%`,
-              height: `${100 / n}%`,
+              width: `${(100 / n) * 1.04}%`, // Slightly larger to prevent gaps
+              height: `${(100 / n) * 1.04}%`, // Slightly larger to prevent gaps
               backgroundImage: `url(${imageSrc})`,
               backgroundSize: `${n * 100}% ${n * 100}%`,
               backgroundPosition: `${(col / (n - 1)) * 100}% ${(row / (n - 1)) * 100}%`,

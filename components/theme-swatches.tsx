@@ -67,9 +67,11 @@ export default function ThemeSwatches() {
       setCurrentTheme('light')
     }
     
-    setMounted(true)
-    // Small delay to ensure DOM is ready, then allow transitions
-    setTimeout(() => setHasInitialized(true), 0)
+    // Use requestAnimationFrame to ensure DOM is ready, then show immediately
+    requestAnimationFrame(() => {
+      setMounted(true)
+      setHasInitialized(true)
+    })
   }, [])
 
   const handleSwatchClick = (swatch: ThemeSwatch) => {
@@ -124,24 +126,6 @@ export default function ThemeSwatches() {
     }
   }, [theme, resolvedTheme, mounted])
 
-  if (!mounted) {
-    // Return empty div with same dimensions to prevent layout shift
-    return (
-      <div className="flex items-center gap-2 h-5">
-        {swatches.map((swatch) => (
-          <div
-            key={swatch.id}
-            className="w-5 h-5 rounded-md border-2"
-            style={{
-              backgroundColor: 'transparent',
-              borderColor: 'transparent',
-            }}
-          />
-        ))}
-      </div>
-    )
-  }
-
   // Helper to convert hex or hsl to rgba
   const colorToRgba = (color: string, alpha: number) => {
     // Handle HSL colors (e.g., "hsl(340 71% 56%)")
@@ -182,7 +166,15 @@ export default function ThemeSwatches() {
   }
 
   return (
-    <div className="flex items-center gap-2 h-5">
+    <div 
+      className="flex items-center gap-1.5 h-5" 
+      style={{ 
+        width: '5.5rem', // Fixed width: 3 swatches (1.5rem each with padding) + 2 gaps (0.5rem each) = 5.5rem
+        opacity: mounted ? 1 : 0,
+        transition: 'opacity 0s', // Instant transition to prevent any flicker
+        willChange: 'opacity',
+      }}
+    >
       {swatches.map((swatch) => {
         const isSelected = currentTheme === swatch.id
         // Use dark border and dark fill for light swatch when in light mode
@@ -200,11 +192,11 @@ export default function ThemeSwatches() {
             <MagneticWrapper
               strength={0.3}
               data-cursor-rounded="full"
-              className="p-0.5"
+              className="p-1"
             >
               <motion.button
                 onClick={() => handleSwatchClick(swatch)}
-                className={`cursor-hover relative w-5 h-5 rounded-md border focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background group ${
+                className={`cursor-hover relative w-4 h-4 rounded border focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background group ${
                   hasInitialized ? 'transition-all duration-300' : ''
                 }`}
                 style={{

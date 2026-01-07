@@ -55,7 +55,7 @@ const config = {
       },
       fontFamily: {
         sans: ["var(--font-sans)"],
-        serif: ["Lust", "Lust Display", "lust-display", "var(--font-serif)"],
+        serif: ["Lust", "var(--font-serif)"],
       },
       fontSize: {
         display: ["clamp(3rem, 8vw, 6rem)", { lineHeight: "1.05", letterSpacing: "-0.03em" }],

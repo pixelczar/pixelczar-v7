@@ -11,11 +11,11 @@ import { Analytics } from "@vercel/analytics/react";
 const archivo = Archivo({
   subsets: ["latin"],
   variable: "--font-sans",
-  weight: ["300", "400", "500", "600", "700", "800"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
   display: "swap",
 });
 
-// Serif font (Lust Display) is loaded from Adobe Fonts via typekit
+// Serif font (Lust) is loaded from Adobe Fonts via typekit
 // CSS variable --font-serif is defined in globals.css
 
 export const metadata = {

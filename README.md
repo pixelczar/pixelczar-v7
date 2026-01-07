@@ -12,7 +12,7 @@ A modern, animated portfolio website built with Next.js 14, featuring custom cur
 - **Responsive Design** - Mobile-first approach with hamburger menu
 - **SEO Optimized** - Open Graph tags, JSON-LD structured data, sitemap
 - **Performance** - Built with Next.js App Router for optimal performance
-- **Typography** - Custom font pairing with Adobe Typekit (Lust Display)
+- **Typography** - Custom font pairing with Adobe Typekit (Lust)
 
 ## 🛠️ Tech Stack
 
@@ -21,7 +21,7 @@ A modern, animated portfolio website built with Next.js 14, featuring custom cur
 - **Animations:** Framer Motion
 - **UI Components:** shadcn/ui
 - **Icons:** Lucide React
-- **Fonts:** Archivo (Google Fonts) + Lust Display (Adobe Typekit)
+- **Fonts:** Archivo (Google Fonts) + Lust (Adobe Typekit)
 - **Deployment:** [Your deployment platform]
 
 ## 📦 Getting Started

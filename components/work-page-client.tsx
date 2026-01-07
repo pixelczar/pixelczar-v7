@@ -49,7 +49,8 @@ export default function WorkPageClient({ caseStudies, experienceData, galleryIte
         {/* Header Content */}
         <div className="max-w-3xl mx-auto mb-12 md:mb-20">
           <motion.h1 variants={itemVariants} className="heading-display mb-6 md:mb-8 text-center">
-            <span className="lust-aalt tracking-tightest -mr-4">W</span><span className="tracking-tighter">o</span>r<span className="lust-swsh tracking-tighter">k</span>
+            {/* <span className="lust-aalt tracking-tightest -mr-4">W</span><span className="tracking-tighter">o</span>r<span className="lust-swsh tracking-tighter">k</span> */}
+            <span className="lust-swsh">S</span><span className="swsh">h</span>i<span className="lust-swsh tracking-tight">p</span><span className="lust-swsh">p</span><span className="lust-swsh">e</span><span className="lust-ss01">d</span>
           </motion.h1>
         </div>
 

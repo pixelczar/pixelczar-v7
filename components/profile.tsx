@@ -97,13 +97,21 @@ export default function Profile() {
       initial="hidden"
       animate="visible"
     >
-      {/* Designer & Builder Title */}
-      <motion.h1 
-        className="heading-display py-12 max-w-2xl text-center"
+      {/* Designer × Builder Title */}
+      <motion.div 
+        className="py-12 flex flex-col items-center"
         variants={titleVariants}
       >
-        <span className="lust-aalt">D</span>esi<span className="lust-swsh">g</span><span className="lust-swsh">n</span><span className="lust-salt">e</span><span className="lust-swsh">r</span> <span className="lust-swsh">&</span> <span className="lust-ss02">b</span><span className="lust-swsh">u</span><span className="lust-swsh">i</span><span className="lust-swsh">l</span><span className="lust-salt">d</span><span className="lust-swsh">e</span><span className="lust-ss03">r</span>
-      </motion.h1>
+        <h1 className="heading-display text-center leading-[0.85]">
+          <span className="block">
+            <span className="lust-aalt">D</span>esi<span className="lust-swsh">g</span><span className="lust-swsh">n</span><span className="lust-salt">e</span><span className="lust-swsh">r</span>
+          </span>
+          <span className="block text-accent not-italic font-thin subpixel-antialiased mt-1 -mb-2 text-7xl">×</span>
+          <span className="block">
+            <span className="lust-ss02">B</span><span className="lust-swsh">u</span><span className="lust-swsh">i</span><span className="lust-swsh">l</span><span className="lust-salt">d</span><span className="lust-swsh">e</span><span className="lust-ss03">r</span>
+          </span>
+        </h1>
+      </motion.div>
 
       {/* Skills Text */}
       <motion.h2 

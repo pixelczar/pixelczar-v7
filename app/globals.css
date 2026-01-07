@@ -24,7 +24,7 @@
     --input: #d7dee0;
     --ring: #2d3748;
     --radius: 0.5rem;
-    --font-serif: "Lust Display", serif;
+    --font-serif: "Lust", serif;
   }
 
   .dark {
@@ -133,7 +133,7 @@
   body {
     background-color: var(--background);
     color: var(--foreground);
-    font-family: "Lust Display", var(--font-serif);
+    font-family: "Lust", var(--font-serif);
     font-weight: 400;
     line-height: 1.6;
     /* letter-spacing: -0.011em; */
@@ -151,14 +151,14 @@
 
   /* Professional Typography Scale */
   h1 {
-    font-family: "Lust", "Lust Display", var(--font-serif);
+    font-family: "Lust", var(--font-serif);
     font-weight: 400;
     font-style: italic;
     line-height: 1.1;
     letter-spacing: -0.025em;
     transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "dlig" 1, "ss01" 1, "ss02" 1, "ss03" 1, "ss04" 1, "ss05" 1, "ss06" 1, "ss07" 1, "ss08" 1, "swsh" 1, "cswh" 1, "salt" 1;
-    /* Enable all stylistic sets and alternates for Lust Display */
+    /* Enable all stylistic sets and alternates for Lust */
   }
 
   /* Disable transitions on heading-display during theme changes to prevent flicker */
@@ -232,7 +232,7 @@
 
   /* Professional text sizes with proper scaling */
   .text-display {
-    font-family: "Lust", "Lust Display", var(--font-serif);
+    font-family: "Lust", var(--font-serif);
     font-weight: 400;
     font-style: italic;
     font-size: clamp(3rem, 8vw, 6rem);
@@ -242,7 +242,7 @@
   }
 
   .text-hero {
-    font-family: "Lust", "Lust Display", var(--font-serif);
+    font-family: "Lust", var(--font-serif);
     font-weight: 400;
     font-style: italic;
     font-size: clamp(2.5rem, 6vw, 4.5rem);
@@ -252,7 +252,7 @@
   }
 
   .text-headline {
-    font-family: "Lust", "Lust Display", var(--font-serif);
+    font-family: "Lust", var(--font-serif);
     font-weight: 400;
     font-style: italic;
     font-size: clamp(2rem, 4vw, 3rem);
@@ -467,24 +467,24 @@
   .text-primary {
     color: var(--primary);
   }
-  /* Lust Display stylistic alternatives */
+  /* Lust stylistic alternatives */
   .lust-stylistic {
-    font-family: "Lust Display", var(--font-serif);
+    font-family: "Lust", var(--font-serif);
     font-weight: 400;
     font-style: italic;
     font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "dlig" 1, "ss01" 1, "ss02" 1, "ss03" 1, "ss04" 1, "ss05" 1, "ss06" 1, "ss07" 1, "ss08" 1, "swsh" 1, "cswh" 1, "salt" 1;
   }
 
-  /* Lust Display variants */
+  /* Lust variants */
   .lust-display {
-    font-family: "Lust Display", var(--font-serif);
+    font-family: "Lust", var(--font-serif);
     font-weight: 400;
     font-style: italic;
     font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "dlig" 1, "ss01" 1, "ss02" 1, "ss03" 1, "ss04" 1, "ss05" 1, "ss06" 1, "ss07" 1, "ss08" 1, "swsh" 1, "cswh" 1, "salt" 1;
   }
 
   .lust-roman {
-    font-family: "Lust Display", var(--font-serif);
+    font-family: "Lust", var(--font-serif);
     font-weight: 400;
     font-style: normal;
     font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "dlig" 1, "ss01" 1, "ss02" 1, "ss03" 1, "ss04" 1, "ss05" 1, "ss06" 1, "ss07" 1, "ss08" 1, "swsh" 1, "cswh" 1, "salt" 1;
@@ -492,10 +492,10 @@
 
   /* Typography matching existing site */
   .heading-display {
-    font-family: "Lust", "Lust Display", var(--font-serif);
+    font-family: "Lust", var(--font-serif);
     font-weight: 400;
     font-style: italic;
-    font-size: clamp(3.5rem, 8.5vw, 6rem);
+    font-size: clamp(4.8rem, 8.5vw, 6rem);
     line-height: 1.2;
     margin: 5vw 0;
     letter-spacing: -0.0em;

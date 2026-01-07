@@ -49,14 +49,14 @@ export default function Header() {
           <div id="logo-symbol">
             <AnimatedLogo isHovered={isLogoHovered} />
           </div>
-          <span className="text-body font-sans font-medium theme-transition text-gray-600 dark:text-white/40 group-hover:text-gray-900 dark:group-hover:text-white transition-colors duration-300">
+          {/* <span className="text-body hidden sm:inline font-sans font-medium theme-transition text-gray-600 dark:text-white/40 group-hover:text-gray-900 dark:group-hover:text-white transition-colors duration-300">
             Home
-          </span>
+          </span> */}
         </Link>
       </motion.div>
 
       <motion.nav 
-        className="hidden md:flex items-center space-x-6"
+        className="hidden md:flex items-center space-x-4"
         variants={navVariants}
         initial={isHomepage ? "hidden" : "visible"}
         animate="visible"
@@ -64,7 +64,7 @@ export default function Header() {
       >
         <MagneticLink
           href="/about"
-          className={`text-lg font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
+          className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
             pathname === "/about" ? "font-medium" : "hover:text-primary"
           }`}
           style={pathname === "/about" ? { color: 'hsl(var(--accent))', opacity: 1 } : { color: 'var(--muted-foreground)' }}
@@ -75,7 +75,7 @@ export default function Header() {
         </MagneticLink>
         <MagneticLink
           href="/work"
-          className={`text-lg font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
+          className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
             pathname === "/work" ? "font-medium" : "hover:text-primary"
           }`}
           style={pathname === "/work" ? { color: 'hsl(var(--accent))', opacity: 1 } : { color: 'var(--muted-foreground)' }}
@@ -86,7 +86,7 @@ export default function Header() {
         </MagneticLink>
         <MagneticLink
           href="/play"
-          className={`text-lg font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
+          className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
             pathname === "/play" ? "font-medium" : "hover:text-primary"
           }`}
           style={pathname === "/play" ? { color: 'hsl(var(--accent))', opacity: 1 } : { color: 'var(--muted-foreground)' }}
@@ -156,7 +156,7 @@ export default function Header() {
               animate="visible"
               exit="hidden"
               variants={menuVariants}
-              className="flex flex-col items-center justify-center h-full space-y-8 theme-transition"
+              className="flex flex-col items-center justify-center h-full space-y-12 theme-transition"
             >
               {[
                 { href: "/", label: "Home" },
@@ -167,7 +167,7 @@ export default function Header() {
                 <motion.div key={item.href} variants={menuItemVariants}>
                   <MagneticLink
                     href={item.href}
-                    className={`text-6xl font-sans tracking-tight font-medium transition-all duration-300 relative px-4 py-2 ${
+                    className={`text-8xl font-sans tracking-tight font-light transition-all duration-300 relative px-4 py-2 ${
                       pathname === item.href ? "text-accent" : "hover:text-accent"
                     }`}
                     style={pathname !== item.href ? { color: 'var(--muted-foreground)' } : undefined}

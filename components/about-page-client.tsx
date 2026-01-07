@@ -1,11 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { itemVariants } from "@/lib/animations";
 import type { CaseStudyListItem } from '@/types/sanity'
 import AboutWorkGrid from '@/components/about-work-grid'
-import GridDistortion from '@/components/grid-distortion'
+import GridDistortion, { type EffectParams } from '@/components/grid-distortion'
+import MosaicControls from '@/components/mosaic-controls'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -23,6 +25,16 @@ interface AboutPageClientProps {
 }
 
 export default function AboutPageClient({ caseStudies }: AboutPageClientProps) {
+  const [effectParams, setEffectParams] = useState<EffectParams>({
+    grid: 14,
+    hoverDistance: 3.1,
+    clickExplosion: 500,
+    strength: 0.82,
+    relaxation: 0.19,
+    bounceCount: 4,
+    monochrome: false,
+  })
+
   return (
     <div className="bg-background text-foreground theme-transition relative overflow-hidden">
       <motion.main 
@@ -61,12 +73,17 @@ export default function AboutPageClient({ caseStudies }: AboutPageClientProps) {
             <div className="relative overflow-hidden rounded-xl theme-transition aspect-[3/2] w-full">
               <GridDistortion
                 imageSrc="/images/will-ocean-headshot.jpg"
-                grid={20}
-                mouse={0.15}
-                strength={0.2}
-                relaxation={0.92}
+                grid={effectParams.grid}
+                hoverDistance={effectParams.hoverDistance}
+                clickExplosion={effectParams.clickExplosion}
+                strength={effectParams.strength}
+                relaxation={effectParams.relaxation}
+                bounceCount={effectParams.bounceCount}
+                monochrome={effectParams.monochrome}
                 className="w-full h-full absolute inset-0"
               />
+              {/* Effect Controls - positioned on the image */}
+              <MosaicControls params={effectParams} onParamsChange={setEffectParams} />
             </div>
           </motion.div>
         </div>

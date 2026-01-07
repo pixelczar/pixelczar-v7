@@ -47,7 +47,7 @@ export default function ThemeSwatches() {
   const { theme, setTheme, resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [currentTheme, setCurrentTheme] = useState<ThemeOption>('light')
-  const [darkVariant, setDarkVariant] = useState<'original' | 'teal'>('original')
+  const [darkVariant, setDarkVariant] = useState<'original' | 'teal'>('teal')
   const [isLightMode, setIsLightMode] = useState(false)
   const [hasInitialized, setHasInitialized] = useState(false)
 

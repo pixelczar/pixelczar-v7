@@ -28,7 +28,7 @@ export function ThemeScript() {
         // Initialize dark theme variant
         var darkVariant = localStorage.getItem('dark-theme-variant');
         if (!darkVariant) {
-          darkVariant = 'original';
+          darkVariant = 'teal';
           localStorage.setItem('dark-theme-variant', darkVariant);
         }
         document.documentElement.setAttribute('data-dark-variant', darkVariant);
@@ -37,7 +37,7 @@ export function ThemeScript() {
         var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         document.documentElement.classList.toggle('dark', prefersDark);
         document.documentElement.setAttribute('data-theme', 'system');
-        document.documentElement.setAttribute('data-dark-variant', 'original');
+        document.documentElement.setAttribute('data-dark-variant', 'teal');
       }
     })();
   `

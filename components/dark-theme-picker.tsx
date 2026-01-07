@@ -87,7 +87,7 @@ export default function DarkThemePicker() {
       setVariant(saved)
       document.documentElement.setAttribute('data-dark-variant', saved)
     } else {
-      document.documentElement.setAttribute('data-dark-variant', 'original')
+      document.documentElement.setAttribute('data-dark-variant', 'teal')
     }
   }, [])
 

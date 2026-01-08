@@ -390,8 +390,10 @@
   }
 
   /* Exclude framer-motion animated elements from color transitions during their animations */
-  [data-framer-name] {
+  [data-framer-name],
+  [data-framer-motion] {
     transition-property: none !important;
+    transition-duration: 0s !important;
   }
 
   /* Exclude motion elements from color transitions to prevent flicker */
@@ -495,7 +497,7 @@
     font-family: "Lust", var(--font-serif);
     font-weight: 400;
     font-style: italic;
-    font-size: clamp(4.8rem, 8.5vw, 6rem);
+    font-size: clamp(4.6rem, 8.5vw, 6rem);
     line-height: 1.2;
     margin: 5vw 0;
     letter-spacing: -0.0em;

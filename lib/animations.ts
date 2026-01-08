@@ -85,10 +85,12 @@ export const headerVariants = {
 }
 
 // Homepage-specific delays (longer for dramatic entrance)
+// Nav comes in with logo
 export const homepageTransitions = {
-  logo: { delay: 0.8, duration: 0.8, ease: smoothEase },
-  nav: { delay: 1.0, duration: 0.7, ease: smoothEase },
-  footer: { delay: 1.2, duration: 0.8, ease: smoothEase },
+  logo: { delay: 1.2, duration: 0.9, ease: smoothEase },
+  nav: { delay: 1.2, duration: 0.8, ease: smoothEase },
+  mobileMenu: { delay: 1.2, duration: 0.8, ease: smoothEase },
+  footer: { delay: 1.6, duration: 0.9, ease: smoothEase },
 }
 
 // Standard page transitions (faster, no delay)
@@ -104,19 +106,19 @@ export const menuVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.06,
-      delayChildren: 0.05,
+      staggerChildren: 0.05,
+      delayChildren: 0.1,
     },
   },
 }
 
 export const menuItemVariants = {
-  hidden: { opacity: 0, y: 12 },
+  hidden: { opacity: 0, y: 8 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.5,
+      duration: 0.6,
       ease: smoothEase,
     },
   },

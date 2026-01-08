@@ -15,9 +15,27 @@ const logoVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
-const navVariants = {
+const getNavVariants = (isHomepage: boolean) => ({
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05,
+      delayChildren: isHomepage ? 1.2 : 0,
+    },
+  },
+});
+
+const navItemVariants = {
   hidden: { opacity: 0, y: -8 },
-  visible: { opacity: 1, y: 0 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: smoothEase,
+    },
+  },
 };
 
 export default function Header() {
@@ -57,55 +75,69 @@ export default function Header() {
 
       <motion.nav 
         className="hidden md:flex items-center space-x-4"
-        variants={navVariants}
+        variants={getNavVariants(isHomepage)}
         initial={isHomepage ? "hidden" : "visible"}
         animate="visible"
         transition={isHomepage ? homepageTransitions.nav : standardTransitions.nav}
       >
-        <MagneticLink
-          href="/about"
-          className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
-            pathname === "/about" ? "font-medium" : "hover:text-primary"
-          }`}
-          style={pathname === "/about" ? { color: 'hsl(var(--accent))', opacity: 1 } : { color: 'var(--muted-foreground)' }}
-          data-cursor-rounded="full"
-          strength={0.3}
-        >
-          About
-        </MagneticLink>
-        <MagneticLink
-          href="/work"
-          className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
-            pathname === "/work" ? "font-medium" : "hover:text-primary"
-          }`}
-          style={pathname === "/work" ? { color: 'hsl(var(--accent))', opacity: 1 } : { color: 'var(--muted-foreground)' }}
-          data-cursor-rounded="full"
-          strength={0.3}
-        >
-          Work
-        </MagneticLink>
-        <MagneticLink
-          href="/play"
-          className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
-            pathname === "/play" ? "font-medium" : "hover:text-primary"
-          }`}
-          style={pathname === "/play" ? { color: 'hsl(var(--accent))', opacity: 1 } : { color: 'var(--muted-foreground)' }}
-          data-cursor-rounded="full"
-          strength={0.3}
-        >
-          Play
-        </MagneticLink>
-        <MagneticWrapper
-          strength={0.3}
-          data-cursor-rounded="full"
-        >
-          <div className="pt-0.5 flex items-center">
-            <ThemeSwatches />
-          </div>
-        </MagneticWrapper>
+        <motion.div variants={navItemVariants}>
+          <MagneticLink
+            href="/about"
+            className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
+              pathname === "/about" ? "font-medium" : "hover:text-primary"
+            }`}
+            style={pathname === "/about" ? { color: 'hsl(var(--accent))', opacity: 1 } : { color: 'var(--muted-foreground)' }}
+            data-cursor-rounded="full"
+            strength={0.3}
+          >
+            About
+          </MagneticLink>
+        </motion.div>
+        <motion.div variants={navItemVariants}>
+          <MagneticLink
+            href="/work"
+            className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
+              pathname === "/work" ? "font-medium" : "hover:text-primary"
+            }`}
+            style={pathname === "/work" ? { color: 'hsl(var(--accent))', opacity: 1 } : { color: 'var(--muted-foreground)' }}
+            data-cursor-rounded="full"
+            strength={0.3}
+          >
+            Work
+          </MagneticLink>
+        </motion.div>
+        <motion.div variants={navItemVariants}>
+          <MagneticLink
+            href="/play"
+            className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
+              pathname === "/play" ? "font-medium" : "hover:text-primary"
+            }`}
+            style={pathname === "/play" ? { color: 'hsl(var(--accent))', opacity: 1 } : { color: 'var(--muted-foreground)' }}
+            data-cursor-rounded="full"
+            strength={0.3}
+          >
+            Play
+          </MagneticLink>
+        </motion.div>
+        <motion.div variants={navItemVariants}>
+          <MagneticWrapper
+            strength={0.3}
+            data-cursor-rounded="full"
+          >
+            <div className="pt-0.5 flex items-center">
+              <ThemeSwatches />
+            </div>
+          </MagneticWrapper>
+        </motion.div>
       </motion.nav>
 
-      <div className="md:hidden flex items-center space-x-4">
+      <motion.div 
+        className="md:hidden flex items-center space-x-4"
+        variants={getNavVariants(isHomepage)}
+        initial={isHomepage ? "hidden" : "visible"}
+        animate="visible"
+        transition={isHomepage ? homepageTransitions.mobileMenu : standardTransitions.nav}
+      >
         <MagneticWrapper
           strength={0.3}
           data-cursor-rounded="full"
@@ -139,7 +171,7 @@ export default function Header() {
             />
           </div>
         </button>
-      </div>
+      </motion.div>
 
       <AnimatePresence>
         {isMenuOpen && (

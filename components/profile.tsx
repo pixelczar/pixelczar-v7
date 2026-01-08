@@ -4,87 +4,126 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import MagneticLink from "@/components/magnetic-link";
 import { motion } from "framer-motion";
-import { itemVariants, smoothEase } from "@/lib/animations";
+import { gentleEase, smoothEase } from "@/lib/animations";
+
+const designerVariants = {
+  hidden: { opacity: 0, y: -4 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 1,
+      ease: gentleEase,
+      delay: .1,
+    },
+  },
+};
+
+const xVariants = {
+  hidden: { opacity: 0, y: 0 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 1.2,
+      ease: gentleEase,
+      delay: 0.3,
+    },
+  },
+};
+
+const builderVariants = {
+  hidden: { opacity: 0, y: 6 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 1,
+      ease: gentleEase,
+      delay: 0.26,
+    },
+  },
+};
 
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.1,
+      delayChildren: 0.2,
     },
   },
 };
 
-const titleVariants = {
-  hidden: { opacity: 0, y: 20 },
+// Order: 1. Designer → 2. × → 3. Builder → 4. Skills → 5. Profile → 6. Link → 7. Divider
+
+const skillsVariants = {
+  hidden: { opacity: 0, y: 4 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
       duration: 1,
-      ease: smoothEase,
-    },
-  },
-};
-
-const skillsVariants = {
-  hidden: { opacity: 0, y: 16 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: smoothEase,
+      ease: gentleEase,
+      // Starts after Builder finishes: Builder delay (1.0) + Builder duration (0.6) = 1.6
+      delay: 0.9,
     },
   },
 };
 
 const photoVariants = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, y: 4 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.8,
-      ease: smoothEase,
+      duration: 1.1,
+      ease: gentleEase,
+      // Starts after skills finishes: skills delay (1.6) + skills duration (0.9)
+      delay: 0.8,
     },
   },
 };
 
 const nameVariants = {
-  hidden: { opacity: 0, y: 12 },
+  hidden: { opacity: 0, y: 4 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.7,
-      ease: smoothEase,
-    },
-  },
-};
-
-const dividerVariants = {
-  hidden: { opacity: 0, y: 8 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: smoothEase,
+      duration: 0.8,
+      ease: gentleEase,
+      // Starts slightly after photo (within same container)
+      delay: 0.1,
     },
   },
 };
 
 const linkVariants = {
-  hidden: { opacity: 0, y: 12 },
+  hidden: { opacity: 0, y: 6},
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.7,
-      ease: smoothEase,
+      duration: 1.1,
+      ease: gentleEase,
+      // Starts after profile finishes: photo delay (2.5) + photo duration (0.9) + name delay (0.1) + name duration (0.8)
+      delay: 2.7,
+    },
+  },
+};
+
+const dividerVariants = {
+  hidden: { opacity: 0, y: 4, scaleX: .8 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scaleX: 1,
+    transition: {
+      duration: 0.9,
+      ease: gentleEase,
+      // Starts after link finishes: link delay (3.4) + link duration (1.1)
+      delay: 2.6,
     },
   },
 };
@@ -98,20 +137,37 @@ export default function Profile() {
       animate="visible"
     >
       {/* Designer × Builder Title */}
-      <motion.div 
-        className="py-12 flex flex-col items-center"
-        variants={titleVariants}
-      >
+      <div className="py-12 flex flex-col items-center w-full">
         <h1 className="heading-display text-center leading-[0.85]">
-          <span className="block">
-            <span className="lust-aalt">D</span>esi<span className="lust-swsh">g</span><span className="lust-swsh">n</span><span className="lust-salt">e</span><span className="lust-swsh">r</span>
-          </span>
-          <span className="block text-accent not-italic font-thin subpixel-antialiased mt-1 -mb-2 text-7xl">×</span>
-          <span className="block">
+          <motion.span 
+            className="block"
+            variants={designerVariants}
+            initial="hidden"
+            animate="visible"
+            style={{ willChange: 'transform, opacity' }}
+          >
+            <span className="lust-salt">D</span>esi<span className="lust-swsh">g</span><span className="lust-swsh">n</span><span className="lust-salt">e</span><span className="lust-swsh">r</span>
+          </motion.span>
+          <motion.span 
+            className="block text-accent not-italic font-thin subpixel-antialiased mt-1 -mb-2 text-7xl"
+            variants={xVariants}
+            initial="hidden"
+            animate="visible"
+            style={{ willChange: 'transform, opacity' }}
+          >
+            ×
+          </motion.span>
+          <motion.span 
+            className="block"
+            variants={builderVariants}
+            initial="hidden"
+            animate="visible"
+            style={{ willChange: 'transform, opacity' }}
+          >
             <span className="lust-ss02">B</span><span className="lust-swsh">u</span><span className="lust-swsh">i</span><span className="lust-swsh">l</span><span className="lust-salt">d</span><span className="lust-swsh">e</span><span className="lust-ss03">r</span>
-          </span>
+          </motion.span>
         </h1>
-      </motion.div>
+      </div>
 
       {/* Skills Text */}
       <motion.h2 

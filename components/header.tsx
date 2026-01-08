@@ -138,19 +138,22 @@ export default function Header() {
         animate="visible"
         transition={isHomepage ? homepageTransitions.mobileMenu : standardTransitions.nav}
       >
-        <MagneticWrapper
-          strength={0.3}
-          data-cursor-rounded="full"
-        >
-          <div className="flex items-center">
-            <ThemeSwatches />
-          </div>
-        </MagneticWrapper>
-        <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="text-muted-foreground hover:text-primary transition-colors duration-300 z-50 relative w-8 h-8 flex items-center justify-center"
-          aria-label="Toggle menu"
-        >
+        <motion.div variants={navItemVariants}>
+          <MagneticWrapper
+            strength={0.3}
+            data-cursor-rounded="full"
+          >
+            <div className="flex items-center">
+              <ThemeSwatches />
+            </div>
+          </MagneticWrapper>
+        </motion.div>
+        <motion.div variants={navItemVariants}>
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="text-muted-foreground hover:text-primary transition-colors duration-300 z-50 relative w-8 h-8 flex items-center justify-center"
+            aria-label="Toggle menu"
+          >
           <div className="relative w-6 h-5 flex flex-col justify-between">
             <motion.div
               className="h-0.5 bg-current rounded-full"
@@ -171,6 +174,7 @@ export default function Header() {
             />
           </div>
         </button>
+        </motion.div>
       </motion.div>
 
       <AnimatePresence>

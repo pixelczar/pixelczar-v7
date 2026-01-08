@@ -106,8 +106,8 @@ export const menuVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.05,
-      delayChildren: 0.1,
+      staggerChildren: 0.1,
+      delayChildren: 0.22,
     },
   },
 }

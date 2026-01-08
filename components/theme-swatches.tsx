@@ -5,6 +5,30 @@ import { useTheme } from 'next-themes'
 import { motion } from 'framer-motion'
 import MagneticWrapper from '@/components/magnetic-wrapper'
 import { ImageTooltip } from '@/components/image-tooltip'
+import { smoothEase } from '@/lib/animations'
+
+const swatchContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05,
+      delayChildren: 0,
+    },
+  },
+}
+
+const swatchItemVariants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.4,
+      ease: smoothEase,
+    },
+  },
+}
 
 type ThemeOption = 'light' | 'dark-original' | 'dark-teal'
 
@@ -166,14 +190,14 @@ export default function ThemeSwatches() {
   }
 
   return (
-    <div 
+    <motion.div 
       className="flex items-center h-5 -space-x-2" 
       style={{ 
         width: '5.5rem', // Fixed width: 3 swatches (1.5rem each with padding) + 2 gaps (0.5rem each) = 5.5rem
-        opacity: mounted ? 1 : 0,
-        transition: 'opacity 0s', // Instant transition to prevent any flicker
-        willChange: 'opacity',
       }}
+      variants={swatchContainerVariants}
+      initial="hidden"
+      animate={mounted ? "visible" : "hidden"}
     >
       {swatches.map((swatch) => {
         const isSelected = currentTheme === swatch.id
@@ -198,22 +222,23 @@ export default function ThemeSwatches() {
         }
         
         return (
-          <ImageTooltip key={swatch.id} text={swatch.label} alignRight>
-            <MagneticWrapper
-              strength={0.3}
-              className=""
-            >
-              <motion.button
-                onClick={() => handleSwatchClick(swatch)}
-                data-cursor-rounded="full"
-                className={`cursor-hover relative w-8 h-8 rounded-full flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 transition-all focus:ring-offset-background group ${
-                  hasInitialized ? 'transition-all duration-300' : ''
-                }`}
-                whileHover={{ 
-                  opacity: 1, // 100% on hover
-                }}
-                aria-label={swatch.label}
+          <motion.div key={swatch.id} variants={swatchItemVariants}>
+            <ImageTooltip text={swatch.label} alignRight>
+              <MagneticWrapper
+                strength={0.3}
+                className=""
               >
+                <motion.button
+                  onClick={() => handleSwatchClick(swatch)}
+                  data-cursor-rounded="full"
+                  className={`cursor-hover relative w-8 h-8 rounded-full flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 transition-all focus:ring-offset-background group ${
+                    hasInitialized ? 'transition-all duration-300' : ''
+                  }`}
+                  whileHover={{ 
+                    opacity: 1, // 100% on hover
+                  }}
+                  aria-label={swatch.label}
+                >
                 <span 
                   className={`w-2.5 h-2.5 border ${hasInitialized ? 'transition-all duration-300' : ''}`}
                   style={{
@@ -223,12 +248,13 @@ export default function ThemeSwatches() {
                     borderColor: borderColor,
                   }}
                 />
-              </motion.button>
-            </MagneticWrapper>
-          </ImageTooltip>
+                </motion.button>
+              </MagneticWrapper>
+            </ImageTooltip>
+          </motion.div>
         )
       })}
-    </div>
+    </motion.div>
   )
 }
 

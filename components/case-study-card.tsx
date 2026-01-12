@@ -35,7 +35,7 @@ function MainMedia({
     // External video URL (YouTube, Vimeo, etc.)
     if (caseStudy.mainVideoUrl) {
       return (
-        <ImageTooltip text={tooltipText}>
+        <ImageTooltip text={tooltipText} alignTopLeft>
           <div className="relative w-full aspect-video overflow-hidden rounded-md bg-primary/10 shadow-lg" data-cursor-ignore>
             <a
               href={videoUrl}
@@ -58,7 +58,7 @@ function MainMedia({
     }
     // Uploaded video file
     return (
-      <ImageTooltip text={tooltipText}>
+      <ImageTooltip text={tooltipText} alignTopLeft>
         <div className="relative w-full aspect-video overflow-hidden rounded-md bg-primary/10 shadow-lg" data-cursor-ignore>
           <video
             src={videoUrl}
@@ -75,7 +75,7 @@ function MainMedia({
 
   if (imageUrl) {
     return (
-      <ImageTooltip text={tooltipText}>
+      <ImageTooltip text={tooltipText} alignTopLeft>
         <div
           className="relative w-full aspect-video overflow-hidden rounded-md bg-primary/10 shadow-lg"
           data-cursor-ignore

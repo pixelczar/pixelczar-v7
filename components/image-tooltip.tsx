@@ -8,6 +8,7 @@ interface ImageTooltipProps {
   children: React.ReactNode
   className?: string
   alignRight?: boolean // If true, align right edge of tooltip with right edge of element
+  alignTopLeft?: boolean // If true, position cursor at top left of tooltip
 }
 
 // Truncate text to a reasonable length for tooltip
@@ -23,14 +24,25 @@ function calculateTooltipPosition(
   tooltipWidth: number,
   tooltipHeight: number,
   elementRight?: number, // Right edge of the element for alignment
+  alignTopLeft?: boolean, // Position cursor at top left of tooltip
   offset: number = 12
 ) {
   const viewportWidth = window.innerWidth
   const viewportHeight = window.innerHeight
   
-  // Always position down and to the left from cursor
-  let x = mouseX - tooltipWidth - offset
-  let y = mouseY + offset
+  // Position based on alignment preference
+  let x: number
+  let y: number
+  
+  if (alignTopLeft) {
+    // Cursor at top left of tooltip
+    x = mouseX + offset
+    y = mouseY + offset
+  } else {
+    // Default: position down and to the left from cursor (cursor at top right)
+    x = mouseX - tooltipWidth - offset
+    y = mouseY + offset
+  }
   
   // If right-align is enabled, align right edge of tooltip with right edge of element
   if (elementRight !== undefined) {
@@ -42,6 +54,9 @@ function calculateTooltipPosition(
     // If we're aligning right and it goes off left edge, position at left edge with margin
     if (elementRight !== undefined) {
       x = 8 // Small margin from left
+    } else if (alignTopLeft) {
+      // For top-left alignment, position at left edge with margin
+      x = 8
     } else {
       // Otherwise, position to the right of cursor
       x = mouseX + offset
@@ -50,11 +65,20 @@ function calculateTooltipPosition(
   
   // Check right edge collision
   if (x + tooltipWidth > viewportWidth) {
-    // Position to the left of cursor
-    x = mouseX - tooltipWidth - offset
-    // If still off screen, position at right edge with margin
-    if (x < 0) {
-      x = viewportWidth - tooltipWidth - 8
+    if (alignTopLeft) {
+      // For top-left alignment, position to the left of cursor
+      x = mouseX - tooltipWidth - offset
+      // If still off screen, position at right edge with margin
+      if (x < 0) {
+        x = viewportWidth - tooltipWidth - 8
+      }
+    } else {
+      // Position to the left of cursor
+      x = mouseX - tooltipWidth - offset
+      // If still off screen, position at right edge with margin
+      if (x < 0) {
+        x = viewportWidth - tooltipWidth - 8
+      }
     }
   }
   
@@ -71,7 +95,7 @@ function calculateTooltipPosition(
   return { x, y }
 }
 
-export function ImageTooltip({ text, children, className = '', alignRight = false }: ImageTooltipProps) {
+export function ImageTooltip({ text, children, className = '', alignRight = false, alignTopLeft = false }: ImageTooltipProps) {
   const [isHovered, setIsHovered] = useState(false)
   const [showTooltip, setShowTooltip] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -118,7 +142,8 @@ export function ImageTooltip({ text, children, className = '', alignRight = fals
             mousePosition.y,
             tooltipRect.width || 200, // Fallback width estimate
             tooltipRect.height || 40,   // Fallback height estimate
-            elementRight
+            elementRight,
+            alignTopLeft
           )
           setTooltipPosition(position)
         }
@@ -134,11 +159,12 @@ export function ImageTooltip({ text, children, className = '', alignRight = fals
         mousePosition.y,
         200, // Estimate width
         40,   // Estimate height
-        elementRight
+        elementRight,
+        alignTopLeft
       )
       setTooltipPosition(position)
     }
-  }, [mousePosition.x, mousePosition.y, showTooltip, alignRight])
+  }, [mousePosition.x, mousePosition.y, showTooltip, alignRight, alignTopLeft])
 
   useEffect(() => {
     if (isHovered) {

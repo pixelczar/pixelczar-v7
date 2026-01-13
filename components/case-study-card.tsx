@@ -1,7 +1,6 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { memo } from 'react'
@@ -10,26 +9,49 @@ import { itemVariants } from '@/lib/animations'
 import MagneticWrapper from '@/components/magnetic-wrapper'
 import { ImageTooltip } from '@/components/image-tooltip'
 
+// WIP badge messages for each card
+const WIP_MESSAGES = [
+  'Deep dive coming soon',
+  'Compiling case study..',
+  'Zooming in shortly',
+  'WIP',
+]
+
+// Tooltip text for WIP items
+const WIP_TOOLTIP = "Not quite done yet, sorry!"
+
 interface CaseStudyCardProps {
   caseStudy: CaseStudyListItem
   index?: number
 }
 
+// WIP Badge component
+function WipBadge({ message }: { message: string }) {
+  return (
+    <div className="absolute top-3 left-3 z-10">
+      <span className="inline-flex items-center px-2.5 py-1 rounded text-xs font-sans font-medium bg-black/60 text-white/60 backdrop-blur-sm shadow-lg">
+        {message}
+      </span>
+    </div>
+  )
+}
+
 function MainMedia({ 
-  caseStudy 
+  caseStudy,
+  index = 0
 }: { 
-  caseStudy: CaseStudyListItem 
+  caseStudy: CaseStudyListItem
+  index?: number 
 }) {
   const isVideo = caseStudy.mainMediaType === 'video'
   const videoUrl = caseStudy.mainVideoUrl || caseStudy.mainVideo?.url
   const imageUrl = caseStudy.mainImage?.url
 
-  // Get tooltip text: prefer image caption, then shortDescription, then title
-  // Skip description as it's usually too long for a tooltip
-  const tooltipText = 
-    caseStudy.mainImage?.caption || 
-    caseStudy.shortDescription || 
-    caseStudy.title
+  // Use WIP tooltip for hover
+  const tooltipText = WIP_TOOLTIP
+  
+  // Get WIP badge message based on index (cycle through messages)
+  const wipMessage = WIP_MESSAGES[index % WIP_MESSAGES.length]
 
   if (isVideo && videoUrl) {
     // External video URL (YouTube, Vimeo, etc.)
@@ -37,6 +59,7 @@ function MainMedia({
       return (
         <ImageTooltip text={tooltipText} alignTopLeft>
           <div className="relative w-full aspect-video overflow-hidden rounded-md bg-primary/10 shadow-lg" data-cursor-ignore>
+            <WipBadge message={wipMessage} />
             <a
               href={videoUrl}
               target="_blank"
@@ -60,6 +83,7 @@ function MainMedia({
     return (
       <ImageTooltip text={tooltipText} alignTopLeft>
         <div className="relative w-full aspect-video overflow-hidden rounded-md bg-primary/10 shadow-lg" data-cursor-ignore>
+          <WipBadge message={wipMessage} />
           <video
             src={videoUrl}
             autoPlay
@@ -80,6 +104,7 @@ function MainMedia({
           className="relative w-full aspect-video overflow-hidden rounded-md bg-primary/10 shadow-lg"
           data-cursor-ignore
         >
+          <WipBadge message={wipMessage} />
           <Image
             src={imageUrl}
             alt={caseStudy.mainImage?.alt || caseStudy.title}
@@ -108,7 +133,7 @@ function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardProps) {
       >
         {/* Main Media (Image or Video) - Above Title */}
         <div className="mb-8">
-          <MainMedia caseStudy={caseStudy} />
+          <MainMedia caseStudy={caseStudy} index={index} />
         </div>
 
         {/* Title/Description + Metadata */}
@@ -121,25 +146,29 @@ function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardProps) {
                   strength={0.3}
                   data-cursor-rounded="full"
                 >
-                  <a
-                    href={caseStudy.projectUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    id={`case-study-title-${caseStudy._id}`}
-                    data-cursor-target={`case-study-title-${caseStudy._id}`}
-                    className="cursor-hover inline-flex items-center gap-3 px-2 py-1 rounded-full relative -left-2 group"
-                    aria-label={`Visit ${caseStudy.title}`}
-                  >
-                    <h3 className="text-3xl font-medium font-sans my-2 transition-colors duration-300 group-hover:text-accent">
-                      {caseStudy.title}
-                    </h3>
-                    <ArrowRight className="w-5 h-5 md:w-6 md:h-6 transition-colors duration-300 group-hover:text-accent" />
-                  </a>
+                  <ImageTooltip text={WIP_TOOLTIP} alignTopLeft>
+                    <a
+                      href={caseStudy.projectUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      id={`case-study-title-${caseStudy._id}`}
+                      data-cursor-target={`case-study-title-${caseStudy._id}`}
+                      className="cursor-hover inline-flex items-center gap-3 px-2 py-1 rounded-full relative -left-2 group"
+                      aria-label={`Visit ${caseStudy.title}`}
+                    >
+                      <h3 className="text-3xl font-medium font-sans my-2 transition-colors duration-300 group-hover:text-accent">
+                        {caseStudy.title}
+                      </h3>
+                      <ArrowRight className="w-5 h-5 md:w-6 md:h-6 transition-colors duration-300 group-hover:text-accent" />
+                    </a>
+                  </ImageTooltip>
                 </MagneticWrapper>
               ) : (
-                <h3 className="text-3xl font-medium font-sans my-2">
-                  {caseStudy.title}
-                </h3>
+                <ImageTooltip text={WIP_TOOLTIP} alignTopLeft>
+                  <h3 className="text-3xl font-medium font-sans my-2">
+                    {caseStudy.title}
+                  </h3>
+                </ImageTooltip>
               )}
             </div>
             {caseStudy.company && (

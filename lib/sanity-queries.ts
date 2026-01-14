@@ -139,6 +139,7 @@ const CASE_STUDY_FULL_FIELDS = `
   },
   outcomes,
   timeline,
+  mainMediaType,
   mainImage {
     asset,
     alt,
@@ -146,6 +147,13 @@ const CASE_STUDY_FULL_FIELDS = `
     hotspot,
     crop
   },
+  mainVideo {
+    asset-> {
+      url,
+      _id
+    }
+  },
+  mainVideoUrl,
   gallery[] {
     asset,
     alt,

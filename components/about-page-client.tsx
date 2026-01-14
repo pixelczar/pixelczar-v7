@@ -51,7 +51,7 @@ export default function AboutPageClient({ caseStudies }: AboutPageClientProps) {
             variants={itemVariants}
             className="text-6xl font-serif heading-display italic font-normal text-foreground mt-12 md:mt-8 mb-24 md:mb- theme-transition text-center"
           >
-            <span className="lust-aalt">H</span>el<span className="lust-swsh">l</span>o, <span className="">I</span>'<span className="lust-swsh">m</span> <span className="lust-aalt">W</span>il<span className="lust-ss03">l</span>
+            <span className="lust-aalt">H</span>e<span className="lust-swsh">y</span>a, <span className="">I</span>'<span className="lust-swsh">m</span> <span className="lust-aalt">W</span>il<span className="lust-ss03">l</span>
           </motion.h1>
 
           <motion.div

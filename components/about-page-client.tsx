@@ -116,7 +116,7 @@ export default function AboutPageClient({ caseStudies }: AboutPageClientProps) {
             <div className="text-lg text-body-main leading-relaxed theme-transition">
               <p className="mb-2 opacity-50 text-base theme-transition">02</p>
               <h3 className="text-4xl text-foreground tracking-tight font-medium mb-8">If you can design one thing, you can design everything.</h3>
-              <p className="text-lg">Design skills are transferable. It's a way of thinking about a multidimensional problem and coming up with a solution.</p>
+              <p className="text-lg">Design skills are transferable. It's a way of thinking about a multi-dimensional problem and coming up with a solution.</p>
             </div>
             <div className="text-lg text-body-main leading-relaxed theme-transition">
               <p className="mb-2 opacity-50 text-base theme-transition">03</p>

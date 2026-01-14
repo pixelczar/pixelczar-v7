@@ -108,33 +108,33 @@ export default function AboutPageClient({ caseStudies }: AboutPageClientProps) {
 
         <motion.div variants={itemVariants} className="max-w-7xl mx-auto mb-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 theme-transition">
-            <div className="text-base text-body-main theme-transition">
-              <p className="mb-2 opacity-50 text-base theme-transition">01</p>
+            <div className="group text-base text-body-main theme-transition">
+              <p className="mb-2 opacity-50 text-base theme-transition transition-colors duration-300 group-hover:text-accent group-hover:opacity-100">01</p>
               <h3 className="text-4xl text-foreground tracking-tight font-medium mb-8">Everything is a product.</h3>
               <p className="text-lg">The words you're reading right now are a product. This site is a product. It has a job to be done. It has <span className="line-through">users</span> humans, stakeholders, and other products interacting with it.</p>
             </div>
-            <div className="text-lg text-body-main leading-relaxed theme-transition">
-              <p className="mb-2 opacity-50 text-base theme-transition">02</p>
+            <div className="group text-lg text-body-main leading-relaxed theme-transition">
+              <p className="mb-2 opacity-50 text-base theme-transition transition-colors duration-300 group-hover:text-accent group-hover:opacity-100">02</p>
               <h3 className="text-4xl text-foreground tracking-tight font-medium mb-8">If you can design one thing, you can design everything.</h3>
               <p className="text-lg">Design skills are transferable. It's a way of thinking about a multi-dimensional problem and coming up with a solution.</p>
             </div>
-            <div className="text-lg text-body-main leading-relaxed theme-transition">
-              <p className="mb-2 opacity-50 text-base theme-transition">03</p>
+            <div className="group text-lg text-body-main leading-relaxed theme-transition">
+              <p className="mb-2 opacity-50 text-base theme-transition transition-colors duration-300 group-hover:text-accent group-hover:opacity-100">03</p>
               <h3 className="text-4xl text-foreground tracking-tight font-medium mb-8">AI is changing the game.</h3>
               <p className="text-lg">The way we produce and consume software is being transformed forever. It's an amazing time to be designing how AI shapes experiences, how information is displayed, and how people interact with technology.</p>
             </div>
-            <div className="text-lg text-body-main leading-relaxed theme-transition">
-              <p className="mb-2 opacity-50 text-base theme-transition">04</p>
+            <div className="group text-lg text-body-main leading-relaxed theme-transition">
+              <p className="mb-2 opacity-50 text-base theme-transition transition-colors duration-300 group-hover:text-accent group-hover:opacity-100">04</p>
               <h3 className="text-4xl text-foreground tracking-tight font-medium mb-8">The medium is the message.</h3>
               <p className="text-lg">One of the first things they teach in Design School. Today it means making sure how you convey your message amplifies it.</p>
             </div>
-            <div className="text-lg text-body-main leading-relaxed theme-transition">
-              <p className="mb-2 opacity-50 text-base theme-transition">05</p>
+            <div className="group text-lg text-body-main leading-relaxed theme-transition">
+              <p className="mb-2 opacity-50 text-base theme-transition transition-colors duration-300 group-hover:text-accent group-hover:opacity-100">05</p>
               <h3 className="text-4xl text-foreground tracking-tight font-medium mb-8">The job is not done until the tools are put away.</h3>
               <p className="text-lg">It's extremely rare your work exists in a silo.  You must consider what truly needs to be complete to be done.</p>
             </div>
-            <div className="text-lg text-body-main leading-relaxed theme-transition">
-              <p className="mb-2 opacity-50 text-base theme-transition">06</p>
+            <div className="group text-lg text-body-main leading-relaxed theme-transition">
+              <p className="mb-2 opacity-50 text-base theme-transition transition-colors duration-300 group-hover:text-accent group-hover:opacity-100">06</p>
               <h3 className="text-4xl text-foreground tracking-tight font-medium mb-8">The journey is the destination.</h3>
               <p className="text-lg">Doing the work is the work. Learning, building, and iterating matter just as much as the final outcome. The process shapes the product and the person making it.</p>
             </div>

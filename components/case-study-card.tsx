@@ -14,7 +14,7 @@ const WIP_MESSAGES = [
   'Deep dive coming soon',
   'Compiling case study..',
   'Zooming in shortly',
-  'WIP',
+  'Showcase coming soon',
 ]
 
 // Tooltip text for WIP items

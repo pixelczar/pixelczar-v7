@@ -192,7 +192,7 @@ export default function Header() {
               animate="visible"
               exit="hidden"
               variants={menuVariants}
-              className="flex flex-col items-center justify-center h-full space-y-12 theme-transition"
+              className="flex flex-col items-center justify-center h-full space-y-16 theme-transition"
             >
               {[
                 { href: "/", label: "Home" },
@@ -203,7 +203,7 @@ export default function Header() {
                 <motion.div key={item.href} variants={menuItemVariants}>
                   <MagneticLink
                     href={item.href}
-                    className={`text-8xl font-sans tracking-tight font-light transition-all duration-300 relative px-4 py-2 ${
+                    className={`text-7xl font-sans tracking-tight font-light transition-all duration-300 relative px-4 py-2 ${
                       pathname === item.href ? "text-accent" : "hover:text-accent"
                     }`}
                     style={pathname !== item.href ? { color: 'var(--muted-foreground)' } : undefined}

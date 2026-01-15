@@ -164,6 +164,105 @@ function CaseStudyImage({ value }: { value: any }) {
   )
 }
 
+// Video component with layout support
+function CaseStudyVideo({ value }: { value: any }) {
+  if (!value) {
+    console.warn('CaseStudyVideo: Invalid video value', value)
+    return null
+  }
+
+  // Get video URL - prioritize uploaded file, fallback to URL field
+  let videoUrl: string | null = null
+  if (value.videoFile?.asset?.url) {
+    // Sanity-hosted video
+    videoUrl = value.videoFile.asset.url
+  } else if (value.videoUrl) {
+    // Static file URL (e.g., /videos/filename.mp4)
+    videoUrl = value.videoUrl
+  }
+
+  if (!videoUrl) {
+    console.warn('CaseStudyVideo: No video URL found', value)
+    return null
+  }
+
+  const layout = value.layout || 'narrow'
+  const autoplay = value.autoplay || false
+  const loop = value.loop || false
+  const muted = value.muted !== undefined ? value.muted : true // Default to muted for autoplay compatibility
+  const controls = value.controls !== undefined ? value.controls : true
+
+  // Full-width video
+  if (layout === 'full-width') {
+    return (
+      <FullWidthContainer>
+        <div className="my-8">
+          <div className="relative w-full aspect-video overflow-hidden bg-muted rounded-lg md:rounded-xl">
+            <video
+              src={videoUrl}
+              autoPlay={autoplay}
+              loop={loop}
+              muted={muted}
+              controls={controls}
+              playsInline
+              className="w-full h-full object-contain"
+            />
+          </div>
+          {value.caption && (
+            <p className="text-sm text-muted-foreground text-center mt-4 max-w-4xl mx-auto">
+              {value.caption}
+            </p>
+          )}
+        </div>
+      </FullWidthContainer>
+    )
+  }
+
+  // 50-50 layout (half-left or half-right)
+  // Note: These are automatically grouped with adjacent blocks by CaseStudyPortableText
+  // If rendered standalone (not grouped), show as a single column video
+  if (layout === 'half-left' || layout === 'half-right') {
+    return (
+      <div className="my-4">
+        <div className="relative w-full aspect-video overflow-hidden bg-muted rounded-lg md:rounded-xl">
+          <video
+            src={videoUrl}
+            autoPlay={autoplay}
+            loop={loop}
+            muted={muted}
+            controls={controls}
+            playsInline
+            className="w-full h-full object-contain"
+          />
+        </div>
+        {value.caption && (
+          <p className="text-sm text-muted-foreground mt-2">{value.caption}</p>
+        )}
+      </div>
+    )
+  }
+
+  // Narrow layout (default)
+  return (
+    <div className="my-8">
+      <div className="relative w-full aspect-video overflow-hidden bg-muted rounded-lg md:rounded-xl">
+        <video
+          src={videoUrl}
+          autoPlay={autoplay}
+          loop={loop}
+          muted={muted}
+          controls={controls}
+          playsInline
+          className="w-full h-full object-contain"
+        />
+      </div>
+      {value.caption && (
+        <p className="text-sm text-muted-foreground text-center mt-2">{value.caption}</p>
+      )}
+    </div>
+  )
+}
+
 // Custom block types for structured sections
 function SectionBlock({ value }: { value: any }) {
   const { title, content, layout = 'narrow' } = value
@@ -427,6 +526,12 @@ export const caseStudyComponents: PortableTextComponents = {
         console.log('PortableText image type handler called with value:', value)
       }
       return <CaseStudyImage value={value} />
+    },
+    videoBlock: ({ value }: { value: any }) => {
+      if (process.env.NODE_ENV === 'development') {
+        console.log('PortableText videoBlock type handler called with value:', value)
+      }
+      return <CaseStudyVideo value={value} />
     },
     twoColumnBlock: TwoColumnBlock,
     calloutBlock: CalloutBlock,

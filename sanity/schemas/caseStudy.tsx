@@ -119,8 +119,12 @@ export default defineType({
           type: 'calloutBlock',
           title: 'Callout Block',
         },
+        {
+          type: 'videoBlock',
+          title: 'Video',
+        },
       ],
-      description: 'Full case study content with rich text and images',
+      description: 'Full case study content with rich text, images, and videos',
     }),
     defineField({
       name: 'outcomes',

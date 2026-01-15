@@ -4,7 +4,8 @@ import caseStudy from '../schemas/caseStudy'
 import galleryItem from '../schemas/galleryItem'
 import twoColumnBlock from '../schemas/twoColumnBlock'
 import calloutBlock from '../schemas/calloutBlock'
+import videoBlock from '../schemas/videoBlock'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [project, caseStudy, galleryItem, twoColumnBlock, calloutBlock],
+  types: [project, caseStudy, galleryItem, twoColumnBlock, calloutBlock, videoBlock],
 }

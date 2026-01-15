@@ -120,6 +120,23 @@ const CASE_STUDY_FULL_FIELDS = `
       hotspot,
       crop
     },
+    _type == "videoBlock" => {
+      videoFile {
+        asset-> {
+          url,
+          originalFilename,
+          _id
+        }
+      },
+      videoUrl,
+      alt,
+      caption,
+      layout,
+      autoplay,
+      loop,
+      muted,
+      controls
+    },
     _type == "twoColumnBlock" => {
       image {
         asset->,

@@ -8,7 +8,7 @@ export const revalidate = 60
 
 export const metadata = {
   title: 'Work • Will Smith',
-  description: 'Case studies, portfolio projects, and professional experience',
+  description: 'Showcases, portfolio projects, and professional experience',
 }
 
 // Helper to extract plain text from potentially Portable Text fields
@@ -27,16 +27,6 @@ function toPlainText(value: unknown): string | undefined {
       .trim() || undefined
   }
   return undefined
-}
-
-// Map specific case study titles to updated versions
-function mapCaseStudyTitle(title: string): string {
-  const titleMap: Record<string, string> = {
-    'Data Studio': 'Edit Demo Data Like a Spreadsheet',
-    'Encore': 'The Product for Selling Your Product',
-    'Replicate Capture Extension': 'Better Captures for Better Demos',
-  }
-  return titleMap[title] || title
 }
 
 export default async function WorkPage() {
@@ -74,10 +64,13 @@ export default async function WorkPage() {
       }))?.filter((img: any): img is { url: string; alt: string } => img.url !== null)
       
       const originalTitle = String(cs.title || '')
+      const oneLiner = typeof cs.oneLiner === 'string' ? cs.oneLiner : undefined
+      
       return {
         _id: String(cs._id || ''),
-        title: mapCaseStudyTitle(originalTitle),
+        title: oneLiner || originalTitle, // Use one-liner as the primary title in the grid
         slug: String(cs.slug || ''),
+        oneLiner,
         company: typeof cs.company === 'string' ? cs.company : undefined,
         description: toPlainText(cs.description),
         role: typeof cs.role === 'string' ? cs.role : undefined,

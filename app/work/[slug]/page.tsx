@@ -6,6 +6,7 @@ import { getCaseStudyBySlug, getAllCaseStudies } from '@/lib/sanity-queries'
 import { buildImageUrl, getGalleryImageUrls } from '@/lib/sanity'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 import { PortableText } from '@portabletext/react'
 import { NarrowTextContainer, FullWidthContainer } from '@/components/case-study-content'
 import CaseStudyPortableText from '@/components/case-study-portable-text'
@@ -56,11 +57,11 @@ export async function generateMetadata({ params }: CaseStudyPageProps) {
 
     if (!caseStudy) {
       return {
-        title: 'Case Study Not Found',
+        title: 'Showcase Not Found',
       }
     }
 
-    const descriptionText = toPlainText(caseStudy.description) || `${caseStudy.title} - Case Study`
+    const descriptionText = toPlainText(caseStudy.description) || `${caseStudy.title} - Showcase`
 
     return {
       title: `${caseStudy.title} | Pixelczar`,
@@ -68,7 +69,7 @@ export async function generateMetadata({ params }: CaseStudyPageProps) {
     }
   } catch (error) {
     return {
-      title: 'Case Study | Pixelczar',
+      title: 'Showcase | Pixelczar',
     }
   }
 }
@@ -87,6 +88,8 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
         url: mainImageUrl,
         alt: toPlainText(caseStudy.mainImage?.alt) || caseStudy.title,
         caption: toPlainText(caseStudy.mainImage?.caption),
+        width: caseStudy.mainImage?.asset?.metadata?.dimensions?.width || 1200,
+        height: caseStudy.mainImage?.asset?.metadata?.dimensions?.height || 900,
       }
     : null
 
@@ -97,156 +100,160 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const isVideo = caseStudy.mainMediaType === 'video'
   const videoUrl = caseStudy.mainVideoUrl || caseStudy.mainVideo?.asset?.url
 
+  // Debug log
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Showcase Media Debug:', { 
+      title: caseStudy.title,
+      mediaType: caseStudy.mainMediaType, 
+      hasImage: !!mainImage, 
+      imageUrl: mainImage?.url,
+      isVideo, 
+      videoUrl 
+    })
+  }
+
   return (
     <div className="bg-background text-foreground theme-transition font-sans">
-      <main className="px-6 py-12">
-        <div className="max-w-5xl mx-auto">
+      <main className="px-6 py-12 md:py-16">
+        <div className="max-w-7xl mx-auto">
           {/* Back Button */}
-          <Link href="/work">
-            <Button variant="ghost" className="mb-8 -ml-4">
+          {/* <Link href="/work" className="inline-block mb-12">
+            <Button variant="ghost" className="-ml-4 text-muted-foreground hover:text-foreground">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Work
             </Button>
-          </Link>
+          </Link> */}
 
-          {/* Case Study Header */}
-          <div className="mb-12">
-            <div className="flex items-start justify-between gap-4 mb-6">
-              <h1 className="text-4xl md:text-5xl font-serif italic font-normal">{caseStudy.title}</h1>
-              {caseStudy.featured && (
-                <Badge variant="secondary" className="mt-2">
-                  Featured
-                </Badge>
+          {/* Title Section */}
+          <div className="mb-16">
+            <h1 className="text-5xl md:text-6xl tracking-tight font-sans not-italic font-semibold text-center">
+              {caseStudy.title}
+            </h1>
+            <Separator className="bg-foreground/10" />
+          </div>
+
+          {/* Intro Section */}
+          <div className="">
+            
+            <div className="mx-auto max-w-3xl">
+              <div className="w-full h-px bg-accent/40 mx-auto mt-16 mb-6 theme-transition"></div>
+              <h2 className="text-3xl md:text-5xl font-normal mb-8 opacity-30">Intro</h2>
+              
+              {/* Catchy One-Liner */}
+              {caseStudy.oneLiner && (
+                <h3 className="text-2xl font-normal tracking-tight mb-4">
+                  {caseStudy.oneLiner}
+                </h3>
               )}
-            </div>
 
-            {/* Company */}
-            {caseStudy.company && (
-              <p className="text-lg text-accent font-medium mb-4 font-sans">{caseStudy.company}</p>
-            )}
-
-            {/* Case Study Metadata */}
-            <div className="flex flex-wrap gap-6 text-muted-foreground mb-6 font-sans">
-              {caseStudy.role && (
-                <div>
-                  <span className="text-sm font-medium text-foreground">Role: </span>
-                  {toPlainText(caseStudy.role)}
-                </div>
-              )}
-              {caseStudy.timeline && (
-                <div>
-                  <span className="text-sm font-medium text-foreground">Timeline: </span>
-                  {toPlainText(caseStudy.timeline)}
-                </div>
-              )}
-            </div>
-
-            {/* Short Description or Description */}
-            {(caseStudy.shortDescription || caseStudy.description) && (
-              <p className="text-xl text-muted-foreground mb-6 font-sans">
+              {/* Short Description or Description as intro to the work */}
+              {(caseStudy.shortDescription || caseStudy.description) && (
+              <p className="text-body-main font-medium mb-16 leading-tighter">
                 {toPlainText(caseStudy.shortDescription || caseStudy.description)}
               </p>
-            )}
+              )}
 
-            {/* Tags */}
-            {caseStudy.tags && caseStudy.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2 mb-6">
-                {caseStudy.tags.map((tag) => (
-                  <Badge key={tag} variant="outline">
-                    {tag}
-                  </Badge>
-                ))}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start py-8">
+              {/* Left Column: Metadata & Stats */}
+              <div className="md:col-span-4 space-y-12">
+                  <div>
+                    <p className="text-xl font-normal mb-2">
+                      {caseStudy.company} <span className="text-muted-foreground mx-2"> →  </span>{caseStudy.timeline && `${caseStudy.timeline}`}
+                    </p>
+                    <h3 className="text-lg text-muted-foreground mb-1">{toPlainText(caseStudy.role)}</h3>
+                  </div>
+
+                {caseStudy.metrics && caseStudy.metrics.length > 0 && (
+                  <div className="grid grid-cols-2 gap-x-8 gap-y-12">
+                    {caseStudy.metrics.map((metric, i) => (
+                      <div key={i} className="space-y-1">
+                        <p className="text-4xl md:text-6xl font-normal mb-2 opacity-30">
+                          {metric.label}
+                        </p>
+                        <p className="text-body-main font-medium mb-6 leading-tighter">
+                          {metric.value}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
-            )}
 
-            {/* Project URL */}
-            {caseStudy.projectUrl && (
-              <Link href={caseStudy.projectUrl} target="_blank" rel="noopener noreferrer">
-                <Button variant="outline" className="gap-2">
-                  View Project
-                  <ExternalLink className="h-4 w-4" />
-                </Button>
-              </Link>
+              {/* Right Column: Hero Media */}
+              <div className="md:col-span-8">
+                <div className="relative w-full rounded-xl overflow-hidden shadow-2xl bg-muted/10">
+                  {isVideo && videoUrl ? (
+                    caseStudy.mainVideoUrl ? (
+                      <a
+                        href={videoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative aspect-video flex items-center justify-center bg-muted/50 hover:bg-muted/70 transition-colors"
+                      >
+                        <div className="text-center">
+                          <div className="w-12 h-12 rounded-full bg-accent/80 flex items-center justify-center mb-2 mx-auto">
+                            <svg className="w-5 h-5 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z" />
+                            </svg>
+                          </div>
+                          <span className="text-xs text-muted-foreground">Play Video</span>
+                        </div>
+                      </a>
+                    ) : (
+                      <video
+                        src={videoUrl}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="w-full h-auto block"
+                      />
+                    )
+                  ) : mainImage ? (
+                    <Image
+                      src={mainImage.url}
+                      alt={mainImage.alt}
+                      width={mainImage.width}
+                      height={mainImage.height}
+                      className="w-full h-auto block"
+                      priority
+                      sizes="(max-width: 1280px) 100vw, 800px"
+                    />
+                  ) : null}
+                </div>
+              </div>
+            </div>
+          </div>
+
+      
+
+          {/* The Work Section */}
+          <div className="mb-24">
+            <div className="mx-auto max-w-3xl">
+              <div className="w-full h-px bg-accent/40 mx-auto mt-16 mb-6 theme-transition"></div>
+              <h2 className="text-3xl md:text-5xl font-normal mb-8 opacity-30">The Work</h2>
+            </div>        
+
+            {/* Content (PortableText) */}
+            {caseStudy.content && caseStudy.content.length > 0 && (
+              <div className="mb-24">
+                <CaseStudyPortableText value={caseStudy.content} />
+              </div>
             )}
           </div>
 
-          {/* Main Media (Image or Video) */}
-          {isVideo && videoUrl ? (
-            <div className="mb-12">
-              <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-muted">
-                {caseStudy.mainVideoUrl ? (
-                  <a
-                    href={videoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="absolute inset-0 flex items-center justify-center bg-muted/50 hover:bg-muted/70 transition-colors"
-                  >
-                    <div className="text-center">
-                      <div className="w-12 h-12 rounded-full bg-accent/80 flex items-center justify-center mb-2 mx-auto">
-                        <svg className="w-5 h-5 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M8 5v14l11-7z" />
-                        </svg>
-                      </div>
-                      <span className="text-xs text-muted-foreground">Play Video</span>
-                    </div>
-                  </a>
-                ) : (
-                  <video
-                    src={videoUrl}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="absolute inset-0 w-full h-full object-cover"
-                  />
-                )}
-              </div>
-            </div>
-          ) : mainImage ? (
-            <div className="mb-12">
-              <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-muted">
-                <Image
-                  src={mainImage.url}
-                  alt={mainImage.alt}
-                  fill
-                  className="object-contain"
-                  priority
-                  sizes="(max-width: 1280px) 100vw, 1280px"
-                />
-              </div>
-              {mainImage.caption && (
-                <p className="text-sm text-muted-foreground text-center mt-4">
-                  {mainImage.caption}
-                </p>
-              )}
-            </div>
-          ) : null}
-
-          {/* Content (PortableText) */}
-          {caseStudy.content && caseStudy.content.length > 0 && (
-            <div className="mb-12 font-sans">
-              <CaseStudyPortableText value={caseStudy.content} />
-            </div>
-          )}
-
-          {/* Outcomes */}
-          {caseStudy.outcomes && caseStudy.outcomes.length > 0 && (
-            <div className="mb-12 font-sans">
-              <h2 className="text-2xl font-semibold mb-4 font-sans">Outcomes</h2>
-              <div className="prose prose-lg dark:prose-invert max-w-none font-sans">
-                <PortableText value={caseStudy.outcomes} />
-              </div>
-            </div>
-          )}
-
           {/* Gallery */}
           {galleryImages.length > 0 && (
-            <div className="mb-12 font-sans">
-              <h2 className="text-2xl font-semibold mb-6 font-sans">Gallery</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="mb-24">
+              <div className="mx-auto max-w-3xl">
+                <div className="w-full h-px bg-accent/40 mx-auto mt-16 mb-6 theme-transition"></div>
+                <h2 className="text-3xl md:text-5xl font-normal mb-8 opacity-30">Gallery</h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {galleryImages.map((image, index) => (
-                  <div key={index} className="space-y-2">
-                    <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-muted">
+                  <div key={index} className="space-y-4">
+                    <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-muted border border-foreground/5 shadow-lg">
                       <Image
                         src={image.url}
                         alt={image.alt || `Gallery image ${index + 1}`}
@@ -256,13 +263,32 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
                       />
                     </div>
                     {image.caption && (
-                      <p className="text-sm text-muted-foreground">{image.caption}</p>
+                      <p className="text-sm text-muted-foreground px-2">{image.caption}</p>
                     )}
                   </div>
                 ))}
               </div>
             </div>
           )}
+          
+          {/* Footer Navigation */}
+          <div className="flex justify-between items-center pt-12 mt-24">
+             <Link href="/work">
+              <Button variant="link" className="px-0 text-muted-foreground hover:text-foreground">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to All Work
+              </Button>
+            </Link>
+            
+            {caseStudy.projectUrl && (
+              <Link href={caseStudy.projectUrl} target="_blank" rel="noopener noreferrer">
+                <Button className="gap-2 rounded-full px-8 py-6 text-lg">
+                  Visit Project
+                  <ExternalLink className="h-5 w-5" />
+                </Button>
+              </Link>
+            )}
+          </div>
         </div>
       </main>
     </div>

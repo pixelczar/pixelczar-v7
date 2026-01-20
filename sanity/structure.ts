@@ -18,7 +18,7 @@ export const structure: StructureResolver = (S, context) =>
       // Case Studies with drag & drop ordering
       orderableDocumentListDeskItem({
         type: 'caseStudy',
-        title: 'Case Studies',
+        title: 'Showcases',
         icon: CaseIcon,
         S,
         context,

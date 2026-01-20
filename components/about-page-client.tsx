@@ -151,7 +151,7 @@ export default function AboutPageClient({ caseStudies }: AboutPageClientProps) {
                 key={item.number}
                 onMouseEnter={() => setHoveredEthos(index)}
                 onMouseLeave={() => setHoveredEthos(null)}
-                className={`group text-lg text-body-main leading-relaxed theme-transition transition-all ${
+                className={`group text-lg text-body-main leading-relaxed theme-transition transition-all duration-300 ${
                   hoveredEthos !== null && hoveredEthos !== index 
                     ? 'opacity-50' 
                     : 'opacity-100'

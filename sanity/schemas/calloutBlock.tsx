@@ -1,11 +1,11 @@
 import { defineField, defineType } from 'sanity'
-import { AlertCircleIcon } from '@sanity/icons'
+import { InfoOutlineIcon } from '@sanity/icons'
 
 export default defineType({
   name: 'calloutBlock',
   title: 'Callout',
   type: 'object',
-  icon: AlertCircleIcon,
+  icon: InfoOutlineIcon,
   fields: [
     defineField({
       name: 'content',
@@ -51,7 +51,7 @@ export default defineType({
       return {
         title: title || shortPreview || 'Callout Block',
         subtitle: variant ? `${variant.charAt(0).toUpperCase() + variant.slice(1)} callout` : 'Callout',
-        media: AlertCircleIcon,
+        media: InfoOutlineIcon,
       }
     },
   },

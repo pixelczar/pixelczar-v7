@@ -115,37 +115,16 @@ export async function queryDocuments(groqQuery: string) {
 async function main() {
   console.log('Sanity Dataset Editor\n')
   
-  // Example 1: Query all projects
-  // const projects = await queryDocuments(
-  //   `*[_type == "project"] | order(order asc) {
-  //     _id,
-  //     title,
-  //     timeline,
-  //     tags
-  //   }`
-  // )
-  // console.log(projects)
+  const dataStudioId = 'e0a86cbb-cd68-4822-b7ce-282251196164'
   
-  // Example 2: Update all projects with timeline "2024" to "2025"
-  // await updateMultipleDocuments(
-  //   `*[_type == "project" && timeline == "2024"]{_id, title}`,
-  //   { timeline: '2025' }
-  // )
-  
-  // Example 3: Update a single document
-  // await updateSingleDocument('document-id-here', {
-  //   timeline: '2025',
-  //   description: 'Updated description'
-  // })
-  
-  // Example 4: Create a new project
-  // await createDocument({
-  //   _type: 'project',
-  //   title: 'New Project',
-  //   slug: { _type: 'slug', current: 'new-project' },
-  //   description: 'Project description',
-  //   timeline: '2025',
-  // })
+  await updateSingleDocument(dataStudioId, {
+    metrics: [
+      { _key: 'm1', _type: 'object', label: '0-1', value: 'New product area buildout' },
+      { _key: 'm2', _type: 'object', label: '3', value: 'Iteration chunks' },
+      { _key: 'm3', _type: 'object', label: 'AI', value: 'LLM-powered data manipulation' },
+      { _key: 'm4', _type: 'object', label: 'Live', value: 'Custom data on your real production app' }
+    ]
+  })
 }
 
 // Run if called directly

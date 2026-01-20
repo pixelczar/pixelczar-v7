@@ -5,7 +5,8 @@ import galleryItem from '../schemas/galleryItem'
 import twoColumnBlock from '../schemas/twoColumnBlock'
 import calloutBlock from '../schemas/calloutBlock'
 import videoBlock from '../schemas/videoBlock'
+import divider from '../schemas/divider'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [project, caseStudy, galleryItem, twoColumnBlock, calloutBlock, videoBlock],
+  types: [project, caseStudy, galleryItem, twoColumnBlock, calloutBlock, videoBlock, divider],
 }

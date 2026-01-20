@@ -7,6 +7,14 @@ export interface SanityImage {
   asset: {
     _ref: string
     _type: 'reference'
+    url?: string
+    metadata?: {
+      dimensions: {
+        width: number
+        height: number
+        aspectRatio: number
+      }
+    }
   }
   alt?: string
   caption?: string
@@ -55,26 +63,25 @@ export interface Project {
   order?: number
 }
 
-// Case Study type from Sanity (for Work page - professional work)
+// Showcase type from Sanity (for Work page - professional work)
 export interface CaseStudy {
   _id: string
   _type: 'caseStudy'
   _createdAt: string
   _updatedAt: string
   title: string
-  slug: {
-    current: string
-    _type: 'slug'
-  }
-  company?: string
-  shortDescription?: string
-  description?: string
-  role?: string
-  content?: PortableTextBlock[]
-  outcomes?: PortableTextBlock[]
-  timeline?: string
+          slug: {
+            current: string
+            _type: 'slug'
+          }
+          oneLiner?: string
+          company?: string
+  metrics?: Array<{
+    label: string
+    value: string
+  }>
   mainMediaType?: 'image' | 'video'
-  mainImage?: SanityImage
+  
   mainVideo?: {
     asset: {
       _ref: string
@@ -82,8 +89,21 @@ export interface CaseStudy {
     }
   }
   mainVideoUrl?: string
-  gallery?: SanityImage[]
+  mainImage?: SanityImage & {
+    dimensions?: {
+      width: number
+      height: number
+      aspectRatio: number
+    }
+  }
   tags?: string[]
+  shortDescription?: string
+  description?: string
+  role?: string
+  content?: PortableTextBlock[]
+  outcomes?: PortableTextBlock[]
+  timeline?: string 
+  gallery?: SanityImage[]
   projectUrl?: string
   featured?: boolean
   order?: number
@@ -139,6 +159,7 @@ export interface CaseStudyListItem {
   _id: string
   title: string
   slug: string
+  oneLiner?: string
   company?: string
   shortDescription?: string
   description?: string

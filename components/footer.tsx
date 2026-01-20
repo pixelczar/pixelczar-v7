@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import MagneticButton from "./magnetic-button";
+import MagneticLink from "./magnetic-link";
 import { homepageTransitions, standardTransitions } from "@/lib/animations";
 
 const footerVariants = {
@@ -93,10 +94,22 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="text-center py-8 px-4 mt-8">
-        <p className="text-base font-sans theme-transition text-muted-foreground max-w-lg mx-auto opacity-70 max-w-md">
-          This site was born in Figma, raised in Cursor, assembled pixel-by-pixel on Boston's beautiful North Shore.  <span className="ml-4">© {new Date().getFullYear()}</span>
-        </p>
+      <div className="py-8 px-8 mt-8 flex justify-between">
+        <div className="text-base font-sans theme-transition text-muted-foreground max-w-lg">
+          This site was born in Figma, raised in Cursor, assembled pixel-by-pixel on Boston's beautiful North Shore.
+        </div>
+        <div className="text-base font-sans theme-transition text-muted-foreground text-right flex justify-end flex-col space-y-2">
+          <span className="">will@pixelczar.com © {new Date().getFullYear()}</span>
+          <MagneticLink 
+            href="/colophon" 
+            className="text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 -mr-3 rounded-full hover:text-white hover:bg-accent/10"
+            style={{ color: 'hsl(var(--accent))', opacity: 1 }}
+            data-cursor-rounded="full"
+            strength={0.3}
+          >
+            Colophon
+          </MagneticLink>
+        </div>
       </div>
     </motion.footer>
   );

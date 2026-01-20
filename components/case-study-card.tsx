@@ -157,7 +157,7 @@ function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardProps) {
                       aria-label={`Visit ${caseStudy.title}`}
                     >
                       <h3 className="text-3xl font-medium font-sans my-2 transition-colors duration-300 group-hover:text-accent">
-                        {caseStudy.title}
+                        {caseStudy.oneLiner || caseStudy.title}
                       </h3>
                       <ArrowRight className="w-5 h-5 md:w-6 md:h-6 transition-colors duration-300 group-hover:text-accent" />
                     </a>
@@ -166,16 +166,16 @@ function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardProps) {
               ) : (
                 <ImageTooltip text={WIP_TOOLTIP} alignTopLeft>
                   <h3 className="text-3xl font-medium font-sans my-2">
-                    {caseStudy.title}
+                    {caseStudy.oneLiner || caseStudy.title}
                   </h3>
                 </ImageTooltip>
               )}
             </div>
-            {caseStudy.company && (
+            {/* {caseStudy.company && (
               <p className="text-sm text-accent font-medium mb-3 font-sans">
                 {caseStudy.company}
               </p>
-            )}
+            )} */}
             {(caseStudy.shortDescription || caseStudy.description) && (
               <p className="text-lg text-muted-foreground font-sans leading-snug mb-4">
                 {caseStudy.shortDescription || caseStudy.description}

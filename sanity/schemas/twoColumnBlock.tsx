@@ -1,11 +1,11 @@
 import { defineField, defineType } from 'sanity'
-import { ColumnsIcon } from '@sanity/icons'
+import { SplitVerticalIcon } from '@sanity/icons'
 
 export default defineType({
   name: 'twoColumnBlock',
   title: 'Two Column (Image + Text)',
   type: 'object',
-  icon: ColumnsIcon,
+  icon: SplitVerticalIcon,
   fields: [
     defineField({
       name: 'image',
@@ -54,7 +54,7 @@ export default defineType({
       return {
         title: shortPreview || `Two Column (Image ${position || 'left'})`,
         subtitle: `Image ${position || 'left'}`,
-        media: image || ColumnsIcon,
+        media: image || SplitVerticalIcon,
       }
     },
   },

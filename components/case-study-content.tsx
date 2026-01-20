@@ -22,7 +22,7 @@ interface ImageValue {
 
 // Narrow text container - wraps text content
 export const NarrowTextContainer = ({ children }: { children: React.ReactNode }) => (
-  <div className="max-w-2xl mx-auto">{children}</div>
+  <div className="max-w-3xl mx-auto">{children}</div>
 )
 
 // Full-width container for images that break out
@@ -307,7 +307,7 @@ function TwoColumnBlock({ value }: { value: any }) {
     block: {
       h1: ({ children }) => <h1 className="text-2xl font-semibold mb-4 font-sans">{children}</h1>,
       h2: ({ children }) => <h2 className="text-xl font-semibold mb-3 font-sans">{children}</h2>,
-      h3: ({ children }) => <h3 className="text-lg font-semibold mb-2 font-sans">{children}</h3>,
+      h3: ({ children }) => <h3 className="text-2xl font-normal tracking-tight">{children}</h3>,
       normal: ({ children }) => <p className="text-body-main leading-relaxed mb-4 font-sans">{children}</p>,
       blockquote: ({ children }) => (
         <blockquote className="border-l-4 border-accent pl-4 py-2 my-4 italic text-muted-foreground">
@@ -439,12 +439,12 @@ export const caseStudyComponents: PortableTextComponents = {
     ),
     h2: ({ children }) => (
       <NarrowTextContainer>
-        <h2 className="text-2xl md:text-3xl font-semibold mb-4 font-sans">{children}</h2>
+        <h2 className="text-3xl md:text-5xl font-normal mb-8 opacity-30">{children}</h2>
       </NarrowTextContainer>
     ),
     h3: ({ children }) => (
       <NarrowTextContainer>
-        <h3 className="text-xl md:text-2xl font-semibold mb-3 font-sans">{children}</h3>
+        <h3 className="text-2xl font-normal tracking-tight mb-4">{children}</h3>
       </NarrowTextContainer>
     ),
     // Paragraphs in narrow column
@@ -535,6 +535,11 @@ export const caseStudyComponents: PortableTextComponents = {
     },
     twoColumnBlock: TwoColumnBlock,
     calloutBlock: CalloutBlock,
+    divider: () => (
+      <NarrowTextContainer>
+        <div className="w-full h-px bg-accent/40 mx-auto mt-16 mb-12 theme-transition" />
+      </NarrowTextContainer>
+    ),
   },
 }
 

@@ -59,11 +59,12 @@ const PROJECT_FULL_FIELDS = `
   order
 `
 
-// Case Study fields for listing (Work page)
+// Showcase fields for listing (Work page)
 const CASE_STUDY_LIST_FIELDS = `
   _id,
   title,
   "slug": slug.current,
+  oneLiner,
   company,
   shortDescription,
   description,
@@ -101,10 +102,11 @@ const CASE_STUDY_FULL_FIELDS = `
   _id,
   _type,
   _createdAt,
-  _updatedAt,
-  title,
-  slug,
-  company,
+          _updatedAt,
+          title,
+          slug,
+          oneLiner,
+          company,
   shortDescription,
   description,
   role,
@@ -154,11 +156,11 @@ const CASE_STUDY_FULL_FIELDS = `
       title
     }
   },
-  outcomes,
   timeline,
+  metrics,
   mainMediaType,
   mainImage {
-    asset,
+    asset->,
     alt,
     caption,
     hotspot,

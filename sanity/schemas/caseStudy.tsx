@@ -1,10 +1,12 @@
-import { defineField, defineType } from 'sanity'
-import { CaseIcon } from '@sanity/icons'
+import { defineArrayMember, defineField, defineType } from 'sanity'
+import { CaseIcon, InfoOutlineIcon } from '@sanity/icons'
 import { orderRankField, orderRankOrdering } from '@sanity/orderable-document-list'
+
+const CalloutIcon = InfoOutlineIcon
 
 export default defineType({
   name: 'caseStudy',
-  title: 'Case Study',
+  title: 'Showcase',
   type: 'document',
   icon: CaseIcon,
   orderings: [orderRankOrdering],
@@ -25,6 +27,12 @@ export default defineType({
         maxLength: 96,
       },
       validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'oneLiner',
+      title: 'One Liner',
+      type: 'string',
+      description: 'Catchy one-liner title shown in the Showcase detail page intro',
     }),
     defineField({
       name: 'company',
@@ -56,7 +64,7 @@ export default defineType({
       title: 'Content',
       type: 'array',
       of: [
-        {
+        defineArrayMember({
           type: 'block',
           marks: {
             annotations: [
@@ -64,7 +72,7 @@ export default defineType({
                 name: 'callout',
                 type: 'object',
                 title: 'Callout',
-                icon: () => '💡',
+                icon: CalloutIcon,
                 fields: [
                   {
                     name: 'variant',
@@ -86,8 +94,8 @@ export default defineType({
               },
             ],
           },
-        },
-        {
+        }),
+        defineArrayMember({
           type: 'image',
           options: { hotspot: true },
           fields: [
@@ -110,34 +118,52 @@ export default defineType({
               initialValue: 'narrow',
             },
           ],
-        },
-        {
+        }),
+        defineArrayMember({
           type: 'twoColumnBlock',
           title: 'Two Column (Image + Text)',
-        },
-        {
+        }),
+        defineArrayMember({
           type: 'calloutBlock',
           title: 'Callout Block',
-        },
-        {
+        }),
+        defineArrayMember({
           type: 'videoBlock',
           title: 'Video',
-        },
+        }),
+        defineArrayMember({
+          type: 'divider',
+        }),
       ],
       description: 'Full case study content with rich text, images, and videos',
-    }),
-    defineField({
-      name: 'outcomes',
-      title: 'Outcomes',
-      type: 'array',
-      of: [{ type: 'block' }],
-      description: 'Key results and impact',
     }),
     defineField({
       name: 'timeline',
       title: 'Timeline',
       type: 'string',
       description: 'e.g., "2021-2023" or "18 months"',
+    }),
+    defineField({
+      name: 'metrics',
+      title: 'Metrics / Highlights',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          fields: [
+            { name: 'label', title: 'Label', type: 'string', description: 'e.g., "0-1" or "3"' },
+            { name: 'value', title: 'Value', type: 'string', description: 'e.g., "New product area buildout"' },
+          ],
+          preview: {
+            select: {
+              title: 'label',
+              subtitle: 'value',
+            },
+          },
+        }),
+      ],
+      validation: (Rule) => Rule.max(4),
+      description: 'Up to 4 metrics shown in the header grid',
     }),
     defineField({
       name: 'mainMediaType',
@@ -185,14 +211,14 @@ export default defineType({
       title: 'Image Gallery',
       type: 'array',
       of: [
-        {
+        defineArrayMember({
           type: 'image',
           options: { hotspot: true },
           fields: [
             { name: 'alt', type: 'string', title: 'Alt text' },
             { name: 'caption', type: 'string', title: 'Caption' },
           ],
-        },
+        }),
       ],
       options: { layout: 'grid' },
     }),
@@ -200,7 +226,7 @@ export default defineType({
       name: 'tags',
       title: 'Tags',
       type: 'array',
-      of: [{ type: 'string' }],
+      of: [defineArrayMember({ type: 'string' })],
       options: { layout: 'tags' },
     }),
     defineField({
@@ -239,4 +265,3 @@ export default defineType({
     },
   },
 })
-

@@ -26,11 +26,11 @@ export function buildImageUrl(
 ): string | null {
   if (!source) return null
 
-  // Check if the image has a valid asset reference
+  // Check if the image has a valid asset reference or object
   if (typeof source === 'object' && 'asset' in source) {
     const asset = (source as any).asset
-    if (!asset || !asset._ref) {
-      console.warn('Image asset is missing or has no _ref property')
+    if (!asset || (!asset._ref && !asset._id)) {
+      console.warn('Image asset is missing or has no _ref/_id property')
       return null
     }
   }

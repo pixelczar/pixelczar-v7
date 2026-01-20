@@ -23,7 +23,7 @@ export default function MagneticLink({
   "data-cursor-rounded": dataCursorRounded,
 }: MagneticLinkProps) {
   return (
-    <div style={{ display: "inline-block" }}>
+    <span style={{ display: "inline-block" }}>
       <Link
         href={href}
         className={`cursor-hover ${className}`}
@@ -33,6 +33,6 @@ export default function MagneticLink({
       >
         {children}
       </Link>
-    </div>
+    </span>
   );
 }

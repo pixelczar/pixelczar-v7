@@ -1,0 +1,37 @@
+/* 
+  Sanity Studio Custom Overrides
+  This file is imported in app/studio/[[...tool]]/page.tsx 
+*/
+
+/* 1. Uncap the document form width */
+[data-testid="document-panel"] [data-testid="document-form-container"] {
+  max-width: 1400px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+}
+
+/* 2. Uncap Portable Text */
+[data-testid="portable-text-editor"] {
+  max-width: none !important;
+}
+
+/* 3. Improve Portable Text writing surface */
+[data-testid="portable-text-editor"] {
+  border: 1px solid var(--card-border-color) !important;
+  border-radius: 12px !important;
+  padding: 32px !important;
+  background: var(--card-bg-color) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
+  margin-top: 20px !important;
+}
+
+/* 4. Keep the actions bar at the bottom but make it cleaner */
+[data-testid="document-panel-footer"] {
+  background: var(--card-bg-color) !important;
+  border-top: 1px solid var(--card-border-color) !important;
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.05) !important;
+}
+
+/* 5. Optional: If you want the "Zen" feel, you can hide the sidebars using the built-in Studio buttons 
+   instead of forcing it with CSS which can break Sanity's internal measurement logic. 
+*/

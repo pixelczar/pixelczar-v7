@@ -99,7 +99,7 @@ export default function Footer() {
           This site was born in Figma, raised in Cursor, assembled pixel-by-pixel on Boston's beautiful North Shore.
         </div>
         <div className="text-base font-sans theme-transition text-muted-foreground text-right flex justify-end flex-col space-y-2">
-          <span className="">will@pixelczar.com © {new Date().getFullYear()}</span>
+          <span className=""><span className="mr-4">will@pixelczar.com</span> © {new Date().getFullYear()}</span>
           <MagneticLink 
             href="/colophon" 
             className="text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 -mr-3 rounded-full hover:text-white hover:bg-accent/10"

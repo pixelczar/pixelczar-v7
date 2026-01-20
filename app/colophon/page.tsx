@@ -23,12 +23,19 @@ export default function ColophonPage() {
         initial="hidden"
         animate="visible"
       >
-        <motion.h1 
-          variants={itemVariants}
-          className="text-5xl md:text-6xl font-serif heading-display italic font-normal text-foreground mb-16 theme-transition"
-        >
-          Colophon
-        </motion.h1>
+        <div className="max-w-3xl mx-auto mb-20">
+          <motion.h1 
+            variants={itemVariants}
+            className="heading-display mb-8 text-center"
+          >
+            <span className="lust-aalt">C</span>o<span className="lust-swsh">l</span>o<span className="lust-swsh">p</span>h<span className="lust-swsh">o</span>n
+          </motion.h1>
+
+          <motion.div
+            variants={itemVariants}
+            className="w-full h-px bg-accent/40 mx-auto mt-16 mb-6 theme-transition"
+          />
+        </div>
 
         <div className="space-y-12 text-lg text-body-main">
           <motion.section variants={itemVariants}>

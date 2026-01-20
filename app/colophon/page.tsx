@@ -8,8 +8,8 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
+      staggerChildren: 0.08,
+      delayChildren: 0.05,
     },
   },
 };
@@ -18,17 +18,17 @@ export default function ColophonPage() {
   return (
     <div className="bg-background text-foreground theme-transition relative overflow-hidden min-h-screen">
       <motion.main 
-        className="px-6 py-24 max-w-3xl mx-auto theme-transition relative"
+        className="px-6 py-12 theme-transition relative"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        <div className="max-w-3xl mx-auto mb-20">
+        <div className="max-w-3xl mx-auto mb-12 md:mb-20">
           <motion.h1 
             variants={itemVariants}
             className="heading-display mb-8 text-center"
           >
-            <span className="lust-aalt">C</span>o<span className="lust-swsh">l</span>o<span className="lust-swsh">p</span>h<span className="lust-swsh">o</span>n
+            <span className="lust-aalt">C</span>o<span className="lust-swsh">l</span>o<span className="lust-swsh">p</span><span className="lust-swsh">h</span>o<span className="lust-ss03">n</span>
           </motion.h1>
 
           <motion.div
@@ -37,7 +37,7 @@ export default function ColophonPage() {
           />
         </div>
 
-        <div className="space-y-12 text-lg text-body-main">
+        <div className="max-w-3xl mx-auto space-y-12 text-lg text-body-main">
           <motion.section variants={itemVariants}>
             <h2 className="text-xl font-medium text-foreground mb-4">Design & Type</h2>
             <p>

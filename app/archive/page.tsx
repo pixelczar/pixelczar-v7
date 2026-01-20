@@ -74,13 +74,18 @@ export default function ArchivePage() {
     <div className="bg-background text-foreground theme-transition relative overflow-hidden">
       <main className="py-12 theme-transition relative">
         {/* Header Content - Minimal */}
-        <div className="max-w-2xl mx-auto px-6 mb-12">
+        <div className="max-w-3xl mx-auto px-6 mb-20">
           <motion.h1
             variants={itemVariants}
-            className="text-6xl font-serif heading-display italic font-normal text-foreground mb-8 theme-transition text-center"
+            className="heading-display mb-8 text-center"
           >
             <span className="lust-aalt">A</span>rc<span className="lust-swsh">h</span>i<span className="lust-swsh">v</span><span className="lust-cswh">e</span>
           </motion.h1>
+
+          <motion.div
+            variants={itemVariants}
+            className="w-full h-px bg-accent/40 mx-auto mt-16 mb-6 theme-transition"
+          />
         </div>
 
         {/* Image Grid - Full Width Container */}

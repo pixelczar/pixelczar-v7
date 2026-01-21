@@ -4,7 +4,9 @@ import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import MagneticButton from "./magnetic-button";
 import MagneticLink from "./magnetic-link";
+import { ArrowUpRight } from 'lucide-react'
 import { homepageTransitions, standardTransitions } from "@/lib/animations";
+import { Icon } from "lucide-react";
 
 const footerVariants = {
   hidden: { opacity: 0, y: 16 },
@@ -94,21 +96,26 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="py-8 px-8 mt-8 flex justify-between">
-        <div className="text-base font-sans theme-transition text-muted-foreground max-w-lg">
+      <div className="py-8 px-8 mt-8 flex flex-col md:flex-row md:justify-between">
+        <div className="text-base font-sans theme-transition text-muted-foreground max-w-lg mb-24 md:mb-0">
           This site was born in Figma, raised in Cursor, assembled pixel-by-pixel on Boston's beautiful North Shore.
         </div>
-        <div className="text-base font-sans theme-transition text-muted-foreground text-right flex justify-end flex-col space-y-2">
-          <span className=""><span className="mr-4">will@pixelczar.com</span> © {new Date().getFullYear()}</span>
-          <MagneticLink 
-            href="/colophon" 
-            className="text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 -mr-3 rounded-full hover:text-white hover:bg-accent/10"
-            style={{ color: 'hsl(var(--accent))', opacity: 1 }}
-            data-cursor-rounded="full"
-            strength={0.3}
-          >
-            Colophon
-          </MagneticLink>
+        <div className="flex justify-between items-end md:flex-col md:justify-end md:items-end md:space-y-1 text-base font-sans theme-transition text-muted-foreground">
+          <div className="flex items-center gap-4 order-1 md:order-2">
+            <span className="">will@pixelczar.com</span>
+            <span className="opacity-50 md:opacity-100 text-sm md:text-base">© {new Date().getFullYear()}</span>
+          </div>
+          <div className="order-2 md:order-1">
+            <MagneticLink 
+                href="/colophon" 
+                className="inline-flex text-right justify-end text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 -mr-3 rounded-full text-muted-foreground hover:text-accent hover:bg-accent/10"
+                data-cursor-rounded="full"
+                strength={0.3}
+              >
+              Colophon
+              <ArrowUpRight className="w-5 h-5 ml-2 group-hover:text-accent text-accent transition-colors duration-300" />
+            </MagneticLink>
+          </div>
         </div>
       </div>
     </motion.footer>

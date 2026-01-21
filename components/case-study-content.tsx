@@ -27,10 +27,8 @@ export const NarrowTextContainer = ({ children }: { children: React.ReactNode })
 
 // Full-width container for images that break out
 export const FullWidthContainer = ({ children }: { children: React.ReactNode }) => (
-  <div className="relative left-1/2 -translate-x-1/2 my-12">
-    <div className="w-full max-w-7xl mx-auto">
-      {children}
-    </div>
+  <div className="w-full max-w-7xl mx-auto my-4">
+    {children}
   </div>
 )
 
@@ -42,7 +40,7 @@ export const TwoColumnContainer = ({
   children: React.ReactNode
   reverse?: boolean 
 }) => (
-  <div className={`grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-8 my-12 ${reverse ? 'md:flex-row-reverse' : ''}`}>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 my-12 items-center">
     {children}
   </div>
 )
@@ -97,24 +95,22 @@ function CaseStudyImage({ value }: { value: any }) {
   if (layout === 'full-width') {
     return (
       <FullWidthContainer>
-        <div className="">
-          <div className="relative w-full min-h-[200px] overflow-hidden bg-muted rounded-lg md:rounded-xl flex items-center justify-center">
-            <Image
-              src={imageUrl}
-              alt={imageValue.alt || 'Case study image'}
-              width={1920}
-              height={1080}
-              className="w-full h-auto max-h-[80vh] object-contain"
-              sizes="100vw"
-              quality={90}
-            />
-          </div>
-          {imageValue.caption && (
-            <p className="text-sm text-muted-foreground text-center mt-4 max-w-4xl mx-auto">
-              {imageValue.caption}
-            </p>
-          )}
+        <div className="relative w-full overflow-hidden bg-muted rounded-lg md:rounded-xl shadow-sm">
+          <Image
+            src={imageUrl}
+            alt={imageValue.alt || 'Case study image'}
+            width={1920}
+            height={1080}
+            className="w-full h-auto max-h-[90vh] object-cover"
+            sizes="100vw"
+            quality={90}
+          />
         </div>
+        {imageValue.caption && (
+          <p className="text-sm text-muted-foreground text-center mt-4 max-w-4xl mx-auto">
+            {imageValue.caption}
+          </p>
+        )}
       </FullWidthContainer>
     )
   }
@@ -132,12 +128,12 @@ function CaseStudyImage({ value }: { value: any }) {
             width={1200}
             height={800}
             className="w-full h-auto max-h-[60vh] object-contain"
-            sizes="(max-width: 768px) 50vw, 50vw"
+            sizes="(max-width: 768px) 100vw, 50vw"
             quality={90}
           />
         </div>
         {imageValue.caption && (
-          <p className="text-sm text-muted-foreground mt-2">{imageValue.caption}</p>
+          <p className="text-sm text-muted-foreground text-center mt-4 max-w-4xl mx-auto">{imageValue.caption}</p>
         )}
       </div>
     )
@@ -145,20 +141,20 @@ function CaseStudyImage({ value }: { value: any }) {
 
   // Narrow layout (default)
   return (
-    <div className="my-8">
-      <div className="relative w-full min-h-[200px] overflow-hidden bg-muted rounded-lg md:rounded-xl flex items-center justify-center">
+    <div className="my-12">
+      <div className="relative w-full overflow-hidden bg-muted rounded-lg md:rounded-xl shadow-sm">
         <Image
           src={imageUrl}
           alt={imageValue.alt || 'Case study image'}
           width={1400}
           height={1000}
-          className="w-full h-auto max-h-[70vh] object-contain"
-          sizes="(max-width: 768px) 100vw, 700px"
+          className="w-full h-auto max-h-[80vh] object-cover"
+          sizes="(max-width: 768px) 100vw, 800px"
           quality={90}
         />
       </div>
       {imageValue.caption && (
-        <p className="text-sm text-muted-foreground text-center mt-2">{imageValue.caption}</p>
+        <p className="text-sm text-muted-foreground text-center mt-3">{imageValue.caption}</p>
       )}
     </div>
   )
@@ -196,24 +192,22 @@ function CaseStudyVideo({ value }: { value: any }) {
   if (layout === 'full-width') {
     return (
       <FullWidthContainer>
-        <div className="my-8">
-          <div className="relative w-full aspect-video overflow-hidden bg-muted rounded-lg md:rounded-xl">
-            <video
-              src={videoUrl}
-              autoPlay={autoplay}
-              loop={loop}
-              muted={muted}
-              controls={controls}
-              playsInline
-              className="w-full h-full object-contain"
-            />
-          </div>
-          {value.caption && (
-            <p className="text-sm text-muted-foreground text-center mt-4 max-w-4xl mx-auto">
-              {value.caption}
-            </p>
-          )}
+        <div className="relative w-full overflow-hidden bg-muted rounded-lg md:rounded-xl shadow-sm">
+          <video
+            src={videoUrl}
+            autoPlay={autoplay}
+            loop={loop}
+            muted={muted}
+            controls={controls}
+            playsInline
+            className="w-full h-auto block"
+          />
         </div>
+        {value.caption && (
+          <p className="text-sm text-muted-foreground text-center mt-4 max-w-4xl mx-auto">
+            {value.caption}
+          </p>
+        )}
       </FullWidthContainer>
     )
   }
@@ -232,7 +226,7 @@ function CaseStudyVideo({ value }: { value: any }) {
             muted={muted}
             controls={controls}
             playsInline
-            className="w-full h-full object-contain"
+            className="w-full h-full object-cover"
           />
         </div>
         {value.caption && (
@@ -245,7 +239,7 @@ function CaseStudyVideo({ value }: { value: any }) {
   // Narrow layout (default)
   return (
     <div className="my-8">
-      <div className="relative w-full aspect-video overflow-hidden bg-muted rounded-lg md:rounded-xl">
+      <div className="relative w-full overflow-hidden bg-muted rounded-lg md:rounded-xl shadow-sm">
         <video
           src={videoUrl}
           autoPlay={autoplay}
@@ -253,7 +247,7 @@ function CaseStudyVideo({ value }: { value: any }) {
           muted={muted}
           controls={controls}
           playsInline
-          className="w-full h-full object-contain"
+          className="w-full h-auto block"
         />
       </div>
       {value.caption && (
@@ -307,7 +301,7 @@ function TwoColumnBlock({ value }: { value: any }) {
     block: {
       h1: ({ children }) => <h1 className="text-2xl font-semibold mb-4 font-sans">{children}</h1>,
       h2: ({ children }) => <h2 className="text-xl font-semibold mb-3 font-sans">{children}</h2>,
-      h3: ({ children }) => <h3 className="text-2xl font-normal tracking-tight">{children}</h3>,
+      h3: ({ children }) => <h3 className="text-2xl font-normal tracking-tight pt-8">{children}</h3>,
       normal: ({ children }) => <p className="text-body-main leading-relaxed mb-4 font-sans">{children}</p>,
       blockquote: ({ children }) => (
         <blockquote className="border-l-4 border-accent pl-4 py-2 my-4 italic text-muted-foreground">
@@ -347,7 +341,7 @@ function TwoColumnBlock({ value }: { value: any }) {
                 width={1200}
                 height={800}
                 className="w-full h-auto max-h-[60vh] object-contain"
-                sizes="(max-width: 768px) 50vw, 50vw"
+                sizes="(max-width: 768px) 100vw, 50vw"
                 quality={90}
               />
             </div>
@@ -444,13 +438,13 @@ export const caseStudyComponents: PortableTextComponents = {
     ),
     h3: ({ children }) => (
       <NarrowTextContainer>
-        <h3 className="text-2xl font-normal tracking-tight mb-4">{children}</h3>
+        <h3 className="text-2xl font-normal tracking-tight mb-4 mt-16">{children}</h3>
       </NarrowTextContainer>
     ),
     // Paragraphs in narrow column
     normal: ({ children }) => (
       <NarrowTextContainer>
-        <p className="text-body-main leading-relaxed mb-6 font-sans">
+        <p className="text-body-main leading-relaxed mb-16 font-sans">
           {children}
         </p>
       </NarrowTextContainer>

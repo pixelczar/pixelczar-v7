@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { memo } from 'react'
@@ -38,61 +39,78 @@ function WipBadge({ message }: { message: string }) {
 
 function MainMedia({ 
   caseStudy,
-  index = 0
+  index = 0,
+  isWip = true
 }: { 
   caseStudy: CaseStudyListItem
   index?: number 
+  isWip?: boolean
 }) {
   const isVideo = caseStudy.mainMediaType === 'video'
   const videoUrl = caseStudy.mainVideoUrl || caseStudy.mainVideo?.url
   const imageUrl = caseStudy.mainImage?.url
 
-  // Use WIP tooltip for hover
-  const tooltipText = WIP_TOOLTIP
+  // Use WIP tooltip or title for hover
+  const tooltipText = isWip ? WIP_TOOLTIP : (caseStudy.oneLiner || caseStudy.title)
   
   // Get WIP badge message based on index (cycle through messages)
   const wipMessage = WIP_MESSAGES[index % WIP_MESSAGES.length]
+
+  const renderContent = (content: React.ReactNode) => {
+    if (!isWip && !caseStudy.projectUrl) {
+      return (
+        <Link href={`/work/${caseStudy.slug}`} className="block">
+          {content}
+        </Link>
+      )
+    }
+    return content
+  }
 
   if (isVideo && videoUrl) {
     // External video URL (YouTube, Vimeo, etc.)
     if (caseStudy.mainVideoUrl) {
       return (
         <ImageTooltip text={tooltipText} alignTopLeft>
-          <div className="relative w-full aspect-video overflow-hidden rounded-md bg-primary/10 shadow-lg" data-cursor-ignore>
-            <WipBadge message={wipMessage} />
-            <a
-              href={videoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="absolute inset-0 flex items-center justify-center bg-muted/50 hover:bg-muted/70 transition-colors"
-            >
-              <div className="text-center">
-                <div className="w-12 h-12 rounded-full bg-accent/80 flex items-center justify-center mb-2 mx-auto">
-                  <svg className="w-5 h-5 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
+          {renderContent(
+            <div className="relative w-full aspect-video overflow-hidden rounded-md bg-primary/10 shadow-lg" data-cursor-ignore>
+              {isWip && <WipBadge message={wipMessage} />}
+              <a
+                href={videoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute inset-0 flex items-center justify-center bg-muted/50 hover:bg-muted/70 transition-colors"
+              >
+                <div className="text-center">
+                  <div className="w-12 h-12 rounded-full bg-accent/80 flex items-center justify-center mb-2 mx-auto">
+                    <svg className="w-5 h-5 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </div>
+                  <span className="text-xs text-muted-foreground">Play Video</span>
                 </div>
-                <span className="text-xs text-muted-foreground">Play Video</span>
-              </div>
-            </a>
-          </div>
+              </a>
+            </div>
+          )}
         </ImageTooltip>
       )
     }
     // Uploaded video file
     return (
       <ImageTooltip text={tooltipText} alignTopLeft>
-        <div className="relative w-full aspect-video overflow-hidden rounded-md bg-primary/10 shadow-lg" data-cursor-ignore>
-          <WipBadge message={wipMessage} />
-          <video
-            src={videoUrl}
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-        </div>
+        {renderContent(
+          <div className="relative w-full aspect-video overflow-hidden rounded-md bg-primary/10 shadow-lg" data-cursor-ignore>
+            {isWip && <WipBadge message={wipMessage} />}
+            <video
+              src={videoUrl}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          </div>
+        )}
       </ImageTooltip>
     )
   }
@@ -100,20 +118,22 @@ function MainMedia({
   if (imageUrl) {
     return (
       <ImageTooltip text={tooltipText} alignTopLeft>
-        <div
-          className="relative w-full aspect-video overflow-hidden rounded-md bg-primary/10 shadow-lg"
-          data-cursor-ignore
-        >
-          <WipBadge message={wipMessage} />
-          <Image
-            src={imageUrl}
-            alt={caseStudy.mainImage?.alt || caseStudy.title}
-            fill
-            className="object-contain"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
-            quality={90}
-          />
-        </div>
+        {renderContent(
+          <div
+            className="relative w-full aspect-video overflow-hidden rounded-md bg-primary/10 shadow-lg"
+            data-cursor-ignore
+          >
+            {isWip && <WipBadge message={wipMessage} />}
+            <Image
+              src={imageUrl}
+              alt={caseStudy.mainImage?.alt || caseStudy.title}
+              fill
+              className="object-contain"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
+              quality={90}
+            />
+          </div>
+        )}
       </ImageTooltip>
     )
   }
@@ -122,18 +142,22 @@ function MainMedia({
 }
 
 function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardProps) {
+  // Determine if this is a WIP based on the slug (ungate Data Studio)
+  const isWip = caseStudy.slug !== 'data-studio'
+  const tooltipText = isWip ? WIP_TOOLTIP : (caseStudy.oneLiner || caseStudy.title)
+
   return (
     <motion.div
       variants={itemVariants}
       className="h-full"
     >
       <div 
-        className={`rounded-xl group-hover:bg-card/60 h-full flex flex-col ${caseStudy.projectUrl ? 'cursor-hover' : ''}`}
-        data-cursor-target={caseStudy.projectUrl ? `case-study-title-${caseStudy._id}` : undefined}
+        className={`rounded-xl group h-full flex flex-col ${caseStudy.projectUrl || !isWip ? 'cursor-hover' : ''}`}
+        data-cursor-target={`case-study-title-${caseStudy._id}`}
       >
         {/* Main Media (Image or Video) - Above Title */}
         <div className="mb-8">
-          <MainMedia caseStudy={caseStudy} index={index} />
+          <MainMedia caseStudy={caseStudy} index={index} isWip={isWip} />
         </div>
 
         {/* Title/Description + Metadata */}
@@ -146,45 +170,54 @@ function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardProps) {
                   strength={0.3}
                   data-cursor-rounded="full"
                 >
-                  <ImageTooltip text={WIP_TOOLTIP} alignTopLeft>
-                    <a
-                      href={caseStudy.projectUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      id={`case-study-title-${caseStudy._id}`}
-                      data-cursor-target={`case-study-title-${caseStudy._id}`}
-                      className="cursor-hover inline-flex items-center gap-3 px-2 py-1 rounded-full relative -left-2 group"
-                      aria-label={`Visit ${caseStudy.title}`}
-                    >
-                      <h3 className="text-3xl font-medium font-sans my-2 transition-colors duration-300 group-hover:text-accent">
-                        {caseStudy.oneLiner || caseStudy.title}
-                      </h3>
-                      <ArrowRight className="w-5 h-5 md:w-6 md:h-6 transition-colors duration-300 group-hover:text-accent" />
-                    </a>
-                  </ImageTooltip>
+                  <a
+                    href={caseStudy.projectUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    id={`case-study-title-${caseStudy._id}`}
+                    data-cursor-target={`case-study-title-${caseStudy._id}`}
+                    className="cursor-hover inline-flex items-center gap-3 px-2 py-1 rounded-full relative -left-2 group/title"
+                    aria-label={`Visit ${caseStudy.title}`}
+                  >
+                    <h3 className="text-3xl font-medium font-sans my-2 transition-colors duration-300 group-hover/title:text-accent">
+                      {caseStudy.oneLiner || caseStudy.title}
+                    </h3>
+                    <ArrowRight className="w-5 h-5 md:w-6 md:h-6 transition-all duration-500 ease-[0.23,1,0.32,1] opacity-0 -translate-x-3 group-hover/title:opacity-100 group-hover/title:translate-x-0 group-hover/title:text-accent" />
+                  </a>
+                </MagneticWrapper>
+              ) : !isWip ? (
+                <MagneticWrapper
+                  strength={0.3}
+                  data-cursor-rounded="full"
+                >
+                  <Link
+                    href={`/work/${caseStudy.slug}`}
+                    id={`case-study-title-${caseStudy._id}`}
+                    data-cursor-target={`case-study-title-${caseStudy._id}`}
+                    className="cursor-hover inline-flex items-center gap-3 px-6 -ml-4 py-1 rounded-full relative -left-2 group/title"
+                    aria-label={`View ${caseStudy.title} case study`}
+                  >
+                    <h3 className="text-3xl font-medium font-sans my-2 transition-colors duration-300 group-hover/title:text-accent">
+                      {caseStudy.oneLiner || caseStudy.title}
+                    </h3>
+                    <ArrowRight className="w-5 h-5 md:w-6 md:h-6 transition-all duration-500 ease-[0.23,1,0.32,1] opacity-0 -translate-x-3 group-hover/title:opacity-100 group-hover/title:translate-x-0 group-hover/title:text-accent" />
+                  </Link>
                 </MagneticWrapper>
               ) : (
-                <ImageTooltip text={WIP_TOOLTIP} alignTopLeft>
-                  <h3 className="text-3xl font-medium font-sans my-2">
-                    {caseStudy.oneLiner || caseStudy.title}
-                  </h3>
-                </ImageTooltip>
+                <h3 className="text-3xl font-medium font-sans my-2">
+                  {caseStudy.oneLiner || caseStudy.title}
+                </h3>
               )}
             </div>
-            {/* {caseStudy.company && (
-              <p className="text-sm text-accent font-medium mb-3 font-sans">
-                {caseStudy.company}
-              </p>
-            )} */}
-            {(caseStudy.shortDescription || caseStudy.description) && (
+            {/* {(caseStudy.shortDescription || caseStudy.description) && (
               <p className="text-lg text-muted-foreground font-sans leading-snug mb-4">
                 {caseStudy.shortDescription || caseStudy.description}
               </p>
-            )}
+            )} */}
           </div>
 
           {/* Metadata */}
-          <div className="flex flex-row gap-6 md:gap-8 text-sm hidden">
+          <div className="gap-6 md:gap-8 text-sm hidden">
             {caseStudy.role && (
               <div>
                 <div className="text-xs font-medium text-muted-foreground tracking-wide mb-1 font-sans">
@@ -206,6 +239,11 @@ function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardProps) {
               </div>
             )}
           </div>
+          {(caseStudy.shortDescription || caseStudy.description) && (
+            <p className="text-lg text-muted-foreground font-sans leading-snug mb-4">
+              {caseStudy.shortDescription || caseStudy.description}
+            </p>
+          )}
         </div>
       </div>
     </motion.div>

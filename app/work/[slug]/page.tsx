@@ -10,6 +10,9 @@ import { Separator } from '@/components/ui/separator'
 import { PortableText } from '@portabletext/react'
 import { NarrowTextContainer, FullWidthContainer } from '@/components/case-study-content'
 import CaseStudyPortableText from '@/components/case-study-portable-text'
+import NextProject from '@/components/next-project'
+import type { CaseStudyListItem } from '@/types/sanity'
+import { buildImageUrl as buildListImageUrl } from '@/lib/sanity'
 
 export const revalidate = 60
 
@@ -80,6 +83,34 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
 
   if (!caseStudy) {
     notFound()
+  }
+
+  // Get all case studies to find the next ones
+  const allCaseStudies = await getAllCaseStudies()
+  const currentIndex = allCaseStudies.findIndex(cs => cs.slug.current === slug)
+  
+  // Get next 2 projects for the grid
+  const nextProjects: CaseStudyListItem[] = []
+  for (let i = 1; i <= 2; i++) {
+    const nextIndex = (currentIndex + i) % allCaseStudies.length
+    const nextRaw = allCaseStudies[nextIndex]
+    
+    const nextImageUrl = nextRaw.mainImage ? buildListImageUrl(nextRaw.mainImage, 1200) : null
+    nextProjects.push({
+      _id: nextRaw._id,
+      title: nextRaw.title,
+      slug: nextRaw.slug.current,
+      company: nextRaw.company,
+      mainMediaType: nextRaw.mainMediaType,
+      mainImage: nextImageUrl ? {
+        url: nextImageUrl,
+        alt: nextRaw.mainImage?.alt || nextRaw.title,
+      } : undefined,
+      mainVideo: nextRaw.mainVideo?.asset?.url ? {
+        url: nextRaw.mainVideo.asset.url
+      } : undefined,
+      featured: nextRaw.featured,
+    })
   }
 
   const mainImageUrl = caseStudy.mainImage ? buildImageUrl(caseStudy.mainImage, 1920, 1080) : null
@@ -270,15 +301,18 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
               </div>
             </div>
           )}
+
+          {/* Next Project Section */}
+          <NextProject nextProjects={nextProjects} />
           
           {/* Footer Navigation */}
-          <div className="flex justify-between items-center pt-12 mt-24">
-             <Link href="/work">
+          <div className="flex justify-between items-center pt-12">
+             {/* <Link href="/work">
               <Button variant="link" className="px-0 text-muted-foreground hover:text-foreground">
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to All Work
               </Button>
-            </Link>
+            </Link> */}
             
             {caseStudy.projectUrl && (
               <Link href={caseStudy.projectUrl} target="_blank" rel="noopener noreferrer">

@@ -83,7 +83,7 @@ export default function Header() {
         <motion.div variants={navItemVariants}>
           <MagneticLink
             href="/about"
-            className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
+            className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white hover:bg-accent/10 ${
               pathname === "/about" ? "font-medium" : "hover:text-primary"
             }`}
             style={pathname === "/about" ? { color: 'hsl(var(--accent))', opacity: 1 } : { color: 'var(--muted-foreground)' }}
@@ -96,7 +96,7 @@ export default function Header() {
         <motion.div variants={navItemVariants}>
           <MagneticLink
             href="/work"
-            className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
+            className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white hover:bg-accent/10 ${
               pathname === "/work" ? "font-medium" : "hover:text-primary"
             }`}
             style={pathname === "/work" ? { color: 'hsl(var(--accent))', opacity: 1 } : { color: 'var(--muted-foreground)' }}
@@ -109,7 +109,7 @@ export default function Header() {
         <motion.div variants={navItemVariants}>
           <MagneticLink
             href="/play"
-            className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white ${
+            className={`text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 rounded-full hover:text-white!important hover:bg-accent/10 ${
               pathname === "/play" ? "font-medium" : "hover:text-primary"
             }`}
             style={pathname === "/play" ? { color: 'hsl(var(--accent))', opacity: 1 } : { color: 'var(--muted-foreground)' }}

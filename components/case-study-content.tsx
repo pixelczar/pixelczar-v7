@@ -47,6 +47,10 @@ export const TwoColumnContainer = ({
 
 // Image component with layout support
 function CaseStudyImage({ value }: { value: any }) {
+  if (value?.isHidden) {
+    return null
+  }
+  
   // Debug: log what we're receiving
   if (process.env.NODE_ENV === 'development') {
     console.log('CaseStudyImage called with value:', value)
@@ -162,6 +166,10 @@ function CaseStudyImage({ value }: { value: any }) {
 
 // Video component with layout support
 function CaseStudyVideo({ value }: { value: any }) {
+  if (value?.isHidden) {
+    return null
+  }
+
   if (!value) {
     console.warn('CaseStudyVideo: Invalid video value', value)
     return null
@@ -332,7 +340,7 @@ function TwoColumnBlock({ value }: { value: any }) {
     <TwoColumnContainer reverse={isImageRight}>
       {/* Image side */}
       <div className={isImageRight ? 'md:order-2' : ''}>
-        {imageUrl ? (
+        {imageUrl && !image?.isHidden ? (
           <div className="my-4">
             <div className="relative w-full min-h-[200px] overflow-hidden bg-muted rounded-lg md:rounded-xl flex items-center justify-center">
               <Image

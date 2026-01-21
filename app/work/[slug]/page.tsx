@@ -95,7 +95,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
     const nextIndex = (currentIndex + i) % allCaseStudies.length
     const nextRaw = allCaseStudies[nextIndex]
     
-    const nextImageUrl = nextRaw.mainImage ? buildListImageUrl(nextRaw.mainImage, 1200) : null
+    const nextImageUrl = (nextRaw.mainImage && !nextRaw.mainImage.isHidden) ? buildListImageUrl(nextRaw.mainImage, 1200) : null
     nextProjects.push({
       _id: nextRaw._id,
       title: nextRaw.title,
@@ -113,7 +113,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
     })
   }
 
-  const mainImageUrl = caseStudy.mainImage ? buildImageUrl(caseStudy.mainImage, 1920, 1080) : null
+  const mainImageUrl = (caseStudy.mainImage && !caseStudy.mainImage.isHidden) ? buildImageUrl(caseStudy.mainImage, 1920, 1080) : null
   const mainImage = mainImageUrl
     ? {
         url: mainImageUrl,

@@ -1,4 +1,4 @@
-import { defineField, defineType } from 'sanity'
+import { defineArrayMember, defineField, defineType } from 'sanity'
 import { InfoOutlineIcon } from '@sanity/icons'
 
 export default defineType({
@@ -11,7 +11,7 @@ export default defineType({
       name: 'content',
       title: 'Content',
       type: 'array',
-      of: [{ type: 'block' }],
+      of: [defineArrayMember({ type: 'block' })],
       validation: (Rule) => Rule.required(),
     }),
     defineField({

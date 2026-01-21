@@ -35,8 +35,8 @@ export default async function PlayPage() {
   try {
     const rawProjects = await getProjectsList()
     projects = rawProjects.map((project: any) => {
-      const imageUrl = project.mainImage ? buildImageUrl(project.mainImage, 1200) : null
-      const galleryUrls = project.gallery?.map((img: any) => ({
+      const imageUrl = (project.mainImage && !project.mainImage.isHidden) ? buildImageUrl(project.mainImage, 1200) : null
+      const galleryUrls = project.gallery?.filter((img: any) => !img.isHidden)?.map((img: any) => ({
         url: buildImageUrl(img, 1200),
         alt: typeof img.alt === 'string' ? img.alt : project.title,
       }))?.filter((img: any): img is { url: string; alt: string } => img.url !== null)
@@ -66,7 +66,9 @@ export default async function PlayPage() {
 
   try {
     const rawGalleryItems = await getGalleryItems()
-    galleryItems = rawGalleryItems.map((item: any) => {
+    galleryItems = rawGalleryItems
+      .filter((item: any) => !item.isHidden)
+      .map((item: any) => {
       let src = ''
       const isVideo = item.type === 'video'
       const externalVideoUrl = typeof item.videoUrl === 'string' ? item.videoUrl : undefined

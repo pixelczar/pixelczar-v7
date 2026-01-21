@@ -51,7 +51,7 @@ export default defineType({
       type: 'image',
       options: { hotspot: true },
       fields: [
-        { name: 'alt', type: 'string', title: 'Alt text' },
+        defineField({ name: 'alt', type: 'string', title: 'Alt text' }),
       ],
       hidden: ({ parent }) => parent?.type === 'video',
     }),
@@ -77,6 +77,13 @@ export default defineType({
       type: 'string',
     }),
     defineField({
+      name: 'isHidden',
+      type: 'boolean',
+      title: 'Hide Item',
+      description: 'When enabled, this item will be hidden from the gallery',
+      initialValue: false,
+    }),
+    defineField({
       name: 'order',
       title: 'Order',
       type: 'number',
@@ -90,11 +97,12 @@ export default defineType({
       type: 'type',
       size: 'size',
       media: 'image',
+      isHidden: 'isHidden',
     },
-    prepare({ title, type, size, media }) {
+    prepare({ title, type, size, media, isHidden }) {
       return {
-        title: title || 'Untitled',
-        subtitle: `${type || 'image'} • ${size || 'medium'}`,
+        title: `${isHidden ? '🚫 ' : ''}${title || 'Untitled'}`,
+        subtitle: `${type || 'image'} • ${size || 'medium'}${isHidden ? ' (HIDDEN)' : ''}`,
         media,
       }
     },

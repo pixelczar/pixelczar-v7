@@ -7,6 +7,7 @@ import MagneticLink from "./magnetic-link";
 import { ArrowUpRight } from 'lucide-react'
 import { homepageTransitions, standardTransitions } from "@/lib/animations";
 import { Icon } from "lucide-react";
+import { BubbleTooltip } from "./bubble-tooltip";
 
 const footerVariants = {
   hidden: { opacity: 0, y: 16 },
@@ -102,7 +103,15 @@ export default function Footer() {
         </div>
         <div className="flex justify-between items-end md:flex-col md:justify-end md:items-end md:space-y-1 text-base font-sans theme-transition text-muted-foreground">
           <div className="flex items-center gap-4 order-1 md:order-2">
-            <span className="">will@pixelczar.com</span>
+            <BubbleTooltip text="Careful, it's a mailto:!">
+              <MagneticButton 
+                href="mailto:will@pixelczar.com" 
+                className="hover:text-accent transition-colors duration-300 theme-transition px-3 py-1 -ml-3 rounded-full hover:bg-accent/10"
+                strength={0.2}
+              >
+                will@pixelczar.com
+              </MagneticButton>
+            </BubbleTooltip>
             <span className="opacity-50 md:opacity-100 text-sm md:text-base">© {new Date().getFullYear()}</span>
           </div>
           <div className="order-2 md:order-1">

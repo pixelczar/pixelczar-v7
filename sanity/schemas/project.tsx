@@ -1,4 +1,4 @@
-import { defineField, defineType } from 'sanity'
+import { defineArrayMember, defineField, defineType } from 'sanity'
 import { DocumentIcon } from '@sanity/icons'
 import { orderRankField, orderRankOrdering } from '@sanity/orderable-document-list'
 
@@ -43,9 +43,9 @@ export default defineType({
       title: 'Outcomes',
       type: 'array',
       of: [
-        {
+        defineArrayMember({
           type: 'block',
-        },
+        }),
       ],
       description: 'Key results and impact of the project',
     }),
@@ -84,17 +84,24 @@ export default defineType({
         hotspot: true,
       },
       fields: [
-        {
+        defineField({
           name: 'alt',
           type: 'string',
           title: 'Alternative text',
           description: 'Important for SEO and accessibility',
-        },
-        {
+        }),
+        defineField({
           name: 'caption',
           type: 'string',
           title: 'Caption',
-        },
+        }),
+        defineField({
+          name: 'isHidden',
+          type: 'boolean',
+          title: 'Hide from Showcase',
+          description: 'When enabled, this image will not be shown in the public showcase',
+          initialValue: false,
+        }),
       ],
     }),
     defineField({
@@ -102,25 +109,47 @@ export default defineType({
       title: 'Image Gallery',
       type: 'array',
       of: [
-        {
+        defineArrayMember({
           type: 'image',
           options: {
             hotspot: true,
           },
           fields: [
-            {
+            defineField({
               name: 'alt',
               type: 'string',
               title: 'Alternative text',
               description: 'Important for SEO and accessibility',
-            },
-            {
+            }),
+            defineField({
               name: 'caption',
               type: 'string',
               title: 'Caption',
-            },
+            }),
+            defineField({
+              name: 'isHidden',
+              type: 'boolean',
+              title: 'Hide from Showcase',
+              description: 'When enabled, this image will not be shown in the public showcase',
+              initialValue: false,
+              validation: (Rule) => Rule.custom((value) => value === true ? { message: 'This item is currently hidden from the public showcase.', status: 'info' } : true),
+            }),
           ],
-        },
+          preview: {
+            select: {
+              title: 'caption',
+              media: 'asset',
+              isHidden: 'isHidden',
+            },
+            prepare({ title, media, isHidden }) {
+              return {
+                title: `${isHidden ? '🚫 ' : ''}${title || 'Image'}`,
+                subtitle: isHidden ? 'HIDDEN' : '',
+                media,
+              }
+            },
+          },
+        }),
       ],
       options: {
         layout: 'grid',
@@ -130,7 +159,7 @@ export default defineType({
       name: 'tags',
       title: 'Tags',
       type: 'array',
-      of: [{ type: 'string' }],
+      of: [defineArrayMember({ type: 'string' })],
       options: {
         layout: 'tags',
       },

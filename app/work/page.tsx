@@ -55,10 +55,10 @@ export default async function WorkPage() {
         videoAssetUrl = cs.mainVideo?.asset?.url || null
       } else {
         // For image, use the existing logic
-        imageUrl = cs.mainImage ? buildImageUrl(cs.mainImage, 1200) : null
+        imageUrl = (cs.mainImage && !cs.mainImage.isHidden) ? buildImageUrl(cs.mainImage, 1200) : null
       }
       
-      const galleryUrls = cs.gallery?.map((img: any) => ({
+      const galleryUrls = cs.gallery?.filter((img: any) => !img.isHidden)?.map((img: any) => ({
         url: buildImageUrl(img, 1200),
         alt: typeof img.alt === 'string' ? img.alt : cs.title,
       }))?.filter((img: any): img is { url: string; alt: string } => img.url !== null)
@@ -96,7 +96,9 @@ export default async function WorkPage() {
 
   try {
     const rawGalleryItems = await getGalleryItems()
-    galleryItems = rawGalleryItems.map((item: any) => {
+    galleryItems = rawGalleryItems
+      .filter((item: any) => !item.isHidden)
+      .map((item: any) => {
       let src = ''
       const isVideo = item.type === 'video'
       const externalVideoUrl = typeof item.videoUrl === 'string' ? item.videoUrl : undefined

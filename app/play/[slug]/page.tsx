@@ -76,7 +76,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     notFound()
   }
 
-  const mainImageUrl = project.mainImage ? buildImageUrl(project.mainImage, 1920, 1080) : null
+  const mainImageUrl = (project.mainImage && !project.mainImage.isHidden) ? buildImageUrl(project.mainImage, 1920, 1080) : null
   const mainImage = mainImageUrl
     ? {
         url: mainImageUrl,

@@ -12,12 +12,14 @@ const PROJECT_LIST_FIELDS = `
   mainImage {
     asset,
     alt,
+    isHidden,
     hotspot,
     crop
   },
   gallery[] {
     asset,
     alt,
+    isHidden,
     hotspot,
     crop
   },
@@ -43,6 +45,7 @@ const PROJECT_FULL_FIELDS = `
     asset,
     alt,
     caption,
+    isHidden,
     hotspot,
     crop
   },
@@ -50,6 +53,7 @@ const PROJECT_FULL_FIELDS = `
     asset,
     alt,
     caption,
+    isHidden,
     hotspot,
     crop
   },
@@ -75,6 +79,7 @@ const CASE_STUDY_LIST_FIELDS = `
     asset,
     alt,
     caption,
+    isHidden,
     hotspot,
     crop
   },
@@ -88,6 +93,7 @@ const CASE_STUDY_LIST_FIELDS = `
   gallery[] {
     asset,
     alt,
+    isHidden,
     hotspot,
     crop
   },
@@ -118,6 +124,7 @@ const CASE_STUDY_FULL_FIELDS = `
       asset->,
       alt,
       caption,
+      isHidden,
       layout,
       hotspot,
       crop
@@ -133,6 +140,7 @@ const CASE_STUDY_FULL_FIELDS = `
       videoUrl,
       alt,
       caption,
+      isHidden,
       layout,
       autoplay,
       loop,
@@ -144,6 +152,7 @@ const CASE_STUDY_FULL_FIELDS = `
         asset->,
         alt,
         caption,
+        isHidden,
         hotspot,
         crop
       },
@@ -163,6 +172,7 @@ const CASE_STUDY_FULL_FIELDS = `
     asset->,
     alt,
     caption,
+    isHidden,
     hotspot,
     crop
   },
@@ -204,6 +214,7 @@ const GALLERY_ITEM_FIELDS = `
   },
   videoUrl,
   caption,
+  isHidden,
   order
 `
 

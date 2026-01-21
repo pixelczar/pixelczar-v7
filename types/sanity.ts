@@ -18,6 +18,7 @@ export interface SanityImage {
   }
   alt?: string
   caption?: string
+  isHidden?: boolean
   hotspot?: {
     x: number
     y: number
@@ -140,6 +141,7 @@ export interface ProjectListItem {
   mainImage?: {
     url: string
     alt: string
+    isHidden?: boolean
   }
   mainVideo?: {
     url: string
@@ -148,6 +150,7 @@ export interface ProjectListItem {
   gallery?: Array<{
     url: string
     alt: string
+    isHidden?: boolean
   }>
   tags?: string[]
   featured?: boolean
@@ -170,6 +173,7 @@ export interface CaseStudyListItem {
     url: string
     alt: string
     caption?: string
+    isHidden?: boolean
   }
   mainVideo?: {
     url: string
@@ -178,6 +182,7 @@ export interface CaseStudyListItem {
   gallery?: Array<{
     url: string
     alt: string
+    isHidden?: boolean
   }>
   tags?: string[]
   featured?: boolean

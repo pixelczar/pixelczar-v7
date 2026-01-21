@@ -78,6 +78,13 @@ export default defineType({
       initialValue: true,
       description: 'Show video player controls',
     }),
+    defineField({
+      name: 'isHidden',
+      type: 'boolean',
+      title: 'Hide Video',
+      description: 'When enabled, this video will be hidden from the showcase',
+      initialValue: false,
+    }),
   ],
   validation: (Rule) =>
     Rule.custom((value) => {
@@ -92,11 +99,12 @@ export default defineType({
       file: 'videoFile.asset.originalFilename',
       caption: 'caption',
       layout: 'layout',
+      isHidden: 'isHidden',
     },
-    prepare({ url, file, caption, layout }) {
+    prepare({ url, file, caption, layout, isHidden }) {
       const source = url || file || 'Video'
       return {
-        title: caption || source,
+        title: `${isHidden ? '🚫 ' : ''}${caption || source}`,
         subtitle: `Video (${layout || 'narrow'})`,
         media: VideoIcon,
       }

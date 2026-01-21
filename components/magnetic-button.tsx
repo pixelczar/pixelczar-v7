@@ -11,6 +11,8 @@ interface MagneticButtonProps {
   strength?: number;
   hideCursor?: boolean;
   hideBorder?: boolean;
+  target?: string;
+  rel?: string;
   "data-cursor-shape"?: "circle" | "default";
 }
 
@@ -22,6 +24,8 @@ export default function MagneticButton({
   strength = 0.3,
   hideCursor = false,
   hideBorder = false,
+  target,
+  rel,
   "data-cursor-shape": cursorShape,
 }: MagneticButtonProps) {
   const ref = useRef<HTMLElement>(null);
@@ -79,7 +83,11 @@ export default function MagneticButton({
 
   const Component = href ? motion.a : motion.button;
   const props = href
-    ? { href, target: "_blank", rel: "noopener noreferrer" }
+    ? { 
+        href, 
+        target: target || (href.startsWith('mailto:') ? undefined : "_blank"), 
+        rel: rel || (href.startsWith('mailto:') ? undefined : "noopener noreferrer") 
+      }
     : { onClick };
 
   return (

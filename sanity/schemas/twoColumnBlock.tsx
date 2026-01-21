@@ -1,4 +1,4 @@
-import { defineField, defineType } from 'sanity'
+import { defineArrayMember, defineField, defineType } from 'sanity'
 import { SplitVerticalIcon } from '@sanity/icons'
 
 export default defineType({
@@ -13,8 +13,15 @@ export default defineType({
       type: 'image',
       options: { hotspot: true },
       fields: [
-        { name: 'alt', type: 'string', title: 'Alt text' },
-        { name: 'caption', type: 'string', title: 'Caption' },
+        defineField({ name: 'alt', type: 'string', title: 'Alt text' }),
+        defineField({ name: 'caption', type: 'string', title: 'Caption' }),
+        defineField({
+          name: 'isHidden',
+          type: 'boolean',
+          title: 'Hide Image',
+          description: 'When enabled, the image portion of this block will be hidden',
+          initialValue: false,
+        }),
       ],
       validation: (Rule) => Rule.required(),
     }),
@@ -22,7 +29,7 @@ export default defineType({
       name: 'content',
       title: 'Content',
       type: 'array',
-      of: [{ type: 'block' }],
+      of: [defineArrayMember({ type: 'block' })],
       description: 'Text content that appears next to the image',
       validation: (Rule) => Rule.required(),
     }),
@@ -46,14 +53,15 @@ export default defineType({
       image: 'image',
       position: 'imagePosition',
       content: 'content',
+      isHidden: 'image.isHidden',
     },
-    prepare({ image, position, content }) {
+    prepare({ image, position, content, isHidden }) {
       // Extract first 40 chars of text for preview
       const textPreview = content?.[0]?.children?.[0]?.text || ''
       const shortPreview = textPreview.length > 40 ? textPreview.substring(0, 40) + '...' : textPreview
       return {
-        title: shortPreview || `Two Column (Image ${position || 'left'})`,
-        subtitle: `Image ${position || 'left'}`,
+        title: `${isHidden ? '🚫 ' : ''}${shortPreview || `Two Column (Image ${position || 'left'})`}`,
+        subtitle: `Image ${position || 'left'}${isHidden ? ' (HIDDEN)' : ''}`,
         media: image || SplitVerticalIcon,
       }
     },

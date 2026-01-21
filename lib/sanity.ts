@@ -82,6 +82,7 @@ export function getGalleryImageUrls(
   if (!gallery || !Array.isArray(gallery)) return []
 
   return gallery
+    .filter((image) => !image.isHidden)
     .map((image) => {
       const url = buildImageUrl(image, options?.width, options?.height)
       if (!url) return null

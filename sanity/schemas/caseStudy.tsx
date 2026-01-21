@@ -74,7 +74,7 @@ export default defineType({
                 title: 'Callout',
                 icon: CalloutIcon,
                 fields: [
-                  {
+                  defineField({
                     name: 'variant',
                     type: 'string',
                     title: 'Style',
@@ -89,7 +89,7 @@ export default defineType({
                       layout: 'radio',
                     },
                     initialValue: 'info',
-                  },
+                  }),
                 ],
               },
             ],
@@ -99,9 +99,17 @@ export default defineType({
           type: 'image',
           options: { hotspot: true },
           fields: [
-            { name: 'alt', type: 'string', title: 'Alt text' },
-            { name: 'caption', type: 'string', title: 'Caption' },
-            {
+            defineField({ name: 'alt', type: 'string', title: 'Alt text' }),
+            defineField({ name: 'caption', type: 'string', title: 'Caption' }),
+            defineField({
+              name: 'isHidden',
+              type: 'boolean',
+              title: 'Hide from Showcase',
+              description: 'When enabled, this image will not be shown in the public showcase',
+              initialValue: false,
+              validation: (Rule) => Rule.custom((value) => value === true ? { message: 'This item is currently hidden from the public showcase.', status: 'info' } : true),
+            }),
+            defineField({
               name: 'layout',
               type: 'string',
               title: 'Layout',
@@ -116,8 +124,22 @@ export default defineType({
                 layout: 'radio',
               },
               initialValue: 'narrow',
-            },
+            }),
           ],
+          preview: {
+            select: {
+              title: 'caption',
+              media: 'asset',
+              isHidden: 'isHidden',
+            },
+            prepare({ title, media, isHidden }) {
+              return {
+                title: `${isHidden ? '🚫 ' : ''}${title || 'Image'}`,
+                subtitle: isHidden ? 'HIDDEN' : '',
+                media,
+              }
+            },
+          },
         }),
         defineArrayMember({
           type: 'twoColumnBlock',
@@ -151,8 +173,8 @@ export default defineType({
         defineArrayMember({
           type: 'object',
           fields: [
-            { name: 'label', title: 'Label', type: 'string', description: 'e.g., "0-1" or "3"' },
-            { name: 'value', title: 'Value', type: 'string', description: 'e.g., "New product area buildout"' },
+            defineField({ name: 'label', title: 'Label', type: 'string', description: 'e.g., "0-1" or "3"' }),
+            defineField({ name: 'value', title: 'Value', type: 'string', description: 'e.g., "New product area buildout"' }),
           ],
           preview: {
             select: {
@@ -185,8 +207,15 @@ export default defineType({
       type: 'image',
       options: { hotspot: true },
       fields: [
-        { name: 'alt', type: 'string', title: 'Alt text' },
-        { name: 'caption', type: 'string', title: 'Caption' },
+        defineField({ name: 'alt', type: 'string', title: 'Alt text' }),
+        defineField({ name: 'caption', type: 'string', title: 'Caption' }),
+        defineField({
+          name: 'isHidden',
+          type: 'boolean',
+          title: 'Hide from Showcase',
+          description: 'When enabled, this image will not be shown in the public showcase',
+          initialValue: false,
+        }),
       ],
       hidden: ({ parent }) => parent?.mainMediaType === 'video',
     }),
@@ -215,8 +244,16 @@ export default defineType({
           type: 'image',
           options: { hotspot: true },
           fields: [
-            { name: 'alt', type: 'string', title: 'Alt text' },
-            { name: 'caption', type: 'string', title: 'Caption' },
+            defineField({ name: 'alt', type: 'string', title: 'Alt text' }),
+            defineField({ name: 'caption', type: 'string', title: 'Caption' }),
+            defineField({
+              name: 'isHidden',
+              type: 'boolean',
+              title: 'Hide from Showcase',
+              description: 'When enabled, this image will not be shown in the public showcase',
+              initialValue: false,
+              validation: (Rule) => Rule.custom((value) => value === true ? { message: 'This item is currently hidden from the public showcase.', status: 'info' } : true),
+            }),
           ],
         }),
       ],

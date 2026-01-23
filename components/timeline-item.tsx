@@ -86,7 +86,7 @@ export default function TimelineItem({
         {/* Left Column - Job Details */}
         <div className="w-full md:w-2/5 space-y-4 md:4">
           <p className="text-sm md:text-base font-semibold theme-transition mb-4 md:mb-8" style={{ color: 'var(--muted-foreground)' }}>
-            {job.dates} -
+            {job.dates}
             <span
               className={`ml-2 text-accent font-normal text-xs md:text-sm ${
                 index === 0 ? "" : "hidden"

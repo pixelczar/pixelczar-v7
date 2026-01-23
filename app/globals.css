@@ -384,32 +384,7 @@
     transition-duration: 200ms;
   }
 
-  /* Exclude elements that shouldn't transition */
-  img, video, svg, canvas, iframe, [data-framer-component] {
-    transition-property: none !important;
-  }
-
-  /* Exclude framer-motion animated elements from color transitions during their animations */
-  [data-framer-name],
-  [data-framer-motion] {
-    transition-property: none !important;
-    transition-duration: 0s !important;
-  }
-
-  /* Exclude motion elements from color transitions to prevent flicker */
-  [style*="--framer"] {
-    transition-property: none !important;
-  }
-
-  /* During theme changes, ensure smooth transitions without flicker */
-  /* Force consistent transitions during theme change to prevent multiple restarts */
-  html.theme-changing * {
-    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke !important;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
-    transition-duration: 200ms !important;
-  }
-  
-  /* Exclude media and animated elements */
+  /* Exclude media and animated elements from standard transitions to prevent flicker during theme changes */
   html.theme-changing img,
   html.theme-changing video,
   html.theme-changing svg,

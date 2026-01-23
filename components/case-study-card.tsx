@@ -99,7 +99,7 @@ function MainMedia({
     return (
       <ImageTooltip text={tooltipText} alignTopLeft>
         {renderContent(
-          <div className="relative w-full aspect-video overflow-hidden rounded-md bg-primary/10 shadow-lg" data-cursor-ignore>
+          <div className="relative w-full aspect-video overflow-hidden rounded-md bg-primary/10 shadow-lg group" data-cursor-ignore>
             {isWip && <WipBadge message={wipMessage} />}
             <video
               src={videoUrl}
@@ -107,7 +107,7 @@ function MainMedia({
               loop
               muted
               playsInline
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover group-hover:opacity-80 group-hover:scale-105 transition-all duration-300"
             />
           </div>
         )}
@@ -120,7 +120,7 @@ function MainMedia({
       <ImageTooltip text={tooltipText} alignTopLeft>
         {renderContent(
           <div
-            className="relative w-full aspect-video overflow-hidden rounded-md bg-primary/10 shadow-lg"
+            className="relative w-full aspect-video overflow-hidden rounded-md bg-primary/10 shadow-lg group"
             data-cursor-ignore
           >
             {isWip && <WipBadge message={wipMessage} />}
@@ -128,7 +128,7 @@ function MainMedia({
               src={imageUrl}
               alt={caseStudy.mainImage?.alt || caseStudy.title}
               fill
-              className="object-contain"
+              className="object-contain group-hover:opacity-70 group-hover:scale-[102%] transition-all duration-500"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
               quality={90}
             />

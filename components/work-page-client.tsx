@@ -73,7 +73,7 @@ export default function WorkPageClient({ caseStudies, experienceData, galleryIte
           variants={gridContainerVariants}
           initial="hidden"
           animate="visible"
-          className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16"
+          className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-x-16 gap-y-24"
         >
             {caseStudies.map((caseStudy, index) => (
               <CaseStudyCard key={caseStudy._id} caseStudy={caseStudy} index={index} />

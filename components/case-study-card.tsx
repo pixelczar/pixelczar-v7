@@ -142,8 +142,8 @@ function MainMedia({
 }
 
 function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardProps) {
-  // Determine if this is a WIP based on the slug (ungate Data Studio)
-  const isWip = caseStudy.slug !== 'data-studio'
+  // Determine if this is a WIP based on the slug (ungate Data Studio, Encore, & Catalant)
+  const isWip = !['data-studio', 'encore', 'catalant'].includes(caseStudy.slug)
   const tooltipText = isWip ? WIP_TOOLTIP : (caseStudy.oneLiner || caseStudy.title)
 
   return (
@@ -194,10 +194,10 @@ function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardProps) {
                     href={`/work/${caseStudy.slug}`}
                     id={`case-study-title-${caseStudy._id}`}
                     data-cursor-target={`case-study-title-${caseStudy._id}`}
-                    className="cursor-hover inline-flex items-center gap-3 px-4 -ml-2 hover:bg-accent/10 py-1 rounded-full relative -left-2 group/title"
+                    className="cursor-hover inline-flex items-center gap-3 px-6 -ml-4 hover:bg-accent/10 py-1 rounded-full relative -left-2 group/title"
                     aria-label={`View ${caseStudy.title} case study`}
                   >
-                    <h3 className="text-2xl font-medium font-sans transition-colors duration-300 group-hover/title:text-accent">
+                    <h3 className="text-2xl font-medium font-sans leading-tight transition-colors duration-300 group-hover/title:text-accent">
                       {caseStudy.oneLiner || caseStudy.title}
                     </h3>
                     <ArrowRight className="w-5 h-5 md:w-6 md:h-6 transition-all duration-500 ease-[0.23,1,0.32,1] opacity-0 -translate-x-3 group-hover/title:opacity-100 group-hover/title:translate-x-0 group-hover/title:text-accent" />

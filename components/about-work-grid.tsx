@@ -12,15 +12,9 @@ interface AboutWorkGridProps {
 }
 
 export default function AboutWorkGrid({ caseStudies }: AboutWorkGridProps) {
-  // Get first 2 case studies with media, excluding encore
+  // Get first 2 case studies with media
   const gridItems = caseStudies
-    .filter((cs) => {
-      const hasMedia = cs.mainImage || cs.mainVideo
-      const title = cs.title?.toLowerCase() || ''
-      const alt = cs.mainImage?.alt?.toLowerCase() || ''
-      const isEncore = title.includes('encore') || alt.includes('encore')
-      return hasMedia && !isEncore
-    })
+    .filter((cs) => cs.mainImage || cs.mainVideo)
     .slice(0, 2)
 
   if (gridItems.length === 0) return null

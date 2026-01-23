@@ -7,14 +7,17 @@ import { ArrowRight } from 'lucide-react'
 import MagneticLink from './magnetic-link'
 import { ImageTooltip } from './image-tooltip'
 import type { CaseStudyListItem } from '@/types/sanity'
+import { isProjectWip } from '@/lib/work'
 
 interface NextProjectProps {
   nextProjects: CaseStudyListItem[]
 }
 
 export default function NextProject({ nextProjects }: NextProjectProps) {
-  // Only show the first two projects
-  const displayProjects = nextProjects.slice(0, 2)
+  // Only show the first two non-WIP projects
+  const displayProjects = nextProjects
+    .filter((p) => !isProjectWip(p.slug))
+    .slice(0, 2)
   const primaryNext = displayProjects[0]
 
   if (!primaryNext) return null

@@ -9,6 +9,7 @@ import type { CaseStudyListItem } from '@/types/sanity'
 import { itemVariants } from '@/lib/animations'
 import MagneticWrapper from '@/components/magnetic-wrapper'
 import { ImageTooltip } from '@/components/image-tooltip'
+import { isProjectWip } from '@/lib/work'
 
 // WIP badge messages for each card
 const WIP_MESSAGES = [
@@ -143,7 +144,7 @@ function MainMedia({
 
 function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardProps) {
   // Determine if this is a WIP based on the slug (ungate Data Studio, Encore, & Catalant)
-  const isWip = !['data-studio', 'encore', 'catalant'].includes(caseStudy.slug)
+  const isWip = isProjectWip(caseStudy.slug)
   const tooltipText = isWip ? WIP_TOOLTIP : (caseStudy.oneLiner || caseStudy.title)
 
   return (

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { itemVariants } from "@/lib/animations";
+import Image from "next/image";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -51,7 +52,30 @@ export default function ColophonPage() {
               Built with Next.js, TypeScript, and Tailwind CSS. Framer Motion handles the animations, and Sanity CMS powers the content. The site is hosted on Vercel.
             </p>
           </motion.section>
+        </div>
 
+        {/* Hero image breakout */}
+        <motion.div 
+          variants={itemVariants} 
+          className="max-w-5xl mx-auto my-16 md:my-24"
+        >
+          <div className="relative w-full overflow-hidden bg-muted rounded-lg md:rounded-xl shadow-sm">
+            <Image
+              src="/images/colophone-desk-1.jpg"
+              alt="Vibe-city, population - me."
+              width={1920}
+              height={1080}
+              className="w-full h-auto object-cover"
+              sizes="(max-width: 1024px) 100vw, 1024px"
+              quality={90}
+            />
+          </div>
+          <p className="text-sm text-muted-foreground text-center mt-4 max-w-4xl mx-auto">
+            Vibe-city, population - me.
+          </p>
+        </motion.div>
+
+        <div className="max-w-3xl mx-auto space-y-12 text-lg text-body-main">
           <motion.section variants={itemVariants}>
             <h2 className="text-xl font-medium text-foreground mb-4">The "Raised in Cursor" part</h2>
             <p>

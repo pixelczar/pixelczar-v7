@@ -13,6 +13,7 @@ import CaseStudyPortableText from '@/components/case-study-portable-text'
 import NextProject from '@/components/next-project'
 import type { CaseStudyListItem } from '@/types/sanity'
 import { buildImageUrl as buildListImageUrl } from '@/lib/sanity'
+import { isProjectWip } from '@/lib/work'
 
 export const revalidate = 60
 
@@ -89,28 +90,37 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const allCaseStudies = await getAllCaseStudies()
   const currentIndex = allCaseStudies.findIndex(cs => cs.slug.current === slug)
   
-  // Get next 2 projects for the grid
+  // Get next 2 projects for the grid (skipping WIP items)
   const nextProjects: CaseStudyListItem[] = []
-  for (let i = 1; i <= 2; i++) {
-    const nextIndex = (currentIndex + i) % allCaseStudies.length
+  let searchOffset = 1
+  while (nextProjects.length < 2 && searchOffset < allCaseStudies.length) {
+    const nextIndex = (currentIndex + searchOffset) % allCaseStudies.length
     const nextRaw = allCaseStudies[nextIndex]
     
-    const nextImageUrl = (nextRaw.mainImage && !nextRaw.mainImage.isHidden) ? buildListImageUrl(nextRaw.mainImage, 1200) : null
-    nextProjects.push({
-      _id: nextRaw._id,
-      title: nextRaw.title,
-      slug: nextRaw.slug.current,
-      company: nextRaw.company,
-      mainMediaType: nextRaw.mainMediaType,
-      mainImage: nextImageUrl ? {
-        url: nextImageUrl,
-        alt: nextRaw.mainImage?.alt || nextRaw.title,
-      } : undefined,
-      mainVideo: nextRaw.mainVideo?.asset?.url ? {
-        url: nextRaw.mainVideo.asset.url
-      } : undefined,
-      featured: nextRaw.featured,
-    })
+    // If we've wrapped around to the current project, stop
+    if (nextRaw.slug.current === slug) break
+    
+    // Only add if not WIP
+    if (!isProjectWip(nextRaw.slug.current)) {
+      const nextImageUrl = (nextRaw.mainImage && !nextRaw.mainImage.isHidden) ? buildListImageUrl(nextRaw.mainImage, 1200) : null
+      nextProjects.push({
+        _id: nextRaw._id,
+        title: nextRaw.title,
+        slug: nextRaw.slug.current,
+        company: nextRaw.company,
+        mainMediaType: nextRaw.mainMediaType,
+        mainImage: nextImageUrl ? {
+          url: nextImageUrl,
+          alt: nextRaw.mainImage?.alt || nextRaw.title,
+        } : undefined,
+        mainVideo: nextRaw.mainVideo?.asset?.url ? {
+          url: nextRaw.mainVideo.asset.url
+        } : undefined,
+        featured: nextRaw.featured,
+        isWip: false, // Since we filtered them out, this will always be false here
+      })
+    }
+    searchOffset++
   }
 
   const mainImageUrl = (caseStudy.mainImage && !caseStudy.mainImage.isHidden) ? buildImageUrl(caseStudy.mainImage, 1920, 1080) : null

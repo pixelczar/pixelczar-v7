@@ -6,15 +6,16 @@ import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import MagneticLink from '@/components/magnetic-link'
 import type { CaseStudyListItem } from '@/types/sanity'
+import { isProjectWip } from '@/lib/work'
 
 interface AboutWorkGridProps {
   caseStudies: CaseStudyListItem[]
 }
 
 export default function AboutWorkGrid({ caseStudies }: AboutWorkGridProps) {
-  // Get first 2 case studies with media
+  // Get first 2 case studies with media, skipping WIP items
   const gridItems = caseStudies
-    .filter((cs) => cs.mainImage || cs.mainVideo)
+    .filter((cs) => (cs.mainImage || cs.mainVideo) && !isProjectWip(cs.slug))
     .slice(0, 2)
 
   if (gridItems.length === 0) return null

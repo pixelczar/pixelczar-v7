@@ -187,6 +187,7 @@ export interface CaseStudyListItem {
   tags?: string[]
   featured?: boolean
   projectUrl?: string
+  isWip?: boolean
 }
 
 // Gallery item for client rendering

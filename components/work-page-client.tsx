@@ -64,7 +64,7 @@ export default function WorkPageClient({ caseStudies, experienceData, galleryIte
             Professional Showcases
           </motion.h2>
           <motion.div variants={itemVariants} className="mb-12 md:mb-16">
-            <p className="text-body-main leading-relaxed text-body-main">
+            <p className="hidden text-body-main leading-relaxed text-body-main">
               These recent projects from my extensive time at Reprise showcase my product design, experience, and end-to-end bringing ideas from 0 to 1.
             </p>
           </motion.div>

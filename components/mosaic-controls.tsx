@@ -3,7 +3,7 @@
 import { useState, useCallback, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Switch } from "@/components/ui/switch"
-import { SlidersHorizontal, X } from "lucide-react"
+import { SlidersHorizontal, X, RefreshCw } from "lucide-react"
 import type { EffectParams } from "./grid-distortion"
 
 interface MosaicControlsProps {
@@ -150,6 +150,19 @@ export default function MosaicControls({ params, onParamsChange, visible = true 
     })
   }, [params, onParamsChange])
 
+  const randomizeParams = useCallback(() => {
+    const newParams: EffectParams = {
+      grid: Math.floor(Math.random() * (24 - 4 + 1)) + 4,
+      hoverDistance: Number((Math.random() * (6 - 0.5) + 0.5).toFixed(1)),
+      strength: Number((Math.random() * (1 - 0.05) + 0.05).toFixed(2)),
+      relaxation: Number((Math.random() * (0.3 - 0.03) + 0.03).toFixed(2)),
+      clickExplosion: Math.round((Math.random() * 500) / 10) * 10,
+      monochrome: Math.random() > 0.5,
+      bounceCount: params.bounceCount, // Keep existing bounceCount as it's not in the UI
+    }
+    onParamsChange(newParams)
+  }, [params.bounceCount, onParamsChange])
+
   return (
     <AnimatePresence>
       {visible && (
@@ -185,9 +198,19 @@ export default function MosaicControls({ params, onParamsChange, visible = true 
               >
                 {/* Header */}
                 <div className="flex items-center justify-between px-3 py-2 border-b border-white/10">
-                  <span className="text-sm font-medium text-white/80 font-sans tracking-wide">
-                    Effect
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-white/80 font-sans tracking-wide">
+                      Effect
+                    </span>
+                    <button
+                      onClick={randomizeParams}
+                      className="w-5 h-5 rounded flex items-center justify-center hover:bg-white/10 transition-colors duration-150 group"
+                      title="Randomize parameters"
+                      aria-label="Randomize parameters"
+                    >
+                      <RefreshCw className="w-3 h-3 text-white/40 group-hover:text-[hsl(var(--accent))] transition-colors" />
+                    </button>
+                  </div>
                   <button
                     onClick={() => setIsExpanded(false)}
                     className="w-6 h-6 rounded flex items-center justify-center hover:bg-white/10 transition-colors duration-150"

@@ -60,6 +60,26 @@ export default defineType({
       description: 'e.g., "VP of Design", "Lead Product Designer"',
     }),
     defineField({
+      name: 'contributions',
+      title: 'Contributions',
+      type: 'array',
+      of: [defineArrayMember({ type: 'string' })],
+      options: { layout: 'tags' },
+      description: 'Disciplines & skills applied (e.g., "Creative direction", "Product strategy", "Visual design")',
+    }),
+    defineField({
+      name: 'impactStatement',
+      title: 'Impact Statement',
+      type: 'string',
+      description: 'One punchy sentence about the outcome (e.g., "Shipped to GA, now used in Reprise\'s own sales demos")',
+    }),
+    defineField({
+      name: 'businessContext',
+      title: 'Business Context',
+      type: 'string',
+      description: 'Why this matters to the business (e.g., "Demos with bad data lose deals")',
+    }),
+    defineField({
       name: 'content',
       title: 'Content',
       type: 'array',

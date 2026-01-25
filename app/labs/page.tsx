@@ -1,12 +1,12 @@
 import { getProjectsList, getGalleryItems } from '@/lib/sanity-queries'
 import { buildImageUrl } from '@/lib/sanity'
 import type { ProjectListItem, GalleryItemClient } from '@/types/sanity'
-import PlayPageClient from './play-page-client'
+import LabsPageClient from './labs-page-client'
 
 export const revalidate = 60
 
 export const metadata = {
-  title: 'Pixels Pushed | Pixelczar',
+  title: 'Labs | Pixelczar',
   description: 'Creative projects, experiments, and explorations',
 }
 
@@ -28,10 +28,10 @@ function toPlainText(value: unknown): string | undefined {
   return undefined
 }
 
-export default async function PlayPage() {
+export default async function LabsPage() {
   let projects: ProjectListItem[] = []
   let galleryItems: GalleryItemClient[] = []
-  
+
   try {
     const rawProjects = await getProjectsList()
     projects = rawProjects.map((project: any) => {
@@ -40,7 +40,7 @@ export default async function PlayPage() {
         url: buildImageUrl(img, 1200),
         alt: typeof img.alt === 'string' ? img.alt : project.title,
       }))?.filter((img: any): img is { url: string; alt: string } => img.url !== null)
-      
+
       return {
         _id: String(project._id || ''),
         title: String(project.title || ''),
@@ -53,9 +53,9 @@ export default async function PlayPage() {
         projectUrl: typeof project.projectUrl === 'string' ? project.projectUrl : undefined,
         mainImage: imageUrl
           ? {
-              url: imageUrl,
-              alt: typeof project.mainImage?.alt === 'string' ? project.mainImage.alt : project.title,
-            }
+            url: imageUrl,
+            alt: typeof project.mainImage?.alt === 'string' ? project.mainImage.alt : project.title,
+          }
           : undefined,
         gallery: galleryUrls,
       }
@@ -69,34 +69,34 @@ export default async function PlayPage() {
     galleryItems = rawGalleryItems
       .filter((item: any) => !item.isHidden)
       .map((item: any) => {
-      let src = ''
-      const isVideo = item.type === 'video'
-      const externalVideoUrl = typeof item.videoUrl === 'string' ? item.videoUrl : undefined
-      
-      if (isVideo) {
-        // For videos: use uploaded video asset URL (not external videoUrl which is handled separately)
-        src = item.video?.asset?.url || ''
-      } else {
-        // Image - use higher resolution for quality
-        src = item.image ? buildImageUrl(item.image, 1600) || '' : ''
-      }
-      
-      return {
-        _id: String(item._id || ''),
-        type: (isVideo ? 'video' : 'image') as 'image' | 'video',
-        size: (['large', 'medium', 'small'].includes(item.size) ? item.size : 'medium') as 'large' | 'medium' | 'small',
-        src,
-        alt: typeof item.image?.alt === 'string' ? item.image.alt : item.title || 'Gallery item',
-        caption: typeof item.caption === 'string' ? item.caption : undefined,
-        videoUrl: externalVideoUrl,
-      }
-    }).filter((item: GalleryItemClient) => {
-      // Keep items that have either a src OR an external videoUrl
-      return item.src || item.videoUrl
-    })
+        let src = ''
+        const isVideo = item.type === 'video'
+        const externalVideoUrl = typeof item.videoUrl === 'string' ? item.videoUrl : undefined
+
+        if (isVideo) {
+          // For videos: use uploaded video asset URL (not external videoUrl which is handled separately)
+          src = item.video?.asset?.url || ''
+        } else {
+          // Image - use higher resolution for quality
+          src = item.image ? buildImageUrl(item.image, 1600) || '' : ''
+        }
+
+        return {
+          _id: String(item._id || ''),
+          type: (isVideo ? 'video' : 'image') as 'image' | 'video',
+          size: (['large', 'medium', 'small'].includes(item.size) ? item.size : 'medium') as 'large' | 'medium' | 'small',
+          src,
+          alt: typeof item.image?.alt === 'string' ? item.image.alt : item.title || 'Gallery item',
+          caption: typeof item.caption === 'string' ? item.caption : undefined,
+          videoUrl: externalVideoUrl,
+        }
+      }).filter((item: GalleryItemClient) => {
+        // Keep items that have either a src OR an external videoUrl
+        return item.src || item.videoUrl
+      })
   } catch (error) {
     console.log('Error fetching gallery items:', error)
   }
 
-  return <PlayPageClient projects={projects} galleryItems={galleryItems} />
+  return <LabsPageClient projects={projects} galleryItems={galleryItems} />
 }

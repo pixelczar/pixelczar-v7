@@ -50,7 +50,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: ProjectPageProps) {
   const { slug } = await params
-  
+
   try {
     const project = await getProjectBySlug(slug)
 
@@ -79,10 +79,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const mainImageUrl = (project.mainImage && !project.mainImage.isHidden) ? buildImageUrl(project.mainImage, 1920, 1080) : null
   const mainImage = mainImageUrl
     ? {
-        url: mainImageUrl,
-        alt: toPlainText(project.mainImage?.alt) || project.title,
-        caption: toPlainText(project.mainImage?.caption),
-      }
+      url: mainImageUrl,
+      alt: toPlainText(project.mainImage?.alt) || project.title,
+      caption: toPlainText(project.mainImage?.caption),
+    }
     : null
 
   const galleryImages = project.gallery
@@ -94,7 +94,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       <main className="px-6 py-12">
         <div className="max-w-5xl mx-auto">
           {/* Back Button */}
-          <Link href="/play">
+          <Link href="/labs">
             <Button variant="ghost" className="mb-8 -ml-4">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Projects

@@ -4,9 +4,10 @@ import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import MagneticButton from "./magnetic-button";
 import MagneticLink from "./magnetic-link";
+import MagneticWrapper from "./magnetic-wrapper";
+import ThemeSwatches from "@/components/theme-swatches";
 import { ArrowUpRight } from 'lucide-react'
 import { homepageTransitions, standardTransitions } from "@/lib/animations";
-import { Icon } from "lucide-react";
 import { BubbleTooltip } from "./bubble-tooltip";
 
 const footerVariants = {
@@ -17,7 +18,7 @@ const footerVariants = {
 export default function Footer() {
   const pathname = usePathname();
   const isHomepage = pathname === "/";
-  
+
   const socialLinks = [
     {
       name: "LinkedIn",
@@ -53,7 +54,7 @@ export default function Footer() {
   ];
 
   return (
-    <motion.footer 
+    <motion.footer
       className="w-full bg-background theme-transition mt-32 relative overflow-hidden"
       variants={footerVariants}
       initial={isHomepage ? "hidden" : "visible"}
@@ -101,11 +102,11 @@ export default function Footer() {
         <div className="text-base font-sans theme-transition text-muted-foreground max-w-lg mb-24 md:mb-0">
           This site was born in Figma, raised in Cursor, assembled pixel-by-pixel on Boston's beautiful North Shore.
         </div>
-        <div className="flex justify-between items-end md:flex-col md:justify-end md:items-end md:space-y-1 text-base font-sans theme-transition text-muted-foreground">
-          <div className="flex items-center gap-4 order-1 md:order-2">
+        <div className="flex justify-between items-end md:flex-col md:justify-end md:items-stretch md:space-y-1 text-base font-sans theme-transition text-muted-foreground">
+          <div className="flex items-center justify-between w-full order-1 md:order-2">
             <BubbleTooltip text="Careful, it's a mailto:!">
-              <MagneticButton 
-                href="mailto:will@pixelczar.com" 
+              <MagneticButton
+                href="mailto:will@pixelczar.com"
                 className="hover:text-accent transition-colors duration-300 theme-transition px-3 py-1 -ml-3 rounded-full hover:bg-accent/10"
                 strength={0.2}
               >
@@ -114,13 +115,21 @@ export default function Footer() {
             </BubbleTooltip>
             <span className="opacity-50 md:opacity-100 text-sm md:text-base">© {new Date().getFullYear()}</span>
           </div>
-          <div className="order-2 md:order-1">
-            <MagneticLink 
-                href="/colophon" 
-                className="inline-flex text-right justify-end text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 -mr-3 rounded-full text-muted-foreground hover:text-accent hover:bg-accent/10"
-                data-cursor-rounded="full"
-                strength={0.3}
-              >
+          <div className="order-2 md:order-1 flex items-center justify-between w-full">
+            <MagneticWrapper
+              strength={0.3}
+              data-cursor-rounded="full"
+            >
+              <div className="flex items-center py-1 -ml-[11px]">
+                <ThemeSwatches />
+              </div>
+            </MagneticWrapper>
+            <MagneticLink
+              href="/colophon"
+              className="inline-flex text-right justify-end text-base font-sans font-normal transition-all duration-300 relative px-3 py-1 -mr-3 rounded-full text-muted-foreground hover:text-accent hover:bg-accent/10"
+              data-cursor-rounded="full"
+              strength={0.3}
+            >
               Colophon
               <ArrowUpRight className="w-5 h-5 ml-2 group-hover:text-accent text-accent transition-colors duration-300" />
             </MagneticLink>

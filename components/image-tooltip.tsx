@@ -25,30 +25,31 @@ function calculateTooltipPosition(
   tooltipHeight: number,
   elementRight?: number, // Right edge of the element for alignment
   alignTopLeft?: boolean, // Position cursor at top left of tooltip
+  preferTop?: boolean, // Prefer positioning above the cursor
   offset: number = 12
 ) {
   const viewportWidth = window.innerWidth
   const viewportHeight = window.innerHeight
-  
+
   // Position based on alignment preference
   let x: number
   let y: number
-  
+
   if (alignTopLeft) {
     // Cursor at top left of tooltip
     x = mouseX + offset
-    y = mouseY + offset
+    y = preferTop ? mouseY - tooltipHeight - offset : mouseY + offset
   } else {
     // Default: position down and to the left from cursor (cursor at top right)
     x = mouseX - tooltipWidth - offset
-    y = mouseY + offset
+    y = preferTop ? mouseY - tooltipHeight - offset : mouseY + offset
   }
-  
+
   // If right-align is enabled, align right edge of tooltip with right edge of element
   if (elementRight !== undefined) {
     x = elementRight - tooltipWidth
   }
-  
+
   // Check left edge collision
   if (x < 0) {
     // If we're aligning right and it goes off left edge, position at left edge with margin
@@ -62,7 +63,7 @@ function calculateTooltipPosition(
       x = mouseX + offset
     }
   }
-  
+
   // Check right edge collision
   if (x + tooltipWidth > viewportWidth) {
     if (alignTopLeft) {
@@ -81,21 +82,27 @@ function calculateTooltipPosition(
       }
     }
   }
-  
-  // Check bottom edge collision
-  if (y + tooltipHeight > viewportHeight) {
+
+  // Check bottom edge collision (only if not preferTop)
+  if (!preferTop && y + tooltipHeight > viewportHeight) {
     // Position above cursor instead
     y = mouseY - tooltipHeight - offset
-    // If still off screen, position at bottom edge with margin
-    if (y < 0) {
-      y = viewportHeight - tooltipHeight - 8
+  }
+
+  // Check top edge collision
+  if (y < 0) {
+    // Position below cursor instead
+    y = mouseY + offset
+    // If still off screen (too tall for viewport), position at top edge with margin
+    if (y + tooltipHeight > viewportHeight) {
+      y = 8
     }
   }
-  
+
   return { x, y }
 }
 
-export function ImageTooltip({ text, children, className = '', alignRight = false, alignTopLeft = false }: ImageTooltipProps) {
+export function ImageTooltip({ text, children, className = '', alignRight = false, alignTopLeft = false, preferTop = false }: ImageTooltipProps & { preferTop?: boolean }) {
   const [isHovered, setIsHovered] = useState(false)
   const [showTooltip, setShowTooltip] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -136,14 +143,15 @@ export function ImageTooltip({ text, children, className = '', alignRight = fals
           const elementRight = alignRight && wrapperRef.current
             ? wrapperRef.current.getBoundingClientRect().right
             : undefined
-          
+
           const position = calculateTooltipPosition(
             mousePosition.x,
             mousePosition.y,
             tooltipRect.width || 200, // Fallback width estimate
             tooltipRect.height || 40,   // Fallback height estimate
             elementRight,
-            alignTopLeft
+            alignTopLeft,
+            preferTop
           )
           setTooltipPosition(position)
         }
@@ -153,14 +161,15 @@ export function ImageTooltip({ text, children, className = '', alignRight = fals
       const elementRight = alignRight && wrapperRef.current
         ? wrapperRef.current.getBoundingClientRect().right
         : undefined
-      
+
       const position = calculateTooltipPosition(
         mousePosition.x,
         mousePosition.y,
         200, // Estimate width
         40,   // Estimate height
         elementRight,
-        alignTopLeft
+        alignTopLeft,
+        preferTop
       )
       setTooltipPosition(position)
     }
@@ -200,7 +209,7 @@ export function ImageTooltip({ text, children, className = '', alignRight = fals
       onMouseLeave={handleMouseLeave}
     >
       {children}
-      
+
       <AnimatePresence>
         {showTooltip && displayText && (
           <motion.div

@@ -80,17 +80,17 @@ export default function ThemeSwatches() {
     const htmlElement = document.documentElement
     const isDark = htmlElement.classList.contains('dark')
     const variant = htmlElement.getAttribute('data-dark-variant') || 'original'
-    
+
     setIsLightMode(!isDark)
     setDarkVariant(variant as 'original' | 'teal')
-    
+
     // Set current theme immediately based on DOM state
     if (isDark) {
       setCurrentTheme(variant === 'teal' ? 'dark-teal' : 'dark-original')
     } else {
       setCurrentTheme('light')
     }
-    
+
     // Use requestAnimationFrame to ensure DOM is ready, then show immediately
     requestAnimationFrame(() => {
       setMounted(true)
@@ -115,7 +115,7 @@ export default function ThemeSwatches() {
       setTheme('dark')
       setCurrentTheme(swatch.id)
       localStorage.setItem('pixel-czar-theme', 'dark')
-      
+
       // Set dark variant
       if (swatch.variant) {
         setDarkVariant(swatch.variant)
@@ -135,13 +135,13 @@ export default function ThemeSwatches() {
   // Sync with theme changes from elsewhere (but skip initial mount since we handle it above)
   useEffect(() => {
     if (!mounted) return
-    
+
     const htmlElement = document.documentElement
     const isDark = htmlElement.classList.contains('dark')
     const variant = htmlElement.getAttribute('data-dark-variant') || 'original'
-    
+
     setIsLightMode(!isDark)
-    
+
     if (isDark) {
       setCurrentTheme(variant === 'teal' ? 'dark-teal' : 'dark-original')
       setDarkVariant(variant as 'original' | 'teal')
@@ -164,7 +164,7 @@ export default function ThemeSwatches() {
         const c = (1 - Math.abs(2 * (l / 100) - 1)) * (s / 100)
         const x = c * (1 - Math.abs(((h / 60) % 2) - 1))
         const m = (l / 100) - c / 2
-        
+
         let r = 0, g = 0, b = 0
         if (h < 60) { r = c; g = x; b = 0 }
         else if (h < 120) { r = x; g = c; b = 0 }
@@ -172,11 +172,11 @@ export default function ThemeSwatches() {
         else if (h < 240) { r = 0; g = x; b = c }
         else if (h < 300) { r = x; g = 0; b = c }
         else { r = c; g = 0; b = x }
-        
+
         return `rgba(${Math.round((r + m) * 255)}, ${Math.round((g + m) * 255)}, ${Math.round((b + m) * 255)}, ${alpha})`
       }
     }
-    
+
     // Handle hex colors (e.g., "#ffffff")
     if (color.startsWith('#')) {
       const r = parseInt(color.slice(1, 3), 16)
@@ -184,15 +184,15 @@ export default function ThemeSwatches() {
       const b = parseInt(color.slice(5, 7), 16)
       return `rgba(${r}, ${g}, ${b}, ${alpha})`
     }
-    
+
     // Fallback
     return color
   }
 
   return (
-    <motion.div 
-      className="flex items-center h-5 -space-x-2" 
-      style={{ 
+    <motion.div
+      className="flex items-center h-5 -space-x-2"
+      style={{
         width: '5.5rem', // Fixed width: 3 swatches (1.5rem each with padding) + 2 gaps (0.5rem each) = 5.5rem
       }}
       variants={swatchContainerVariants}
@@ -201,11 +201,11 @@ export default function ThemeSwatches() {
     >
       {swatches.map((swatch) => {
         const isSelected = currentTheme === swatch.id
-        
+
         // Light mode overrides for each swatch
         let borderColor = swatch.borderColor
         let fillColor = swatch.backgroundColor
-        
+
         if (isLightMode) {
           if (swatch.id === 'light') {
             borderColor = '#f0f1f2'
@@ -220,10 +220,10 @@ export default function ThemeSwatches() {
             fillColor = swatch.backgroundColor // yellow
           }
         }
-        
+
         return (
           <motion.div key={swatch.id} variants={swatchItemVariants}>
-            <ImageTooltip text={swatch.label} alignRight>
+            <ImageTooltip text={swatch.label} alignRight preferTop>
               <MagneticWrapper
                 strength={0.3}
                 className=""
@@ -231,23 +231,22 @@ export default function ThemeSwatches() {
                 <motion.button
                   onClick={() => handleSwatchClick(swatch)}
                   data-cursor-rounded="full"
-                  className={`cursor-hover relative w-8 h-8 rounded-full flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 transition-all focus:ring-offset-background group ${
-                    hasInitialized ? 'transition-all duration-300' : ''
-                  }`}
-                  whileHover={{ 
+                  className={`cursor-hover relative w-8 h-8 rounded-full flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 transition-all focus:ring-offset-background group ${hasInitialized ? 'transition-all duration-300' : ''
+                    }`}
+                  whileHover={{
                     opacity: 1, // 100% on hover
                   }}
                   aria-label={swatch.label}
                 >
-                <span 
-                  className={`w-2.5 h-2.5 border ${hasInitialized ? 'transition-all duration-300' : ''}`}
-                  style={{
-                    backgroundColor: isSelected 
-                      ? colorToRgba(fillColor, 1) 
-                      : colorToRgba(fillColor, 1), 
-                    borderColor: borderColor,
-                  }}
-                />
+                  <span
+                    className={`w-2.5 h-2.5 border ${hasInitialized ? 'transition-all duration-300' : ''}`}
+                    style={{
+                      backgroundColor: isSelected
+                        ? colorToRgba(fillColor, 1)
+                        : colorToRgba(fillColor, 1),
+                      borderColor: borderColor,
+                    }}
+                  />
                 </motion.button>
               </MagneticWrapper>
             </ImageTooltip>

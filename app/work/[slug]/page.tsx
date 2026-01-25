@@ -180,6 +180,13 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
               <div className="w-full h-px bg-accent/40 mx-auto mt-16 mb-6 theme-transition"></div>
               <h2 className="text-3xl md:text-5xl font-normal mb-8 opacity-30">Intro</h2>
               
+              {/* Business Context - the hook */}
+              {caseStudy.businessContext && (
+                <p className="text-lg text-muted-foreground italic mb-6">
+                  {caseStudy.businessContext}
+                </p>
+              )}
+              
               {/* Catchy One-Liner */}
               {caseStudy.oneLiner && (
                 <h3 className="text-2xl font-normal tracking-tight mb-4">
@@ -202,9 +209,30 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
                     <p className="text-xl font-normal mb-2">
                       {caseStudy.company} <span className="text-muted-foreground mx-2"> →  </span>{caseStudy.timeline && `${caseStudy.timeline}`}
                     </p>
-                    <h3 className="text-lg text-muted-foreground mb-1">{toPlainText(caseStudy.role)}</h3>
-                    <h3 className="text-lg text-muted-foreground mb-1">{toPlainText(caseStudy.role)}</h3>
+                    {caseStudy.role && (
+                      <p className="text-lg text-muted-foreground mb-4">{toPlainText(caseStudy.role)}</p>
+                    )}
                   </div>
+
+                {/* Contributions - discipline tags */}
+                {caseStudy.contributions && caseStudy.contributions.length > 0 && (
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-3">Contributions</p>
+                    <p className="text-base leading-relaxed">
+                      {caseStudy.contributions.join(' · ')}
+                    </p>
+                  </div>
+                )}
+
+                {/* Impact Statement - the punch */}
+                {caseStudy.impactStatement && (
+                  <div className="border-l-2 border-accent pl-4">
+                    <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">Outcome</p>
+                    <p className="text-lg font-medium">
+                      {caseStudy.impactStatement}
+                    </p>
+                  </div>
+                )}
 
                 {caseStudy.metrics && caseStudy.metrics.length > 0 && (
                   <div className="grid grid-cols-2 gap-x-8 gap-y-12">

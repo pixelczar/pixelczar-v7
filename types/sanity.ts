@@ -101,6 +101,9 @@ export interface CaseStudy {
   shortDescription?: string
   description?: string
   role?: string
+  contributions?: string[]
+  impactStatement?: string
+  businessContext?: string
   content?: PortableTextBlock[]
   outcomes?: PortableTextBlock[]
   timeline?: string 

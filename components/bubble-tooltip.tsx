@@ -7,7 +7,7 @@ interface BubbleTooltipProps {
   text: string
   children: React.ReactNode
   className?: string
-  alignRight?: boolean 
+  alignRight?: boolean
   alignTopLeft?: boolean
   offset?: number
 }
@@ -24,43 +24,44 @@ function calculateTooltipPosition(
   mouseY: number,
   tooltipWidth: number,
   tooltipHeight: number,
-  elementRight?: number, 
+  elementRight?: number,
   alignTopLeft?: boolean,
+  preferTop: boolean = true,
   offset: number = 12
 ) {
   const viewportWidth = window.innerWidth
   const viewportHeight = window.innerHeight
-  
+
   // Position based on alignment preference
   let x: number
   let y: number
-  
+
   if (alignTopLeft) {
     // Cursor at top left of tooltip
     x = mouseX + offset
-    y = mouseY + offset
+    y = preferTop ? mouseY - tooltipHeight - offset : mouseY + offset
   } else {
     // Default: position down and to the left from cursor (cursor at top right)
     x = mouseX - tooltipWidth - offset
-    y = mouseY + offset
+    y = preferTop ? mouseY - tooltipHeight - offset : mouseY + offset
   }
-  
+
   // If right-align is enabled, align right edge of tooltip with right edge of element
   if (elementRight !== undefined) {
     x = elementRight - tooltipWidth
   }
-  
+
   // Check left edge collision
   if (x < 0) {
     if (elementRight !== undefined) {
-      x = 8 
+      x = 8
     } else if (alignTopLeft) {
       x = 8
     } else {
       x = mouseX + offset
     }
   }
-  
+
   // Check right edge collision
   if (x + tooltipWidth > viewportWidth) {
     if (alignTopLeft) {
@@ -75,26 +76,30 @@ function calculateTooltipPosition(
       }
     }
   }
-  
-  // Check bottom edge collision
-  if (y + tooltipHeight > viewportHeight) {
-    y = mouseY - tooltipHeight - offset
-    if (y < 0) {
-      y = viewportHeight - tooltipHeight - 8
-    }
+
+  // Check top edge collision (only if preferTop)
+  if (preferTop && y < 0) {
+    // Position below cursor instead
+    y = mouseY + offset
   }
-  
+
+  // Check bottom edge collision (only if not preferTop)
+  if (!preferTop && y + tooltipHeight > viewportHeight) {
+    y = mouseY - tooltipHeight - offset
+  }
+
   return { x, y }
 }
 
-export function BubbleTooltip({ 
-  text, 
-  children, 
-  className = '', 
-  alignRight = false, 
+export function BubbleTooltip({
+  text,
+  children,
+  className = '',
+  alignRight = false,
   alignTopLeft = false,
+  preferTop = true,
   offset = 12
-}: BubbleTooltipProps) {
+}: BubbleTooltipProps & { preferTop?: boolean }) {
   const [isHovered, setIsHovered] = useState(false)
   const [showTooltip, setShowTooltip] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -133,7 +138,7 @@ export function BubbleTooltip({
           const elementRight = alignRight && wrapperRef.current
             ? wrapperRef.current.getBoundingClientRect().right
             : undefined
-          
+
           const position = calculateTooltipPosition(
             mousePosition.x,
             mousePosition.y,
@@ -141,6 +146,7 @@ export function BubbleTooltip({
             tooltipRect.height || 40,
             elementRight,
             alignTopLeft,
+            preferTop,
             offset
           )
           setTooltipPosition(position)
@@ -150,7 +156,7 @@ export function BubbleTooltip({
       const elementRight = alignRight && wrapperRef.current
         ? wrapperRef.current.getBoundingClientRect().right
         : undefined
-      
+
       const position = calculateTooltipPosition(
         mousePosition.x,
         mousePosition.y,
@@ -158,6 +164,7 @@ export function BubbleTooltip({
         40,
         elementRight,
         alignTopLeft,
+        preferTop,
         offset
       )
       setTooltipPosition(position)
@@ -196,34 +203,27 @@ export function BubbleTooltip({
       onMouseLeave={handleMouseLeave}
     >
       {children}
-      
+
       <AnimatePresence>
         {showTooltip && displayText && (
           <motion.div
             key="tooltip"
             ref={tooltipRef}
-            initial={{ opacity: 0, scale: 0.5, y: 10, rotate: -5 }}
-            animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
-            exit={{ opacity: 0, scale: 0.5, y: 10, rotate: 5 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
             transition={{
-              type: "spring",
-              stiffness: 400,
-              damping: 25,
+              duration: 0.2,
+              ease: [0.25, 0.1, 0.25, 1],
             }}
             className="fixed pointer-events-none z-[10001]"
             style={{
               left: `${tooltipPosition.x}px`,
               top: `${tooltipPosition.y}px`,
-              transformOrigin: "center bottom",
             }}
           >
-            <div className="bg-foreground text-background px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium font-sans shadow-2xl border border-border/10 backdrop-blur-md relative">
+            <div className="bg-black/90 backdrop-blur-sm text-white px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium font-sans shadow-xl">
               {displayText}
-              {/* Optional: Add a small triangle for the bubble tip */}
-              <div 
-                className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-foreground rotate-45"
-                style={{ clipPath: "polygon(100% 100%, 0% 100%, 100% 0%)" }}
-              />
             </div>
           </motion.div>
         )}

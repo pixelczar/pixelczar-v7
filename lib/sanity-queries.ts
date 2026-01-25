@@ -116,6 +116,9 @@ const CASE_STUDY_FULL_FIELDS = `
   shortDescription,
   description,
   role,
+  contributions,
+  impactStatement,
+  businessContext,
   content[] {
     _type,
     _key,

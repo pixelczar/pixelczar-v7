@@ -94,7 +94,7 @@ const cardTextVariants = {
   },
 }
 
-interface PlayPageClientProps {
+interface LabsPageClientProps {
   projects: ProjectListItem[]
   galleryItems: GalleryItemClient[]
 }
@@ -141,7 +141,7 @@ function ProjectImage({ image, title, index }: { image: { url: string; alt: stri
         )}
       </AnimatePresence>
 
-      <motion.div 
+      <motion.div
         className="absolute inset-0 rounded-md cursor-pointer overflow-hidden shadow-lg"
         initial={false}
         animate={{
@@ -186,13 +186,13 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
       whileInView="visible"
       viewport={{ once: true, margin: '-50px' }}
     >
-      <motion.div 
+      <motion.div
         className="bg-card/30 rounded-xl"
         variants={cardContentVariants}
       >
         {/* Gallery Images - Above Title (show 1 image) */}
         {project.gallery && project.gallery.length > 0 ? (
-          <motion.div 
+          <motion.div
             className="grid grid-cols-1 gap-6 mb-6"
             variants={imageGridVariants}
           >
@@ -203,7 +203,7 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
             ))}
           </motion.div>
         ) : project.mainImage ? (
-          <motion.div 
+          <motion.div
             className="mb-6"
             variants={cardImageVariants}
           >
@@ -212,15 +212,15 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
         ) : null}
 
         {/* Title and Tags Row */}
-        <motion.div 
+        <motion.div
           className="flex items-center justify-between gap-4 mb-2"
           variants={cardTextVariants}
         >
           <div className="flex items-center gap-1">
             {project.projectUrl ? (
-              <a 
-                href={project.projectUrl} 
-                target="_blank" 
+              <a
+                href={project.projectUrl}
+                target="_blank"
                 rel="noopener noreferrer"
                 data-cursor-rounded="full"
                 className="cursor-hover inline-flex items-center gap-1 px-2 py-1 mb-1 rounded-full relative -left-2 group"
@@ -236,7 +236,7 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
               </h3>
             )}
           </div>
-          
+
           {/* Tags - Right Aligned */}
           {project.tags && project.tags.length > 0 && (
             <div className="flex flex-wrap gap-1 justify-end">
@@ -251,10 +251,10 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
             </div>
           )}
         </motion.div>
-        
+
         {/* Description */}
         {project.description && (
-          <motion.p 
+          <motion.p
             className="text-base text-muted-foreground font-sans mb-4"
             variants={cardTextVariants}
           >
@@ -270,7 +270,7 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
 function GalleryItemComponent({ item, index }: { item: GalleryItemClient; index: number }) {
   const [isLoading, setIsLoading] = useState(true)
   const [hasError, setHasError] = useState(false)
-  
+
   const sizeClasses = {
     small: 'w-full md:w-[calc(33.333%-1rem)]',
     medium: 'w-full md:w-[calc(50%-0.75rem)]',
@@ -306,16 +306,16 @@ function GalleryItemComponent({ item, index }: { item: GalleryItemClient; index:
 
         {item.type === 'video' ? (
           item.videoUrl ? (
-            <a 
-              href={item.videoUrl} 
-              target="_blank" 
+            <a
+              href={item.videoUrl}
+              target="_blank"
               rel="noopener noreferrer"
               className="absolute inset-0 flex items-center justify-center bg-muted/50"
             >
               <div className="text-center">
                 <div className="w-16 h-16 rounded-full bg-accent/80 flex items-center justify-center mb-2 mx-auto">
                   <svg className="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M8 5v14l11-7z"/>
+                    <path d="M8 5v14l11-7z" />
                   </svg>
                 </div>
                 <span className="text-sm text-muted-foreground">Play Video</span>
@@ -336,7 +336,7 @@ function GalleryItemComponent({ item, index }: { item: GalleryItemClient; index:
               <div className="text-center">
                 <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-2 mx-auto">
                   <svg className="w-6 h-6 text-muted-foreground ml-1" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M8 5v14l11-7z"/>
+                    <path d="M8 5v14l11-7z" />
                   </svg>
                 </div>
                 <span className="text-sm text-muted-foreground">Video</span>
@@ -395,7 +395,7 @@ function GalleryItemComponent({ item, index }: { item: GalleryItemClient; index:
             )}
           </>
         )}
-        
+
         {item.caption && (
           <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
             <p className="text-sm text-white font-sans">{item.caption}</p>
@@ -406,10 +406,10 @@ function GalleryItemComponent({ item, index }: { item: GalleryItemClient; index:
   )
 }
 
-export default function PlayPageClient({ projects, galleryItems }: PlayPageClientProps) {
+export default function LabsPageClient({ projects, galleryItems }: LabsPageClientProps) {
   return (
     <div className="bg-background text-foreground theme-transition relative overflow-hidden">
-      <motion.main 
+      <motion.main
         className="px-6 py-12 relative"
         variants={containerVariants}
         initial="hidden"
@@ -439,7 +439,7 @@ export default function PlayPageClient({ projects, galleryItems }: PlayPageClien
 
         {/* Projects Section - 3 Column Grid */}
         {projects.length > 0 && (
-          <motion.div 
+          <motion.div
             className="max-w-7xl mx-auto mb-24"
             variants={projectCardContainerVariants}
             initial="hidden"

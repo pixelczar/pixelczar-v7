@@ -40,7 +40,7 @@ interface WorkPageClientProps {
 export default function WorkPageClient({ caseStudies, experienceData, galleryItems }: WorkPageClientProps) {
   return (
     <div className="bg-background text-foreground theme-transition relative overflow-hidden">
-      <motion.main 
+      <motion.main
         className="px-4 md:px-6 py-8 md:py-12 relative"
         variants={containerVariants}
         initial="hidden"
@@ -69,16 +69,16 @@ export default function WorkPageClient({ caseStudies, experienceData, galleryIte
             </p>
           </motion.div>
         </div>
-        <motion.div 
+        <motion.div
           variants={gridContainerVariants}
           initial="hidden"
           animate="visible"
           className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-x-16 gap-y-24"
         >
-            {caseStudies.map((caseStudy, index) => (
-              <CaseStudyCard key={caseStudy._id} caseStudy={caseStudy} index={index} />
-            ))}
-          </motion.div>
+          {caseStudies.map((caseStudy, index) => (
+            <CaseStudyCard key={caseStudy._id} caseStudy={caseStudy} index={index} />
+          ))}
+        </motion.div>
         {/* Apps & Companies Timeline */}
         <div className="max-w-3xl mx-auto mb-12">
           <motion.div
@@ -111,7 +111,7 @@ export default function WorkPageClient({ caseStudies, experienceData, galleryIte
           </motion.div>
         </div>
 
-        {/* Play Section Preview */}
+        {/* Labs Section Preview */}
         {(() => {
           // Find the prism video from gallery items
           const prismVideo = galleryItems.find(
@@ -128,19 +128,19 @@ export default function WorkPageClient({ caseStudies, experienceData, galleryIte
 
           // Get first item (for left position)
           const firstItem = otherItems[0] || galleryItems[0]
-          
+
           // Check if first item is "Encore" related
-          const isFirstItemEncore = firstItem?.alt?.toLowerCase().includes('encore') || 
-                                    firstItem?.alt?.toLowerCase().includes('editor')
-          
+          const isFirstItemEncore = firstItem?.alt?.toLowerCase().includes('encore') ||
+            firstItem?.alt?.toLowerCase().includes('editor')
+
           // Get third item (for desktop only, right position) - make sure it's different from first
           // If first is Encore, find something that's NOT Encore/Editor related
           const thirdItem = isFirstItemEncore
-            ? otherItems.find((item) => 
-                item._id !== firstItem?._id && 
-                !item.alt?.toLowerCase().includes('encore') &&
-                !item.alt?.toLowerCase().includes('editor')
-              ) || otherItems.find((item) => item._id !== firstItem?._id) || otherItems[1] || otherItems[0]
+            ? otherItems.find((item) =>
+              item._id !== firstItem?._id &&
+              !item.alt?.toLowerCase().includes('encore') &&
+              !item.alt?.toLowerCase().includes('editor')
+            ) || otherItems.find((item) => item._id !== firstItem?._id) || otherItems[1] || otherItems[0]
             : otherItems.find((item) => item._id !== firstItem?._id) || otherItems[1] || otherItems[0] || galleryItems[0]
 
           // Create array: [first image, prism video, third image for desktop]
@@ -218,7 +218,7 @@ export default function WorkPageClient({ caseStudies, experienceData, galleryIte
                     ) : null}
                   </motion.div>
                 )}
-                
+
                 {/* Prism video - always visible */}
                 {prismVideo && (
                   <motion.div
@@ -272,7 +272,7 @@ export default function WorkPageClient({ caseStudies, experienceData, galleryIte
                     ) : null}
                   </motion.div>
                 )}
-                
+
                 {/* Third item - only visible on desktop, different from first */}
                 {gridItems[2] && (
                   <motion.div
@@ -355,7 +355,7 @@ export default function WorkPageClient({ caseStudies, experienceData, galleryIte
                   className="flex justify-end"
                 >
                   <MagneticLink
-                    href="/play"
+                    href="/labs"
                     className="flex items-center gap-3 rounded-full px-4 py-2 group -mr-4"
                     strength={0.4}
                   >

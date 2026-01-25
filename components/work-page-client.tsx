@@ -58,9 +58,9 @@ export default function WorkPageClient({ caseStudies, experienceData, galleryIte
         <div className="max-w-3xl mx-auto mb-12 md:mb-20">
           <motion.div
             variants={itemVariants}
-            className="w-full h-px bg-accent/40 mx-auto mt-16 mb-6 theme-transition"
+            className="w-full h-px bg-accent/20 mx-auto mt-16 mb-6 theme-transition"
           />
-          <motion.h2 variants={itemVariants} className="font-normal text-xl md:text-2xl mb-6 md:mb-8 text-foreground">
+          <motion.h2 variants={itemVariants} className="font-normal text-xl md:text-2xl mb-32 md:mb-8 text-foreground">
             Professional Showcases
           </motion.h2>
           <motion.div variants={itemVariants} className="mb-12 md:mb-16">

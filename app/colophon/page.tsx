@@ -102,7 +102,7 @@ export default function ColophonPage() {
           variants={itemVariants} 
           className="max-w-3xl mx-auto my-20 border-t border-accent/20 pt-6"
         >
-          <h3 className="font-normal text-xl md:text-2xl mb-12 text-foreground">Tech Stack</h3>
+          <h3 className="font-normal text-xl md:text-2xl mb-12 text-foreground">Stack</h3>
           <div className="grid grid-cols-2 gap-x-8 gap-y-12">
             {[
               { label: "Figma", value: "Design & Layout" },

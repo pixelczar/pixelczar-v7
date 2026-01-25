@@ -87,13 +87,13 @@ export default function TimelineItem({
         <div className="w-full md:w-2/5 space-y-4 md:4">
           <p className="text-sm md:text-base font-semibold theme-transition mb-4 md:mb-8" style={{ color: 'var(--muted-foreground)' }}>
             {job.dates}
-            <span
+            {/* <span
               className={`ml-2 text-accent font-normal text-xs md:text-sm ${
                 index === 0 ? "" : "hidden"
               }`}
             >
               present
-            </span>
+            </span> */}
           </p>
 
           <div>

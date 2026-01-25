@@ -203,6 +203,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
                       {caseStudy.company} <span className="text-muted-foreground mx-2"> →  </span>{caseStudy.timeline && `${caseStudy.timeline}`}
                     </p>
                     <h3 className="text-lg text-muted-foreground mb-1">{toPlainText(caseStudy.role)}</h3>
+                    <h3 className="text-lg text-muted-foreground mb-1">{toPlainText(caseStudy.role)}</h3>
                   </div>
 
                 {caseStudy.metrics && caseStudy.metrics.length > 0 && (

@@ -427,14 +427,14 @@ export default function PlayPageClient({ projects, galleryItems }: PlayPageClien
             variants={itemVariants}
             className="w-full h-px bg-accent/40 mx-auto mt-16 mb-6 theme-transition"
           />
-          <motion.h2 variants={itemVariants} className="text-2xl font-normal mb-8 font-sans text-foreground">
+          <motion.h2 variants={itemVariants} className="text-2xl font-normal mb-16 font-sans text-foreground">
             Recent Projects
           </motion.h2>
-          <motion.div variants={itemVariants} className="mb-16">
+          {/* <motion.div variants={itemVariants} className="mb-16">
             <p className="text-body-main">
               It's such an incredible time to be a designer. These are experiments, explorations, various other pixels I've been pushing recently.  All design and build implementations are 100% my own.
             </p>
-          </motion.div>
+          </motion.div> */}
         </div>
 
         {/* Projects Section - 3 Column Grid */}

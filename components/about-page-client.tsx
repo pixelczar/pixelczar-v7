@@ -138,10 +138,10 @@ export default function AboutPageClient({ caseStudies }: AboutPageClientProps) {
 
         {/* Principles / Ethos */}
         <motion.div variants={itemVariants} className="mb-16 theme-transition max-w-3xl mx-auto">
-          <h2 className="text-2xl font-normal my-8 font-sans text-foreground">Product & Design Ethos</h2>
-          <p className="text-lg text-body-main theme-transition">
+          <h2 className="text-2xl font-normal mt-8 mb-32 font-sans text-foreground">Product & Design Ethos</h2>
+          {/* <p className="text-lg text-body-main theme-transition">
             These anecdotes and principles have stuck with me over the years, guiding my approach to designing and building.
-          </p>
+          </p> */}
         </motion.div>
 
         <motion.div variants={itemVariants} className="max-w-7xl mx-auto mb-12">

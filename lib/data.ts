@@ -11,7 +11,7 @@ export interface Experience {
 
 export const experienceData: Experience[] = [
   {
-    dates: "Spring '21",
+    dates: "Spring '21 - Fall '25, 4y+",
     company: "Reprise",
     title: "VP of Design",
     location: "Beverly, Massachusetts, United States",

@@ -102,20 +102,8 @@ export default function Footer() {
         <div className="text-base font-sans theme-transition text-muted-foreground max-w-lg mb-24 md:mb-0">
           This site was born in Figma, raised in Cursor, assembled pixel-by-pixel on Boston's beautiful North Shore.
         </div>
-        <div className="flex justify-between items-end md:flex-col md:justify-end md:items-stretch md:space-y-1 text-base font-sans theme-transition text-muted-foreground">
-          <div className="flex items-center justify-between w-full order-1 md:order-2">
-            <BubbleTooltip text="Careful, it's a mailto:!">
-              <MagneticButton
-                href="mailto:will@pixelczar.com"
-                className="hover:text-accent transition-colors duration-300 theme-transition px-3 py-1 -ml-3 rounded-full hover:bg-accent/10"
-                strength={0.2}
-              >
-                will@pixelczar.com
-              </MagneticButton>
-            </BubbleTooltip>
-            <span className="opacity-50 md:opacity-100 text-sm md:text-base">© {new Date().getFullYear()}</span>
-          </div>
-          <div className="order-2 md:order-1 flex items-center justify-between w-full">
+        <div className="flex flex-col space-y-4 md:space-y-1 text-base font-sans theme-transition text-muted-foreground">
+          <div className="flex items-center justify-between w-full order-2 md:order-1">
             <MagneticWrapper
               strength={0.3}
               data-cursor-rounded="full"
@@ -133,6 +121,18 @@ export default function Footer() {
               Colophon
               <ArrowUpRight className="w-5 h-5 ml-2 group-hover:text-accent text-accent transition-colors duration-300" />
             </MagneticLink>
+          </div>
+          <div className="flex items-center justify-between w-full order-1 md:order-2">
+            <BubbleTooltip text="Careful, it's a mailto:!">
+              <MagneticButton
+                href="mailto:will@pixelczar.com"
+                className="hover:text-accent transition-colors duration-300 theme-transition px-3 py-1 -ml-3 rounded-full hover:bg-accent/10"
+                strength={0.2}
+              >
+                will@pixelczar.com
+              </MagneticButton>
+            </BubbleTooltip>
+            <span className="opacity-50 md:opacity-100 text-sm md:text-base">© {new Date().getFullYear()}</span>
           </div>
         </div>
       </div>

@@ -428,7 +428,7 @@ export default function LabsPageClient({ projects, galleryItems }: LabsPageClien
             className="w-full h-px bg-accent/40 mx-auto mt-16 mb-6 theme-transition"
           />
           <motion.h2 variants={itemVariants} className="text-2xl font-normal mb-16 font-sans text-foreground">
-            Recent Projects
+            Projects, explorations, sketches
           </motion.h2>
           {/* <motion.div variants={itemVariants} className="mb-16">
             <p className="text-body-main">

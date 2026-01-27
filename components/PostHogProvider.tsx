@@ -28,7 +28,20 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
         capture_exceptions: true,
         debug: false,
         loaded: (posthog) => {
-          // PostHog loaded successfully in production
+          // Check for ?internal=true URL param to set internal user flag
+          const urlParams = new URLSearchParams(window.location.search)
+          if (urlParams.get('internal') === 'true') {
+            localStorage.setItem('pixelczar_internal', 'true')
+          }
+
+          // Identify internal user for filtering in PostHog
+          const isInternal = localStorage.getItem('pixelczar_internal') === 'true'
+          if (isInternal) {
+            posthog.identify('will-internal', {
+              email: 'willisvt@gmail.com',
+              is_internal_user: true,
+            })
+          }
         },
       })
     }

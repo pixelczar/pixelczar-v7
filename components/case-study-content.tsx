@@ -318,12 +318,12 @@ function TwoColumnBlock({ value }: { value: any }) {
       ),
     },
     list: {
-      bullet: ({ children }) => <ul className="list-disc list-inside space-y-1 mb-4 font-sans">{children}</ul>,
-      number: ({ children }) => <ol className="list-decimal list-inside space-y-1 mb-4 font-sans">{children}</ol>,
+      bullet: ({ children }) => <ul className="list-disc pl-5 space-y-2 mb-4 font-sans text-muted-foreground">{children}</ul>,
+      number: ({ children }) => <ol className="list-decimal pl-5 space-y-2 mb-4 font-sans text-muted-foreground">{children}</ol>,
     },
     listItem: {
-      bullet: ({ children }) => <li className="mb-1 text-body-main">{children}</li>,
-      number: ({ children }) => <li className="mb-1 text-body-main">{children}</li>,
+      bullet: ({ children }) => <li className="text-body-main pl-1">{children}</li>,
+      number: ({ children }) => <li className="text-body-main pl-1">{children}</li>,
     },
     marks: {
       strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
@@ -397,12 +397,12 @@ function CalloutBlock({ value }: { value: any }) {
       ),
     },
     list: {
-      bullet: ({ children }) => <ul className="list-disc list-inside space-y-1 mb-4 font-sans">{children}</ul>,
-      number: ({ children }) => <ol className="list-decimal list-inside space-y-1 mb-4 font-sans">{children}</ol>,
+      bullet: ({ children }) => <ul className="list-disc pl-5 space-y-2 mb-4 font-sans text-muted-foreground">{children}</ul>,
+      number: ({ children }) => <ol className="list-decimal pl-5 space-y-2 mb-4 font-sans text-muted-foreground">{children}</ol>,
     },
     listItem: {
-      bullet: ({ children }) => <li className="mb-1">{children}</li>,
-      number: ({ children }) => <li className="mb-1">{children}</li>,
+      bullet: ({ children }) => <li className="pl-1">{children}</li>,
+      number: ({ children }) => <li className="pl-1">{children}</li>,
     },
     marks: {
       strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
@@ -470,18 +470,18 @@ export const caseStudyComponents: PortableTextComponents = {
   list: {
     bullet: ({ children }) => (
       <NarrowTextContainer>
-        <ul className="list-disc list-inside space-y-2 mb-6 font-sans">{children}</ul>
+        <ul className="list-disc pl-5 space-y-3 mb-6 font-sans text-muted-foreground">{children}</ul>
       </NarrowTextContainer>
     ),
     number: ({ children }) => (
       <NarrowTextContainer>
-        <ol className="list-decimal list-inside space-y-2 mb-6 font-sans">{children}</ol>
+        <ol className="list-decimal pl-5 space-y-3 mb-6 font-sans text-muted-foreground">{children}</ol>
       </NarrowTextContainer>
     ),
   },
   listItem: {
-    bullet: ({ children }) => <li className="mb-2 text-body-main">{children}</li>,
-    number: ({ children }) => <li className="mb-2 text-body-main">{children}</li>,
+    bullet: ({ children }) => <li className="text-body-main pl-1">{children}</li>,
+    number: ({ children }) => <li className="text-body-main pl-1">{children}</li>,
   },
   // Marks (inline formatting)
   marks: {

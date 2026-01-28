@@ -72,6 +72,7 @@ export default async function WorkPage() {
         slug: String(cs.slug || ''),
         oneLiner,
         company: typeof cs.company === 'string' ? cs.company : undefined,
+        shortDescription: typeof cs.shortDescription === 'string' ? cs.shortDescription : undefined,
         description: toPlainText(cs.description),
         role: typeof cs.role === 'string' ? cs.role : undefined,
         timeline: typeof cs.timeline === 'string' ? cs.timeline : undefined,

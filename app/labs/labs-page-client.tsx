@@ -21,27 +21,25 @@ const containerVariants = {
 
 // Project card container with smooth stagger - cards come just after header
 const projectCardContainerVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    y: 0,
     transition: {
-      duration: 0.8,
+      duration: 0.3,
       ease: smoothEase,
-      staggerChildren: 0.08,
-      delayChildren: 1.15, // Just barely after header (header finishes ~1.05s)
+      staggerChildren: 0.12,
+      delayChildren: 0.8,
     },
   },
 }
 
-// Individual card variants - smooth entrance
+// Individual card variants - fade only, no scale
 const projectCardVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    y: 0,
     transition: {
-      duration: 0.75,
+      duration: 0.6,
       ease: smoothEase,
     },
   },
@@ -182,9 +180,6 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
   return (
     <motion.div
       variants={projectCardVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: '-50px' }}
     >
       <motion.div
         className="bg-card/30 rounded-xl"

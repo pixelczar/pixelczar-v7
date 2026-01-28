@@ -6,8 +6,20 @@ import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { memo } from 'react'
 import type { CaseStudyListItem } from '@/types/sanity'
-import { itemVariants } from '@/lib/animations'
+import { smoothEase } from '@/lib/animations'
 import MagneticWrapper from '@/components/magnetic-wrapper'
+
+// Fade-only variant for staggered entrance (no scale/translate)
+const fadeInVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.7,
+      ease: smoothEase,
+    },
+  },
+}
 import { ImageTooltip } from '@/components/image-tooltip'
 import { isProjectWip } from '@/lib/work'
 
@@ -149,7 +161,7 @@ function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardProps) {
 
   return (
     <motion.div
-      variants={itemVariants}
+      variants={fadeInVariants}
       className="h-full"
     >
       <div 
@@ -205,8 +217,8 @@ function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardProps) {
                   </Link>
                 </MagneticWrapper>
               ) : (
-                <h3 className="text-2xl font-medium font-sans">
-                  {caseStudy.oneLiner || caseStudy.title}
+                <h3 className="text-2xl font-medium font-sans oneLiner">
+                  {caseStudy.oneLiner}
                 </h3>
               )}
             </div>

@@ -7,7 +7,6 @@ import { buildImageUrl, getGalleryImageUrls } from '@/lib/sanity'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { PortableText } from '@portabletext/react'
 import { NarrowTextContainer, FullWidthContainer } from '@/components/case-study-content'
 import CaseStudyPortableText from '@/components/case-study-portable-text'
 import NextProject from '@/components/next-project'
@@ -195,10 +194,10 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
               )}
 
               {/* Short Description or Description as intro to the work */}
-              {(caseStudy.shortDescription || caseStudy.description) && (
-              <p className="text-body-main font-medium mb-16 leading-tighter">
-                {toPlainText(caseStudy.shortDescription || caseStudy.description)}
-              </p>
+              {caseStudy.description && (
+              <div className="text-body-main font-medium mb-16 leading-relaxed description whitespace-pre-line">
+                {caseStudy.description}
+              </div>
               )}
 
             </div>

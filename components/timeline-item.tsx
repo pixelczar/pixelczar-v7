@@ -100,7 +100,7 @@ export default function TimelineItem({
             <p className="text-xs md:text-sm font-normal mb-1 theme-transition text-muted-foreground" style={{ color: 'var(--muted-foreground)' }}>
               Company
             </p>
-            <h3 className="text-base font-semibold text-foreground theme-transition">
+            <h3 className="text-base text-foreground theme-transition">
               {job.company}
             </h3>
           </div>
@@ -109,7 +109,7 @@ export default function TimelineItem({
             <p className="text-xs md:text-sm font-normal mb-1 theme-transition text-muted-foreground" style={{ color: 'var(--muted-foreground)' }}>
               Type
             </p>
-            <p className="text-base font-semibold text-foreground theme-transition">
+            <p className="text-base text-foreground theme-transition">
               {job.type}
             </p>
           </div>
@@ -118,7 +118,7 @@ export default function TimelineItem({
             <p className="text-xs md:text-sm font-normal mb-1 theme-transition text-muted-foreground" style={{ color: 'var(--muted-foreground)' }}>
               Responsibilities
             </p>
-            <p className="text-sm md:text-base font-semibold text-foreground theme-transition leading-relaxed">
+            <p className="text-sm md:text-base text-foreground theme-transition leading-relaxed">
               {job.skills.join(", ")}
             </p>
           </div>

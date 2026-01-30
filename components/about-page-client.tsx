@@ -33,7 +33,7 @@ const ethosItems = [
   {
     number: "02",
     title: "If you can design one thing, you can design everything.",
-    description: "Design skills are transferable. It's a way of thinking about a multi-dimensional problem and coming up with a solution.",
+    description: "Design skills are transferable. It's a way of thinking about a multi-dimensional problem and bringing a solution to life.",
   },
   {
     number: "03",

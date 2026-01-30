@@ -85,7 +85,7 @@ export default function TimelineItem({
       <div className="flex-1 flex flex-col md:flex-row gap-6 md:gap-8">
         {/* Left Column - Job Details */}
         <div className="w-full md:w-2/5 space-y-4 md:4">
-          <p className="text-sm md:text-base font-semibold theme-transition mb-4 md:mb-8" style={{ color: 'var(--muted-foreground)' }}>
+          <p className="text-sm md:text-base text-body-main theme-transition mb-4 md:mb-8 text-white">
             {job.dates}
             {/* <span
               className={`ml-2 text-accent font-normal text-xs md:text-sm ${
@@ -97,7 +97,7 @@ export default function TimelineItem({
           </p>
 
           <div>
-            <p className="text-xs md:text-sm font-normal mb-1 theme-transition text-muted-foreground" style={{ color: 'var(--muted-foreground)' }}>
+            <p className="text-xs md:text-sm font-normal mb-1 theme-transition text-muted-foreground">
               Company
             </p>
             <h3 className="text-base text-foreground theme-transition">
@@ -106,7 +106,7 @@ export default function TimelineItem({
           </div>
 
           <div>
-            <p className="text-xs md:text-sm font-normal mb-1 theme-transition text-muted-foreground" style={{ color: 'var(--muted-foreground)' }}>
+            <p className="text-xs md:text-sm font-normal mb-1 theme-transition text-body-main text-white">
               Type
             </p>
             <p className="text-base text-foreground theme-transition">
@@ -115,7 +115,7 @@ export default function TimelineItem({
           </div>
 
           <div>
-            <p className="text-xs md:text-sm font-normal mb-1 theme-transition text-muted-foreground" style={{ color: 'var(--muted-foreground)' }}>
+            <p className="text-xs md:text-sm font-normal mb-1 theme-transition text-body-main text-white">
               Responsibilities
             </p>
             <p className="text-sm md:text-base text-foreground theme-transition leading-relaxed">

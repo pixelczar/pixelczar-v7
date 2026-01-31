@@ -2,7 +2,8 @@
 
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight, Sparkles } from 'lucide-react'
+import Link from 'next/link'
 import { useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import type { ProjectListItem, GalleryItemClient } from '@/types/sanity'
@@ -447,6 +448,24 @@ export default function LabsPageClient({ projects, galleryItems }: LabsPageClien
             </div>
           </motion.div>
         )}
+
+        {/* Infinite Canvas CTA */}
+        <motion.div
+          className="max-w-3xl mx-auto mb-24 text-center"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: smoothEase }}
+        >
+          <Link
+            href="/pixels"
+            data-cursor-rounded="full"
+            className="cursor-hover inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-accent/30 text-foreground hover:border-accent/60 hover:text-accent transition-colors duration-300 font-sans text-sm"
+          >
+            <Sparkles className="w-4 h-4" />
+            Explore the infinite canvas
+          </Link>
+        </motion.div>
 
         {/* Gallery Section */}
         {galleryItems.length > 0 && (

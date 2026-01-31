@@ -13,20 +13,22 @@ export default function Template({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  
+
   // Don't apply template to Studio routes
   if (pathname?.startsWith('/studio')) {
     return <>{children}</>;
   }
 
+  const isPixels = pathname === '/pixels';
+
   return (
     <>
       <CustomCursor />
-      <Header />
+      {!isPixels && <Header />}
       <PageTransition>
         {children}
       </PageTransition>
-      <Footer />
+      {!isPixels && <Footer />}
     </>
   );
 }

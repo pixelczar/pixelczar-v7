@@ -48,7 +48,7 @@ const ethosItems = [
   {
     number: "05",
     title: "The job is not done until the tools are put away.",
-    description: "It's extremely rare your work exists in a silo. You must consider what truly needs to be complete to be done.",
+    description: "It's extremely rare your work exists in a silo. You must consider what it truly means to be done.",
   },
   {
     number: "06",

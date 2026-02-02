@@ -889,7 +889,7 @@ export default function PixelsClient({ media }: { media: MediaItem[] }) {
 
   const handleFocusTitle = useCallback((title: string) => {
     setFocusedTitle(title)
-    if (!title) setLabelReady(false)
+    setLabelReady(false)
   }, [])
 
   const handleFlyComplete = useCallback((complete: boolean) => {
@@ -995,7 +995,7 @@ export default function PixelsClient({ media }: { media: MediaItem[] }) {
         }}
       >
         <p
-          className="text-xs font-sans tracking-[0.2em] uppercase transition-colors duration-500"
+          className="text-sm font-sans transition-colors duration-500"
           style={{ color: isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.4)' }}
         >
           {focusedTitle}

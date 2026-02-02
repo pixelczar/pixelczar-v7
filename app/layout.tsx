@@ -90,6 +90,7 @@ export default function RootLayout({
       <head>
         <ThemeScript />
         <link rel="stylesheet" href="https://use.typekit.net/iyr2zsg.css" />
+        <style>{`.tk-lust-display { font-display: swap; }`}</style>
         <script
           dangerouslySetInnerHTML={{
             __html: `!function(key) {if (window.reb2b) return;window.reb2b = {loaded: true};var s = document.createElement("script");s.async = true;s.src = "https://ddwl4m2hdecbv.cloudfront.net/b/" + key + "/" + key + ".js.gz";document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.getElementsByTagName("script")[0]);}("W6Z57HZQLXOX");`,
@@ -133,6 +134,9 @@ export default function RootLayout({
         />
       </head>
       <body suppressHydrationWarning>
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-background focus:text-foreground">
+          Skip to content
+        </a>
         <PostHogProvider>
           <ThemeProvider
             attribute="class"
@@ -141,7 +145,7 @@ export default function RootLayout({
             storageKey="pixel-czar-theme"
             disableTransitionOnChange={false}
           >
-            {children}
+            <div id="main-content">{children}</div>
           </ThemeProvider>
         </PostHogProvider>
         <Analytics />

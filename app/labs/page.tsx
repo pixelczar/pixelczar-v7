@@ -3,7 +3,7 @@ import { buildImageUrl } from '@/lib/sanity'
 import type { ProjectListItem, GalleryItemClient } from '@/types/sanity'
 import LabsPageClient from './labs-page-client'
 
-export const revalidate = 60
+export const revalidate = 3600
 
 export const metadata = {
   title: 'Labs | Pixelczar',
@@ -61,7 +61,7 @@ export default async function LabsPage() {
       }
     })
   } catch (error) {
-    console.log('Error fetching projects:', error)
+    // silently handle – renders with empty projects
   }
 
   try {
@@ -95,7 +95,7 @@ export default async function LabsPage() {
         return item.src || item.videoUrl
       })
   } catch (error) {
-    console.log('Error fetching gallery items:', error)
+    // silently handle – renders with empty gallery
   }
 
   return <LabsPageClient projects={projects} galleryItems={galleryItems} />

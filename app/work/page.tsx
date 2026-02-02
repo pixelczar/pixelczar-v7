@@ -4,7 +4,7 @@ import { experienceData } from '@/lib/data'
 import WorkPageClient from '@/components/work-page-client'
 import type { CaseStudyListItem, GalleryItemClient } from '@/types/sanity'
 
-export const revalidate = 60
+export const revalidate = 3600
 
 export const metadata = {
   title: 'Work • Will Smith',
@@ -92,7 +92,7 @@ export default async function WorkPage() {
       }
     })
   } catch (error) {
-    console.error('Error fetching case studies:', error)
+    // silently handle – renders with empty case studies
   }
 
   try {
@@ -123,7 +123,7 @@ export default async function WorkPage() {
       return item.src || item.videoUrl
     })
   } catch (error) {
-    console.error('Error fetching gallery items:', error)
+    // silently handle – renders with empty gallery
   }
 
   return <WorkPageClient caseStudies={caseStudies} experienceData={experienceData} galleryItems={galleryItems} />

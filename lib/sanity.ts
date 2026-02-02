@@ -30,7 +30,7 @@ export function buildImageUrl(
   if (typeof source === 'object' && 'asset' in source) {
     const asset = (source as any).asset
     if (!asset || (!asset._ref && !asset._id)) {
-      console.warn('Image asset is missing or has no _ref/_id property')
+      // missing asset reference
       return null
     }
   }
@@ -48,7 +48,7 @@ export function buildImageUrl(
 
     return imageBuilder.url()
   } catch (error) {
-    console.error('Error building image URL:', error)
+    // failed to build image URL
     return null
   }
 }

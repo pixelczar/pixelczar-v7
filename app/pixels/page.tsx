@@ -2,7 +2,7 @@ import { getProjectsList, getGalleryItems } from '@/lib/sanity-queries'
 import { buildImageUrl } from '@/lib/sanity'
 import PixelsClient from './pixels-client'
 
-export const revalidate = 60
+export const revalidate = 3600
 
 export const metadata = {
   title: 'Pixels | Pixelczar',
@@ -53,7 +53,7 @@ export default async function PixelsPage() {
       }
     }
   } catch (error) {
-    console.log('Error fetching projects for pixels:', error)
+    // silently handle – renders with whatever media was collected
   }
 
   try {
@@ -69,7 +69,7 @@ export default async function PixelsPage() {
       }
     }
   } catch (error) {
-    console.log('Error fetching gallery for pixels:', error)
+    // silently handle – renders with whatever media was collected
   }
 
   return <PixelsClient media={media} />

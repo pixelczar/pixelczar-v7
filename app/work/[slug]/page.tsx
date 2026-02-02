@@ -14,7 +14,7 @@ import type { CaseStudyListItem } from '@/types/sanity'
 import { buildImageUrl as buildListImageUrl } from '@/lib/sanity'
 import { isProjectWip } from '@/lib/work'
 
-export const revalidate = 60
+export const revalidate = 3600
 
 interface CaseStudyPageProps {
   params: Promise<{ slug: string }>
@@ -28,7 +28,7 @@ export async function generateStaticParams() {
       slug: cs.slug?.current || '',
     })).filter(p => p.slug)
   } catch (error) {
-    console.error('Error generating static params:', error)
+    // silently handle – falls back to dynamic rendering
     return []
   }
 }

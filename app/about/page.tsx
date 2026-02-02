@@ -3,7 +3,7 @@ import { buildImageUrl } from '@/lib/sanity'
 import type { CaseStudyListItem } from '@/types/sanity'
 import AboutPageClient from '@/components/about-page-client'
 
-export const revalidate = 60
+export const revalidate = 3600
 
 export const metadata = {
   title: 'About | Pixelczar',
@@ -77,7 +77,7 @@ export default async function AboutPage() {
         }
       })
   } catch (error) {
-    console.error('Error fetching case studies:', error)
+    // silently handle – renders with empty case studies
   }
 
   return <AboutPageClient caseStudies={caseStudies} />

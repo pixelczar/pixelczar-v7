@@ -60,7 +60,6 @@ function CaseStudyImage({ value }: { value: any }) {
   const imageValue = value?._type === 'image' ? value : value
   
   if (!imageValue || !imageValue.asset) {
-    console.warn('CaseStudyImage: Invalid image value', { value, imageValue })
     return null
   }
 
@@ -75,11 +74,9 @@ function CaseStudyImage({ value }: { value: any }) {
     // Asset is a reference, use buildImageUrl
     imageUrl = buildImageUrl(imageValue as SanityImageSource, 1920)
   } else {
-    console.warn('CaseStudyImage: Asset has neither url nor _ref', imageValue.asset)
   }
 
   if (!imageUrl) {
-    console.warn('CaseStudyImage: No image URL generated', imageValue)
     return null
   }
 
@@ -171,7 +168,6 @@ function CaseStudyVideo({ value }: { value: any }) {
   }
 
   if (!value) {
-    console.warn('CaseStudyVideo: Invalid video value', value)
     return null
   }
 
@@ -186,7 +182,6 @@ function CaseStudyVideo({ value }: { value: any }) {
   }
 
   if (!videoUrl) {
-    console.warn('CaseStudyVideo: No video URL found', value)
     return null
   }
 

@@ -128,7 +128,7 @@ const getTexture = (item: MediaItem, onLoad?: (texture: THREE.Texture) => void):
       loadCallbacks.delete(key)
     }
     video.addEventListener('loadeddata', onReady)
-    video.addEventListener('error', () => console.error('Video load failed:', key))
+    video.addEventListener('error', () => {})
 
     textureCache.set(key, texture)
     return texture
@@ -147,7 +147,7 @@ const getTexture = (item: MediaItem, onLoad?: (texture: THREE.Texture) => void):
       loadCallbacks.delete(key)
     },
     undefined,
-    (err) => console.error('Texture load failed:', key, err),
+    undefined,
   )
 
   textureCache.set(key, texture)

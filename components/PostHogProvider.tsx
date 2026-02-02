@@ -15,7 +15,6 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
     const posthogKey = process.env.NEXT_PUBLIC_POSTHOG_KEY
     
     if (!posthogKey) {
-      console.warn("PostHog key is missing. Analytics will not be tracked.")
       return
     }
 

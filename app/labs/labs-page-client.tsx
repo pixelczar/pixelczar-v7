@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowUpRight, Sparkles } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -262,6 +262,97 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
   )
 }
 
+// Canvas card — last item in the projects grid, teases the /pixels experience
+// Mimics the actual infinite canvas: no rotation, depth via scale, parallax drift
+function CanvasCard({ galleryItems }: { galleryItems: GalleryItemClient[] }) {
+  const thumbs = galleryItems
+    .filter((item) => item.type === 'image' && item.src)
+    .map((item) => item.src)
+    .slice(0, 9)
+
+  // Three depth layers: back (small/slow), mid, front (large/fast)
+  // Positions are % based, no rotation — flat like the real canvas
+  const placements: { top: string; left: string; w: string; z: number; dur: string; delay: string; drift: string; opacity: number }[] = [
+    // Back layer — small, slow, faded
+    { top: '5%',  left: '8%',  w: '28%', z: 0, dur: '12s', delay: '0s',   drift: '-3px', opacity: 0.4 },
+    { top: '10%', left: '62%', w: '26%', z: 0, dur: '14s', delay: '1s',   drift: '3px',  opacity: 0.35 },
+    { top: '60%', left: '55%', w: '24%', z: 0, dur: '13s', delay: '0.5s', drift: '-2px', opacity: 0.3 },
+    // Mid layer
+    { top: '2%',  left: '35%', w: '38%', z: 1, dur: '10s', delay: '0.3s', drift: '-5px', opacity: 0.65 },
+    { top: '38%', left: '5%',  w: '36%', z: 1, dur: '11s', delay: '0.8s', drift: '5px',  opacity: 0.6 },
+    { top: '55%', left: '30%', w: '34%', z: 1, dur: '10s', delay: '1.2s', drift: '-4px', opacity: 0.6 },
+    // Front layer — large, faster, full opacity
+    { top: '15%', left: '12%', w: '48%', z: 2, dur: '8s',  delay: '0s',   drift: '-7px', opacity: 0.9 },
+    { top: '20%', left: '45%', w: '50%', z: 2, dur: '9s',  delay: '0.6s', drift: '7px',  opacity: 0.85 },
+    { top: '52%', left: '18%', w: '46%', z: 2, dur: '8s',  delay: '1s',   drift: '-6px', opacity: 0.9 },
+  ]
+
+  return (
+    <motion.div variants={projectCardVariants}>
+      <Link href="/pixels" className="block mb-6" data-cursor-ignore>
+        <div className="relative aspect-[4/3] rounded-md overflow-hidden bg-black/95">
+          {thumbs.map((url, i) => {
+            const p = placements[i]
+            if (!p) return null
+            return (
+              <div
+                key={i}
+                className="absolute"
+                style={{
+                  top: p.top,
+                  left: p.left,
+                  width: p.w,
+                  zIndex: p.z,
+                  opacity: p.opacity,
+                }}
+              >
+                <div
+                  className="relative rounded-sm overflow-hidden"
+                  style={{
+                    aspectRatio: '4/3',
+                    animation: `canvas-float ${p.dur} ease-in-out ${p.delay} infinite alternate`,
+                    ['--canvas-drift' as string]: p.drift,
+                  }}
+                >
+                  <Image
+                    src={url}
+                    alt=""
+                    fill
+                    className="object-cover"
+                    sizes="200px"
+                    quality={60}
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            )
+          })}
+          {/* Subtle vignette */}
+          <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 40px 10px rgba(0,0,0,0.6)' }} />
+        </div>
+      </Link>
+
+      <div className="flex items-center justify-between gap-4 mb-2">
+        <div className="flex items-center gap-1">
+          <Link
+            href="/pixels"
+            data-cursor-rounded="full"
+            className="cursor-hover inline-flex items-center gap-1 px-2 py-1 mb-1 rounded-full relative -left-2 group"
+          >
+            <h3 className="text-xl md:text-2xl font-semibold font-sans transition-colors duration-300 group-hover:text-accent">
+              Pixels
+            </h3>
+            <ArrowUpRight className="w-5 h-5 md:w-6 md:h-6 group-hover:text-accent transition-colors duration-300" />
+          </Link>
+        </div>
+      </div>
+      <p className="text-base text-muted-foreground font-sans mb-4">
+        An infinite, explorable canvas of work.
+      </p>
+    </motion.div>
+  )
+}
+
 // Gallery item component - all 4:3 ratio, rounded-lg
 function GalleryItemComponent({ item, index }: { item: GalleryItemClient; index: number }) {
   const [isLoading, setIsLoading] = useState(true)
@@ -445,27 +536,10 @@ export default function LabsPageClient({ projects, galleryItems }: LabsPageClien
               {projects.map((project, index) => (
                 <ProjectCard key={project._id} project={project} index={index} />
               ))}
+              <CanvasCard galleryItems={galleryItems} />
             </div>
           </motion.div>
         )}
-
-        {/* Infinite Canvas CTA */}
-        <motion.div
-          className="max-w-3xl mx-auto mb-24 text-center"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: smoothEase }}
-        >
-          <Link
-            href="/pixels"
-            data-cursor-rounded="full"
-            className="cursor-hover inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-accent/30 text-foreground hover:border-accent/60 hover:text-accent transition-colors duration-300 font-sans text-sm"
-          >
-            <Sparkles className="w-4 h-4" />
-            Explore the infinite canvas
-          </Link>
-        </motion.div>
 
         {/* Gallery Section */}
         {galleryItems.length > 0 && (
@@ -480,7 +554,10 @@ export default function LabsPageClient({ projects, galleryItems }: LabsPageClien
               </motion.h2>
               <motion.div variants={itemVariants} className="mb-16">
                 <p className="text-body-main">
-                  Screenshots, recordings, and visual artifacts from various projects and experiments.
+                  Screenshots, recordings, and visual artifacts from various projects and experiments.{' '}
+                  <Link href="/pixels" className="text-accent hover:underline">
+                    See them all on the infinite canvas
+                  </Link>.
                 </p>
               </motion.div>
             </div>

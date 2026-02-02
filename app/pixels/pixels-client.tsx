@@ -52,7 +52,7 @@ const VELOCITY_LERP = 0.16
 const VELOCITY_DECAY = 0.92 // (3) bumped from 0.9 for slightly more inertial overshoot
 const INITIAL_CAMERA_Z = 50
 const INTRO_START_Z = 350 // (6) cinematic open: start far away
-const FOCUS_FILL = 0.80
+const FOCUS_FILL = 0.65
 const IDLE_TIMEOUT = 30_000 // (7) ms before idle nudge kicks in
 const TILT_MAX = 0.04 // (1) ~2.3 degrees max tilt
 const PARTICLE_COUNT = 200 // (5) dust motes
@@ -535,7 +535,7 @@ const createInitialState = (): ControllerState => ({
   lastInputTime: performance.now(), idleNudged: false,
 })
 
-function SceneController({ media, onFocusTitle }: { media: MediaItem[]; onFocusTitle: (title: string) => void }) {
+function SceneController({ media, onFocusTitle, onFlyComplete }: { media: MediaItem[]; onFocusTitle: (title: string) => void; onFlyComplete: (complete: boolean) => void }) {
   const { camera, gl, scene } = useThree()
   const isTouchDevice = useIsTouchDevice()
   const [, getKeys] = useKeyboardControls<keyof KeyboardKeys>()
@@ -546,6 +546,7 @@ function SceneController({ media, onFocusTitle }: { media: MediaItem[]; onFocusT
   const mouseVec = useRef(new THREE.Vector2())
 
   const [chunks, setChunks] = useState<ChunkData[]>([])
+  const flyCompleteFired = useRef(false)
 
   // Helper to mark user activity (7)
   const markActive = () => { state.current.lastInputTime = performance.now() }
@@ -568,7 +569,7 @@ function SceneController({ media, onFocusTitle }: { media: MediaItem[]; onFocusT
         s.isFocused = false; s.flyTarget = null
         focusStateRef.isFocused = false; focusStateRef.focusedMeshId = -1
         focusStateRef.focusedTitle = ''
-        onFocusTitle('')
+        onFocusTitle(''); onFlyComplete(false); flyCompleteFired.current = false
         markActive()
         return
       }
@@ -588,6 +589,7 @@ function SceneController({ media, onFocusTitle }: { media: MediaItem[]; onFocusT
         const distForWidth = planeW / (2 * Math.tan(fovRad / 2) * aspect * FOCUS_FILL)
         const viewDist = Math.max(distForHeight, distForWidth)
 
+        flyCompleteFired.current = false
         s.flyTarget = {
           x: pos.x, y: pos.y, z: pos.z + viewDist,
           startX: s.basePos.x, startY: s.basePos.y, startZ: s.basePos.z,
@@ -658,7 +660,7 @@ function SceneController({ media, onFocusTitle }: { media: MediaItem[]; onFocusT
       if (e.key === 'Escape' && s.isFocused) {
         s.flyTarget = null; s.isFocused = false
         focusStateRef.isFocused = false; focusStateRef.focusedMeshId = -1
-        focusStateRef.focusedTitle = ''; onFocusTitle('')
+        focusStateRef.focusedTitle = ''; onFocusTitle(''); onFlyComplete(false); flyCompleteFired.current = false
       }
     }
 
@@ -685,7 +687,7 @@ function SceneController({ media, onFocusTitle }: { media: MediaItem[]; onFocusT
       canvas.removeEventListener('touchmove', onTouchMove)
       canvas.removeEventListener('touchend', onTouchEnd)
     }
-  }, [gl, camera, scene, media, onFocusTitle])
+  }, [gl, camera, scene, media, onFocusTitle, onFlyComplete])
 
   useFrame(() => {
     const s = state.current; const now = performance.now()
@@ -727,7 +729,7 @@ function SceneController({ media, onFocusTitle }: { media: MediaItem[]; onFocusT
     if (s.isFocused && (hasKeyInput || s.isDragging || Math.abs(s.scrollAccum) > 0.01)) {
       s.flyTarget = null; s.isFocused = false
       focusStateRef.isFocused = false; focusStateRef.focusedMeshId = -1
-      focusStateRef.focusedTitle = ''; onFocusTitle('')
+      focusStateRef.focusedTitle = ''; onFocusTitle(''); onFlyComplete(false); flyCompleteFired.current = false
     }
 
     if (forward) s.targetVel.z -= KEYBOARD_SPEED
@@ -789,6 +791,10 @@ function SceneController({ media, onFocusTitle }: { media: MediaItem[]; onFocusT
       s.basePos.x = s.flyTarget.startX + (s.flyTarget.x - s.flyTarget.startX) * t
       s.basePos.y = s.flyTarget.startY + (s.flyTarget.y - s.flyTarget.startY) * t
       s.basePos.z = s.flyTarget.startZ + (s.flyTarget.z - s.flyTarget.startZ) * t
+      if (s.flyTarget.progress >= 0.85 && !flyCompleteFired.current) {
+        flyCompleteFired.current = true
+        onFlyComplete(true)
+      }
       if (s.flyTarget.progress >= 1) {
         s.basePos.x = s.flyTarget.x; s.basePos.y = s.flyTarget.y; s.basePos.z = s.flyTarget.z
         s.flyTarget = null
@@ -865,6 +871,7 @@ export default function PixelsClient({ media }: { media: MediaItem[] }) {
   const [controlsVisible, setControlsVisible] = useState(true)
   const [isDark, setIsDark] = useState(true)
   const [focusedTitle, setFocusedTitle] = useState('')
+  const [labelReady, setLabelReady] = useState(false)
   const interacted = useRef(false)
 
   const dpr = useMemo(() => {
@@ -882,6 +889,11 @@ export default function PixelsClient({ media }: { media: MediaItem[] }) {
 
   const handleFocusTitle = useCallback((title: string) => {
     setFocusedTitle(title)
+    if (!title) setLabelReady(false)
+  }, [])
+
+  const handleFlyComplete = useCallback((complete: boolean) => {
+    setLabelReady(complete)
   }, [])
 
   // Lock body scroll
@@ -953,7 +965,7 @@ export default function PixelsClient({ media }: { media: MediaItem[] }) {
             <color attach="background" args={['#0a0a0a']} />
             <fog attach="fog" args={['#0a0a0a', 100, 280]} />
             <AtmosphereController />
-            <SceneController media={media} onFocusTitle={handleFocusTitle} />
+            <SceneController media={media} onFocusTitle={handleFocusTitle} onFlyComplete={handleFlyComplete} />
           </Canvas>
         </KeyboardControls>
       </div>
@@ -974,17 +986,17 @@ export default function PixelsClient({ media }: { media: MediaItem[] }) {
         }}
       />
 
-      {/* (7) Caption overlay — appears on focus */}
+      {/* (7) Caption overlay — appears after fly-to completes */}
       <div
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10 pointer-events-none transition-all duration-700 ease-out"
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10 pointer-events-none transition-all duration-500 ease-out"
         style={{
-          opacity: focusedTitle ? 1 : 0,
-          transform: `translateX(-50%) translateY(${focusedTitle ? '0' : '8px'})`,
+          opacity: focusedTitle && labelReady ? 1 : 0,
+          transform: `translateX(-50%) translateY(${focusedTitle && labelReady ? '0' : '6px'})`,
         }}
       >
         <p
-          className="text-sm font-sans tracking-widest uppercase transition-colors duration-500"
-          style={{ color: isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)' }}
+          className="text-xs font-sans tracking-[0.2em] uppercase transition-colors duration-500"
+          style={{ color: isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.4)' }}
         >
           {focusedTitle}
         </p>
@@ -994,7 +1006,7 @@ export default function PixelsClient({ media }: { media: MediaItem[] }) {
       <div className="absolute top-6 left-6 z-10 flex items-center gap-4">
         <Link
           href="/labs"
-          className="flex items-center gap-2 transition-colors duration-500"
+          className="cursor-hover flex items-center gap-2 px-3 py-2 -ml-3 rounded-lg transition-all duration-500 hover:bg-white/10"
           style={{ color: uiColor }}
           onMouseEnter={(e) => { e.currentTarget.style.color = uiHoverColor }}
           onMouseLeave={(e) => { e.currentTarget.style.color = uiColor }}

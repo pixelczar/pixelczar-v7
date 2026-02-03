@@ -174,20 +174,38 @@ const evictPlaneCache = () => {
   }
 }
 
+const getNeighborUsedMedia = (cx: number, cy: number, cz: number, mc: number): Set<number> => {
+  const used = new Set<number>()
+  for (let dx = -1; dx <= 1; dx++) {
+    for (let dy = -1; dy <= 1; dy++) {
+      for (let dz = -1; dz <= 1; dz++) {
+        if (dx === 0 && dy === 0 && dz === 0) continue
+        const key = `${cx + dx},${cy + dy},${cz + dz}`
+        const cached = planeCache.get(key)
+        if (cached) {
+          for (const p of cached) used.add(p.mediaIndex % mc)
+        }
+      }
+    }
+  }
+  return used
+}
+
 const generateChunkPlanes = (cx: number, cy: number, cz: number, mediaCount?: number): PlaneData[] => {
   const planes: PlaneData[] = []
   const seed = hashString(`${cx},${cy},${cz}`)
-  const usedMedia = new Set<number>()
   const mc = mediaCount || 1
+  // Avoid duplicates within this chunk AND in already-generated neighbor chunks
+  const usedMedia = getNeighborUsedMedia(cx, cy, cz, mc)
 
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 4; i++) {
     const s = seed + i * 1000
     const r = (n: number) => seededRandom(s + n)
     const size = 12 + r(4) * 8
 
-    // Pick a media index, re-rolling to avoid duplicates within this chunk
+    // Pick a media index, re-rolling to avoid duplicates within this chunk and neighbors
     let idx = Math.floor(r(5) * 1_000_000)
-    for (let attempt = 0; attempt < 10 && usedMedia.has(idx % mc); attempt++) {
+    for (let attempt = 0; attempt < 20 && usedMedia.has(idx % mc); attempt++) {
       idx = Math.floor(seededRandom(s + 50 + attempt) * 1_000_000)
     }
     usedMedia.add(idx % mc)
@@ -887,9 +905,15 @@ export default function PixelsClient({ media }: { media: MediaItem[] }) {
     })
   }, [])
 
+  const labelTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const handleFocusTitle = useCallback((title: string) => {
-    setFocusedTitle(title)
+    // Immediately hide the label so the old title doesn't linger during fade-out
+    if (labelTimeoutRef.current) clearTimeout(labelTimeoutRef.current)
     setLabelReady(false)
+    // Defer setting the new title until after the fade-out completes
+    labelTimeoutRef.current = setTimeout(() => {
+      setFocusedTitle(title)
+    }, 200)
   }, [])
 
   const handleFlyComplete = useCallback((complete: boolean) => {
@@ -988,10 +1012,13 @@ export default function PixelsClient({ media }: { media: MediaItem[] }) {
 
       {/* (7) Caption overlay — appears after fly-to completes */}
       <div
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10 pointer-events-none transition-all duration-500 ease-out"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 pointer-events-none"
         style={{
           opacity: focusedTitle && labelReady ? 1 : 0,
-          transform: `translateX(-50%) translateY(${focusedTitle && labelReady ? '0' : '6px'})`,
+          transform: `translateX(-50%) translateY(${focusedTitle && labelReady ? '0' : '2px'})`,
+          transition: focusedTitle && labelReady
+            ? 'opacity 0.4s cubic-bezier(0.16,1,0.3,1), transform 0.4s cubic-bezier(0.16,1,0.3,1)'
+            : 'opacity 0.15s ease-out, transform 0.15s ease-out',
         }}
       >
         <p

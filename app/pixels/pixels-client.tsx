@@ -973,6 +973,21 @@ export default function PixelsClient({ media }: { media: MediaItem[] }) {
       className="fixed inset-0 transition-[background-color] duration-[1200ms] ease-out"
       style={{ backgroundColor: isDark ? '#0a0a0a' : '#f0f0f0', cursor: 'grab' }}
     >
+      {/* Loading indicator — single breathing dot */}
+      <div
+        className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none transition-opacity duration-[1200ms] ease-out"
+        style={{ opacity: canvasReady ? 0 : 1 }}
+      >
+        <div
+          className="w-1.5 h-1.5 rounded-full"
+          style={{
+            backgroundColor: isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.2)',
+            animation: 'pulse-dot 2s ease-in-out infinite',
+          }}
+        />
+        <style>{`@keyframes pulse-dot { 0%, 100% { opacity: 0.2; transform: scale(1); } 50% { opacity: 1; transform: scale(1.3); } }`}</style>
+      </div>
+
       {/* Canvas */}
       <div
         className="absolute inset-0 transition-opacity duration-[1500ms] ease-out"
@@ -1012,7 +1027,7 @@ export default function PixelsClient({ media }: { media: MediaItem[] }) {
 
       {/* (7) Caption overlay — appears after fly-to completes */}
       <div
-        className="absolute bottom-[20%] left-1/2 -translate-x-1/2 z-10 pointer-events-none"
+        className="absolute bottom-[8%] left-1/2 -translate-x-1/2 z-10 pointer-events-none"
         style={{
           opacity: focusedTitle && labelReady ? 1 : 0,
           transform: `translateX(-50%) translateY(${focusedTitle && labelReady ? '0' : '2px'})`,

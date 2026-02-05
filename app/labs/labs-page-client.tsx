@@ -2,12 +2,13 @@
 
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import type { ProjectListItem, GalleryItemClient } from '@/types/sanity'
 import { itemVariants, smoothEase } from '@/lib/animations'
+import MagneticWrapper from '@/components/magnetic-wrapper'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -120,12 +121,12 @@ function toPlainText(value: unknown): string {
 }
 
 // Project image component - expands on hover to show larger crisp image
-function ProjectImage({ image, title, index }: { image: { url: string; alt: string }; title: string; index: number }) {
+function ProjectImage({ image, title, index, hasLink = false }: { image: { url: string; alt: string }; title: string; index: number; hasLink?: boolean }) {
   const [isLoading, setIsLoading] = useState(true)
   const [hasError, setHasError] = useState(false)
 
   return (
-    <div className="relative w-full aspect-[4/3]">
+    <div className={`relative w-full aspect-[4/3] ${hasLink ? 'group' : ''}`}>
       {/* Loading skeleton */}
       <AnimatePresence>
         {isLoading && (
@@ -141,7 +142,7 @@ function ProjectImage({ image, title, index }: { image: { url: string; alt: stri
       </AnimatePresence>
 
       <motion.div
-        className="absolute inset-0 rounded-md cursor-pointer overflow-hidden shadow-lg"
+        className="absolute inset-0 rounded-md overflow-hidden shadow-lg"
         initial={false}
         animate={{
           opacity: isLoading ? 0 : 1,
@@ -156,7 +157,7 @@ function ProjectImage({ image, title, index }: { image: { url: string; alt: stri
             src={image.url}
             alt={image.alt || `${title} - Image ${index + 1}`}
             fill
-            className="object-cover"
+            className={`object-cover transition-all duration-500 ${hasLink ? 'group-hover:opacity-70 group-hover:scale-[102%]' : ''}`}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1200px"
             quality={85}
             loading="lazy"
@@ -178,6 +179,27 @@ function ProjectImage({ image, title, index }: { image: { url: string; alt: stri
 
 // 2-column project card for Play page - title links to external projectUrl
 function ProjectCard({ project, index }: { project: ProjectListItem; index: number }) {
+  const hasLink = Boolean(project.projectUrl)
+  const imageContent = project.gallery && project.gallery.length > 0 ? (
+    <motion.div
+      className="grid grid-cols-1 gap-6 mb-6"
+      variants={imageGridVariants}
+    >
+      {project.gallery.slice(0, 1).map((image, idx) => (
+        <motion.div key={idx} variants={cardImageVariants}>
+          <ProjectImage image={image} title={project.title} index={idx} hasLink={hasLink} />
+        </motion.div>
+      ))}
+    </motion.div>
+  ) : project.mainImage ? (
+    <motion.div
+      className="mb-6"
+      variants={cardImageVariants}
+    >
+      <ProjectImage image={project.mainImage} title={project.title} index={0} hasLink={hasLink} />
+    </motion.div>
+  ) : null
+
   return (
     <motion.div
       variants={projectCardVariants}
@@ -187,25 +209,11 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
         variants={cardContentVariants}
       >
         {/* Gallery Images - Above Title (show 1 image) */}
-        {project.gallery && project.gallery.length > 0 ? (
-          <motion.div
-            className="grid grid-cols-1 gap-6 mb-6"
-            variants={imageGridVariants}
-          >
-            {project.gallery.slice(0, 1).map((image, idx) => (
-              <motion.div key={idx} variants={cardImageVariants}>
-                <ProjectImage image={image} title={project.title} index={idx} />
-              </motion.div>
-            ))}
-          </motion.div>
-        ) : project.mainImage ? (
-          <motion.div
-            className="mb-6"
-            variants={cardImageVariants}
-          >
-            <ProjectImage image={project.mainImage} title={project.title} index={0} />
-          </motion.div>
-        ) : null}
+        {hasLink && imageContent ? (
+          <a href={project.projectUrl} target="_blank" rel="noopener noreferrer" className="block" data-cursor-ignore>
+            {imageContent}
+          </a>
+        ) : imageContent}
 
         {/* Title and Tags Row */}
         <motion.div
@@ -214,18 +222,19 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
         >
           <div className="flex items-center gap-1">
             {project.projectUrl ? (
-              <a
-                href={project.projectUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-cursor-rounded="full"
-                className="cursor-hover inline-flex items-center gap-1 px-2 py-1 mb-1 rounded-full relative -left-2 group"
-              >
-                <h3 className="text-xl md:text-2xl font-semibold font-sans transition-colors duration-300 group-hover:text-accent">
-                  {project.title}
-                </h3>
-                <ArrowUpRight className="w-5 h-5 md:w-6 md:h-6 group-hover:text-accent transition-colors duration-300" />
-              </a>
+              <MagneticWrapper strength={0.3} data-cursor-rounded="full">
+                <a
+                  href={project.projectUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="cursor-hover inline-flex items-center gap-3 px-2 py-1 mb-1 rounded-full relative -left-2 group/title"
+                >
+                  <h3 className="text-xl md:text-2xl font-semibold font-sans transition-colors duration-300 group-hover/title:text-accent">
+                    {project.title}
+                  </h3>
+                  <ArrowRight className="w-5 h-5 md:w-6 md:h-6 transition-all duration-500 ease-[0.23,1,0.32,1] opacity-0 -translate-x-3 group-hover/title:opacity-100 group-hover/title:translate-x-0 group-hover/title:text-accent" />
+                </a>
+              </MagneticWrapper>
             ) : (
               <h3 className="text-xl md:text-2xl font-semibold font-sans">
                 {project.title}
@@ -263,41 +272,36 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
 }
 
 // Canvas card — last item in the projects grid, teases the /pixels experience
-// Mimics the actual infinite canvas: no rotation, depth via scale, parallax drift
+// Cleaner composition: centered hero image with subtle flanking depth layers
 function CanvasCard({ galleryItems }: { galleryItems: GalleryItemClient[] }) {
   const thumbs = galleryItems
     .filter((item) => item.type === 'image' && item.src)
     .map((item) => item.src)
-    .slice(0, 9)
+    .slice(0, 5)
 
-  // Three depth layers: back (small/slow), mid, front (large/fast)
-  // Positions are % based, no rotation — flat like the real canvas
+  // Simpler 3-layer composition: back flanks, mid flanks, centered hero
   const placements: { top: string; left: string; w: string; z: number; dur: string; delay: string; drift: string; opacity: number }[] = [
-    // Back layer — small, slow, faded
-    { top: '5%',  left: '8%',  w: '28%', z: 0, dur: '12s', delay: '0s',   drift: '-3px', opacity: 0.4 },
-    { top: '10%', left: '62%', w: '26%', z: 0, dur: '14s', delay: '1s',   drift: '3px',  opacity: 0.35 },
-    { top: '60%', left: '55%', w: '24%', z: 0, dur: '13s', delay: '0.5s', drift: '-2px', opacity: 0.3 },
-    // Mid layer
-    { top: '2%',  left: '35%', w: '38%', z: 1, dur: '10s', delay: '0.3s', drift: '-5px', opacity: 0.65 },
-    { top: '38%', left: '5%',  w: '36%', z: 1, dur: '11s', delay: '0.8s', drift: '5px',  opacity: 0.6 },
-    { top: '55%', left: '30%', w: '34%', z: 1, dur: '10s', delay: '1.2s', drift: '-4px', opacity: 0.6 },
-    // Front layer — large, faster, full opacity
-    { top: '15%', left: '12%', w: '48%', z: 2, dur: '8s',  delay: '0s',   drift: '-7px', opacity: 0.9 },
-    { top: '20%', left: '45%', w: '50%', z: 2, dur: '9s',  delay: '0.6s', drift: '7px',  opacity: 0.85 },
-    { top: '52%', left: '18%', w: '46%', z: 2, dur: '8s',  delay: '1s',   drift: '-6px', opacity: 0.9 },
+    // Back flanks — small, subtle, slow
+    { top: '8%',  left: '2%',  w: '32%', z: 0, dur: '14s', delay: '0s',   drift: '-2px', opacity: 0.25 },
+    { top: '12%', left: '66%', w: '30%', z: 0, dur: '16s', delay: '0.5s', drift: '2px',  opacity: 0.2 },
+    // Mid flanks — peek from edges
+    { top: '25%', left: '-5%', w: '38%', z: 1, dur: '12s', delay: '0.2s', drift: '-3px', opacity: 0.5 },
+    { top: '30%', left: '67%', w: '38%', z: 1, dur: '11s', delay: '0.7s', drift: '3px',  opacity: 0.45 },
+    // Hero — centered, dominant
+    { top: '10%', left: '18%', w: '64%', z: 2, dur: '10s', delay: '0s',   drift: '-4px', opacity: 1 },
   ]
 
   return (
     <motion.div variants={projectCardVariants}>
-      <Link href="/pixels" className="block mb-6" data-cursor-ignore>
-        <div className="relative aspect-[4/3] rounded-md overflow-hidden bg-black/95">
+      <Link href="/pixels" className="block mb-6 group" data-cursor-ignore>
+        <div className="relative aspect-[4/3] rounded-md overflow-hidden bg-[#0a0a0a]">
           {thumbs.map((url, i) => {
             const p = placements[i]
             if (!p) return null
             return (
               <div
                 key={i}
-                className="absolute"
+                className="absolute transition-transform duration-700 ease-out group-hover:scale-[101%]"
                 style={{
                   top: p.top,
                   left: p.left,
@@ -307,7 +311,7 @@ function CanvasCard({ galleryItems }: { galleryItems: GalleryItemClient[] }) {
                 }}
               >
                 <div
-                  className="relative rounded-sm overflow-hidden"
+                  className="relative rounded overflow-hidden shadow-2xl"
                   style={{
                     aspectRatio: '4/3',
                     animation: `canvas-float ${p.dur} ease-in-out ${p.delay} infinite alternate`,
@@ -320,30 +324,33 @@ function CanvasCard({ galleryItems }: { galleryItems: GalleryItemClient[] }) {
                     fill
                     className="object-cover"
                     sizes="200px"
-                    quality={60}
+                    quality={70}
                     loading="lazy"
                   />
                 </div>
               </div>
             )
           })}
-          {/* Subtle vignette */}
-          <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 40px 10px rgba(0,0,0,0.6)' }} />
+          {/* Vignette */}
+          <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 60px 20px rgba(0,0,0,0.7)' }} />
+          {/* Subtle gradient fade at bottom */}
+          <div className="absolute inset-x-0 bottom-0 h-1/3 pointer-events-none bg-gradient-to-t from-[#0a0a0a] to-transparent" />
         </div>
       </Link>
 
       <div className="flex items-center justify-between gap-4 mb-2">
         <div className="flex items-center gap-1">
-          <Link
-            href="/pixels"
-            data-cursor-rounded="full"
-            className="cursor-hover inline-flex items-center gap-1 px-2 py-1 mb-1 rounded-full relative -left-2 group"
-          >
-            <h3 className="text-xl md:text-2xl font-semibold font-sans transition-colors duration-300 group-hover:text-accent">
-              Pixels
-            </h3>
-            <ArrowUpRight className="w-5 h-5 md:w-6 md:h-6 group-hover:text-accent transition-colors duration-300" />
-          </Link>
+          <MagneticWrapper strength={0.3} data-cursor-rounded="full">
+            <Link
+              href="/pixels"
+              className="cursor-hover inline-flex items-center gap-3 px-2 py-1 mb-1 rounded-full relative -left-2 group/title"
+            >
+              <h3 className="text-xl md:text-2xl font-semibold font-sans transition-colors duration-300 group-hover/title:text-accent">
+                Pixels
+              </h3>
+              <ArrowRight className="w-5 h-5 md:w-6 md:h-6 transition-all duration-500 ease-[0.23,1,0.32,1] opacity-0 -translate-x-3 group-hover/title:opacity-100 group-hover/title:translate-x-0 group-hover/title:text-accent" />
+            </Link>
+          </MagneticWrapper>
         </div>
       </div>
       <p className="text-base text-muted-foreground font-sans mb-4">

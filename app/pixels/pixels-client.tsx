@@ -887,6 +887,7 @@ export default function PixelsClient({ media }: { media: MediaItem[] }) {
   const isTouchDevice = useIsTouchDevice()
   const [canvasReady, setCanvasReady] = useState(false)
   const [controlsVisible, setControlsVisible] = useState(true)
+  const [chromeVisible, setChromeVisible] = useState(true)
   const [isDark, setIsDark] = useState(true)
   const [focusedTitle, setFocusedTitle] = useState('')
   const [labelReady, setLabelReady] = useState(false)
@@ -953,6 +954,28 @@ export default function PixelsClient({ media }: { media: MediaItem[] }) {
       window.removeEventListener('touchstart', hide)
       window.removeEventListener('keydown', hide)
       clearTimeout(t)
+    }
+  }, [])
+
+  // Auto-hide top-left chrome after 3s of no mouse/touch/key activity
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>
+    const reset = () => {
+      setChromeVisible(true)
+      clearTimeout(timer)
+      timer = setTimeout(() => setChromeVisible(false), 3000)
+    }
+    reset()
+    window.addEventListener('mousemove', reset)
+    window.addEventListener('mousedown', reset)
+    window.addEventListener('touchstart', reset)
+    window.addEventListener('keydown', reset)
+    return () => {
+      clearTimeout(timer)
+      window.removeEventListener('mousemove', reset)
+      window.removeEventListener('mousedown', reset)
+      window.removeEventListener('touchstart', reset)
+      window.removeEventListener('keydown', reset)
     }
   }, [])
 
@@ -1045,7 +1068,10 @@ export default function PixelsClient({ media }: { media: MediaItem[] }) {
       </div>
 
       {/* Top-left chrome: back + theme toggle */}
-      <div className="absolute top-6 left-6 z-10 flex items-center gap-4">
+      <div
+        className="absolute top-6 left-6 z-10 flex items-center gap-4 transition-opacity duration-700 ease-out"
+        style={{ opacity: chromeVisible ? 1 : 0, pointerEvents: chromeVisible ? 'auto' : 'none' }}
+      >
         <Link
           href="/labs"
           className="cursor-hover flex items-center gap-2 px-3 py-2 -ml-3 rounded-lg transition-all duration-500 hover:bg-white/10"

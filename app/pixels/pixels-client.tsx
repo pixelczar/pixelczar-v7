@@ -1012,7 +1012,7 @@ export default function PixelsClient({ media }: { media: MediaItem[] }) {
 
       {/* (7) Caption overlay — appears after fly-to completes */}
       <div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 pointer-events-none"
+        className="absolute bottom-[20%] left-1/2 -translate-x-1/2 z-10 pointer-events-none"
         style={{
           opacity: focusedTitle && labelReady ? 1 : 0,
           transform: `translateX(-50%) translateY(${focusedTitle && labelReady ? '0' : '2px'})`,

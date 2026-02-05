@@ -9,6 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import type { ProjectListItem, GalleryItemClient } from '@/types/sanity'
 import { itemVariants, smoothEase } from '@/lib/animations'
 import MagneticWrapper from '@/components/magnetic-wrapper'
+import { ImageTooltip } from '@/components/image-tooltip'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -180,6 +181,7 @@ function ProjectImage({ image, title, index, hasLink = false }: { image: { url: 
 // 2-column project card for Play page - title links to external projectUrl
 function ProjectCard({ project, index }: { project: ProjectListItem; index: number }) {
   const hasLink = Boolean(project.projectUrl)
+  const tooltipText = project.title
   const imageContent = project.gallery && project.gallery.length > 0 ? (
     <motion.div
       className="grid grid-cols-1 gap-6 mb-6"
@@ -210,9 +212,11 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
       >
         {/* Gallery Images - Above Title (show 1 image) */}
         {hasLink && imageContent ? (
-          <a href={project.projectUrl} target="_blank" rel="noopener noreferrer" className="block" data-cursor-ignore>
-            {imageContent}
-          </a>
+          <ImageTooltip text={tooltipText} alignTopLeft>
+            <a href={project.projectUrl} target="_blank" rel="noopener noreferrer" className="block" data-cursor-ignore>
+              {imageContent}
+            </a>
+          </ImageTooltip>
         ) : imageContent}
 
         {/* Title and Tags Row */}
@@ -272,71 +276,64 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
 }
 
 // Canvas card — last item in the projects grid, teases the /pixels experience
-// Cleaner composition: centered hero image with subtle flanking depth layers
+// Clean single-hero with subtle edge hints
 function CanvasCard({ galleryItems }: { galleryItems: GalleryItemClient[] }) {
   const thumbs = galleryItems
     .filter((item) => item.type === 'image' && item.src)
     .map((item) => item.src)
-    .slice(0, 5)
+    .slice(0, 3)
 
-  // Simpler 3-layer composition: back flanks, mid flanks, centered hero
-  const placements: { top: string; left: string; w: string; z: number; dur: string; delay: string; drift: string; opacity: number }[] = [
-    // Back flanks — small, subtle, slow
-    { top: '8%',  left: '2%',  w: '32%', z: 0, dur: '14s', delay: '0s',   drift: '-2px', opacity: 0.25 },
-    { top: '12%', left: '66%', w: '30%', z: 0, dur: '16s', delay: '0.5s', drift: '2px',  opacity: 0.2 },
-    // Mid flanks — peek from edges
-    { top: '25%', left: '-5%', w: '38%', z: 1, dur: '12s', delay: '0.2s', drift: '-3px', opacity: 0.5 },
-    { top: '30%', left: '67%', w: '38%', z: 1, dur: '11s', delay: '0.7s', drift: '3px',  opacity: 0.45 },
-    // Hero — centered, dominant
-    { top: '10%', left: '18%', w: '64%', z: 2, dur: '10s', delay: '0s',   drift: '-4px', opacity: 1 },
+  // Minimal composition: hero with two subtle edge hints
+  const placements: { top: string; left: string; w: string; z: number; opacity: number }[] = [
+    // Edge hints — subtle peeks
+    { top: '20%', left: '-8%',  w: '28%', z: 0, opacity: 0.2 },
+    { top: '25%', left: '80%', w: '28%', z: 0, opacity: 0.15 },
+    // Hero — centered, clean
+    { top: '8%',  left: '12%', w: '76%', z: 1, opacity: 1 },
   ]
 
   return (
     <motion.div variants={projectCardVariants}>
-      <Link href="/pixels" className="block mb-6 group" data-cursor-ignore>
-        <div className="relative aspect-[4/3] rounded-md overflow-hidden bg-[#0a0a0a]">
-          {thumbs.map((url, i) => {
-            const p = placements[i]
-            if (!p) return null
-            return (
-              <div
-                key={i}
-                className="absolute transition-transform duration-700 ease-out group-hover:scale-[101%]"
-                style={{
-                  top: p.top,
-                  left: p.left,
-                  width: p.w,
-                  zIndex: p.z,
-                  opacity: p.opacity,
-                }}
-              >
+      <ImageTooltip text="Pixels" alignTopLeft>
+        <Link href="/pixels" className="block mb-6 group" data-cursor-ignore>
+          <div className="relative aspect-[4/3] rounded-md overflow-hidden bg-[#0a0a0a]">
+            {thumbs.map((url, i) => {
+              const p = placements[i]
+              if (!p) return null
+              return (
                 <div
-                  className="relative rounded overflow-hidden shadow-2xl"
+                  key={i}
+                  className="absolute transition-all duration-700 ease-out group-hover:opacity-80"
                   style={{
-                    aspectRatio: '4/3',
-                    animation: `canvas-float ${p.dur} ease-in-out ${p.delay} infinite alternate`,
-                    ['--canvas-drift' as string]: p.drift,
+                    top: p.top,
+                    left: p.left,
+                    width: p.w,
+                    zIndex: p.z,
+                    opacity: p.opacity,
                   }}
                 >
-                  <Image
-                    src={url}
-                    alt=""
-                    fill
-                    className="object-cover"
-                    sizes="200px"
-                    quality={70}
-                    loading="lazy"
-                  />
+                  <div
+                    className="relative rounded overflow-hidden shadow-2xl transition-transform duration-700 ease-out group-hover:scale-[102%]"
+                    style={{ aspectRatio: '4/3' }}
+                  >
+                    <Image
+                      src={url}
+                      alt=""
+                      fill
+                      className="object-cover"
+                      sizes="300px"
+                      quality={80}
+                      loading="lazy"
+                    />
+                  </div>
                 </div>
-              </div>
-            )
-          })}
-          {/* Vignette */}
-          <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 60px 20px rgba(0,0,0,0.7)' }} />
-          {/* Subtle gradient fade at bottom */}
-          <div className="absolute inset-x-0 bottom-0 h-1/3 pointer-events-none bg-gradient-to-t from-[#0a0a0a] to-transparent" />
-        </div>
-      </Link>
+              )
+            })}
+            {/* Vignette */}
+            <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 50px 15px rgba(0,0,0,0.6)' }} />
+          </div>
+        </Link>
+      </ImageTooltip>
 
       <div className="flex items-center justify-between gap-4 mb-2">
         <div className="flex items-center gap-1">
@@ -563,7 +560,7 @@ export default function LabsPageClient({ projects, galleryItems }: LabsPageClien
                 <p className="text-body-main">
                   Screenshots, recordings, and visual artifacts from various projects and experiments.{' '}
                   <Link href="/pixels" className="text-accent hover:underline">
-                    See them all on the infinite canvas
+                    Explore the canvas
                   </Link>.
                 </p>
               </motion.div>

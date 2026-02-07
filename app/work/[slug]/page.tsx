@@ -235,16 +235,24 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
 
                 {caseStudy.metrics && caseStudy.metrics.length > 0 && (
                   <div className="grid grid-cols-2 gap-x-8 gap-y-12">
-                    {caseStudy.metrics.map((metric, i) => (
-                      <div key={i} className="space-y-1">
-                        <p className="text-4xl md:text-6xl font-normal mb-2 opacity-30">
-                          {metric.label}
-                        </p>
-                        <p className="text-body-main font-medium mb-6 leading-tighter">
-                          {metric.value}
-                        </p>
-                      </div>
-                    ))}
+                    {caseStudy.metrics.map((metric, i) => {
+                      const labelLength = metric.label?.length || 0
+                      const sizeClass = labelLength > 6
+                        ? 'text-2xl md:text-4xl'
+                        : labelLength > 4
+                          ? 'text-3xl md:text-5xl'
+                          : 'text-4xl md:text-6xl'
+                      return (
+                        <div key={i} className="space-y-1 min-w-0">
+                          <p className={`${sizeClass} font-normal mb-2 opacity-30 break-words`}>
+                            {metric.label}
+                          </p>
+                          <p className="text-body-main font-medium mb-6 leading-tighter">
+                            {metric.value}
+                          </p>
+                        </div>
+                      )
+                    })}
                   </div>
                 )}
               </div>

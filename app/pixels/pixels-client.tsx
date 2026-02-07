@@ -1081,7 +1081,7 @@ export default function PixelsClient({ media }: { media: MediaItem[] }) {
           data-cursor-rounded="full"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span className="text-sm font-sans">Back</span>
+          <span className="text-sm font-sans">Labs</span>
         </Link>
 
         <div

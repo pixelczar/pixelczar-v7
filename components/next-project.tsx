@@ -60,7 +60,7 @@ export default function NextProject({ nextProjects }: NextProjectProps) {
                       loop
                       muted
                       playsInline
-                      className="absolute inset-0 w-full h-full object-cover"
+                      className="absolute inset-0 w-full h-full object-cover group-hover:opacity-80 group-hover:scale-105 transition-all duration-300"
                     />
                   ) : null
                 ) : project.mainImage?.url ? (
@@ -68,12 +68,11 @@ export default function NextProject({ nextProjects }: NextProjectProps) {
                     src={project.mainImage.url}
                     alt={project.mainImage.alt || project.title}
                     fill
-                    className="object-cover"
+                    className="object-cover group-hover:opacity-70 group-hover:scale-[102%] transition-all duration-500"
                     sizes="(max-width: 768px) 50vw, 400px"
                     quality={90}
                   />
                 ) : null}
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
               </motion.div>
             </Link>
           </ImageTooltip>

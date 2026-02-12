@@ -19,6 +19,7 @@ const archivo = Archivo({
 // CSS variable --font-serif is defined in globals.css
 
 export const metadata = {
+  metadataBase: new URL("https://pixelczar.com"),
   title: {
     default: "Will Smith - Product Designer & Design Leader",
     template: "%s • Will Smith",

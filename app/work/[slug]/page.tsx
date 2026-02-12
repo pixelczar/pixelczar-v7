@@ -216,8 +216,8 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
                 {/* Contributions - discipline tags */}
                 {caseStudy.contributions && caseStudy.contributions.length > 0 && (
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-3">Contributions</p>
-                    <p className="text-base leading-relaxed">
+                    <p className="text-xl font-normal mb-2">Contributions</p>
+                    <p className="text-lg text-muted-foreground">
                       {caseStudy.contributions.join(' · ')}
                     </p>
                   </div>
@@ -226,7 +226,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
                 {/* Impact Statement - the punch */}
                 {caseStudy.impactStatement && (
                   <div className="border-l-2 border-accent pl-4">
-                    <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">Outcome</p>
+                    <p className="text-3xl md:text-5xl font-normal mb-2 opacity-30">Outcome</p>
                     <p className="text-lg font-medium">
                       {caseStudy.impactStatement}
                     </p>

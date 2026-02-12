@@ -47,7 +47,7 @@ const GridDistortion = ({
   const clickOffsetsRef = useRef<Float32Array | null>(null)
   const animationRef = useRef<number>(0)
   const paramsRef = useRef({ grid, hoverDistance, clickExplosion, strength, relaxation, bounceCount, monochrome })
-  const mouseRef = useRef({ x: -9999, y: -9999, clicked: false, clickX: 0, clickY: 0 })
+  const mouseRef = useRef({ x: -9999, y: -9999, clicked: false, clickX: 0, clickY: 0, isTouch: false })
   const dimsRef = useRef({ w: 0, h: 0, tileW: 0, tileH: 0 })
   const hasRevealedRef = useRef(false)
   const [tiles, setTiles] = useState<number[]>([])
@@ -88,6 +88,7 @@ const GridDistortion = ({
       const r = container.getBoundingClientRect()
       mouseRef.current.x = e.clientX - r.left
       mouseRef.current.y = e.clientY - r.top
+      mouseRef.current.isTouch = false
     }
 
     const onLeave = () => {
@@ -111,6 +112,7 @@ const GridDistortion = ({
       mouseRef.current.clickY = touch.clientY - r.top
       mouseRef.current.x = touch.clientX - r.left
       mouseRef.current.y = touch.clientY - r.top
+      mouseRef.current.isTouch = true
     }
 
     const onTouchMove = (e: TouchEvent) => {
@@ -205,7 +207,7 @@ const GridDistortion = ({
       const mouse = mouseRef.current
       const radius = p.hoverDistance * tileW
       const radiusSq = radius * radius
-      const push = p.strength * tileW
+      const push = p.strength * tileW * (mouse.isTouch ? 0.7 : 1)
       const hoverHeal = p.relaxation
       const clickHeal = p.relaxation * 0.7 // Much faster heal for click
 

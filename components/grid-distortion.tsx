@@ -22,6 +22,9 @@ interface GridDistortionProps {
   monochrome?: boolean
   imageSrc: string
   className?: string
+  revealOnScroll?: boolean
+  revealStrength?: number
+  revealDelay?: number
 }
 
 const GridDistortion = ({
@@ -34,6 +37,9 @@ const GridDistortion = ({
   monochrome = false,
   imageSrc,
   className = "",
+  revealOnScroll = false,
+  revealStrength = 3,
+  revealDelay = 300,
 }: GridDistortionProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const tilesRef = useRef<HTMLDivElement[]>([])
@@ -43,6 +49,7 @@ const GridDistortion = ({
   const paramsRef = useRef({ grid, hoverDistance, clickExplosion, strength, relaxation, bounceCount, monochrome })
   const mouseRef = useRef({ x: -9999, y: -9999, clicked: false, clickX: 0, clickY: 0 })
   const dimsRef = useRef({ w: 0, h: 0, tileW: 0, tileH: 0 })
+  const hasRevealedRef = useRef(false)
   const [tiles, setTiles] = useState<number[]>([])
 
   useEffect(() => {
@@ -95,9 +102,89 @@ const GridDistortion = ({
       mouseRef.current.clickY = e.clientY - r.top
     }
 
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length !== 1) return
+      const touch = e.touches[0]
+      const r = container.getBoundingClientRect()
+      mouseRef.current.clicked = true
+      mouseRef.current.clickX = touch.clientX - r.left
+      mouseRef.current.clickY = touch.clientY - r.top
+      mouseRef.current.x = touch.clientX - r.left
+      mouseRef.current.y = touch.clientY - r.top
+    }
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (e.touches.length !== 1) return
+      const touch = e.touches[0]
+      const r = container.getBoundingClientRect()
+      mouseRef.current.x = touch.clientX - r.left
+      mouseRef.current.y = touch.clientY - r.top
+    }
+
+    const onTouchEnd = () => {
+      mouseRef.current.x = -9999
+      mouseRef.current.y = -9999
+    }
+
     container.addEventListener("mousemove", onMove, { passive: true })
     container.addEventListener("mouseleave", onLeave, { passive: true })
     container.addEventListener("click", onClick)
+    container.addEventListener("touchstart", onTouchStart, { passive: true })
+    container.addEventListener("touchmove", onTouchMove, { passive: true })
+    container.addEventListener("touchend", onTouchEnd, { passive: true })
+
+    // Scroll-reveal pulse
+    let revealTimeout: ReturnType<typeof setTimeout> | undefined
+    let observer: IntersectionObserver | undefined
+
+    if (revealOnScroll) {
+      const applyRevealPulse = () => {
+        // Skip if mouse is actively over the image — the user already sees the effect
+        if (mouseRef.current.x > -9000) return
+
+        const clickOffsets = clickOffsetsRef.current
+        if (!clickOffsets) return
+
+        const { w, h, tileW, tileH } = dimsRef.current
+        if (w === 0) return
+
+        const n = paramsRef.current.grid
+        const centerX = w / 2
+        const centerY = h / 2
+        const str = revealStrength * paramsRef.current.clickExplosion * 0.4
+        const maxD = Math.max(w, h) * 0.5
+
+        for (let row = 0; row < n; row++) {
+          for (let col = 0; col < n; col++) {
+            const cx = (col + 0.5) * tileW
+            const cy = (row + 0.5) * tileH
+            const dx = cx - centerX
+            const dy = cy - centerY
+            const d = Math.hypot(dx, dy)
+            if (d < maxD && d > 1) {
+              const f = str * Math.pow(1 - d / maxD, 2)
+              const idx = (row * n + col) * 2
+              clickOffsets[idx] += (dx / d) * f
+              clickOffsets[idx + 1] += (dy / d) * f
+            }
+          }
+        }
+      }
+
+      let wasVisible = false
+
+      observer = new IntersectionObserver(
+        (entries) => {
+          const isVisible = entries[0].isIntersecting
+          if (isVisible && !wasVisible) {
+            revealTimeout = setTimeout(applyRevealPulse, revealDelay)
+          }
+          wasVisible = isVisible
+        },
+        { threshold: 0.6 }
+      )
+      observer.observe(container)
+    }
 
     let running = true
 
@@ -213,6 +300,11 @@ const GridDistortion = ({
       container.removeEventListener("mousemove", onMove)
       container.removeEventListener("mouseleave", onLeave)
       container.removeEventListener("click", onClick)
+      container.removeEventListener("touchstart", onTouchStart)
+      container.removeEventListener("touchmove", onTouchMove)
+      container.removeEventListener("touchend", onTouchEnd)
+      if (revealTimeout) clearTimeout(revealTimeout)
+      observer?.disconnect()
     }
   }, [tiles.length])
 

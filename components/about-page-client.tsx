@@ -123,6 +123,7 @@ export default function AboutPageClient({ caseStudies }: AboutPageClientProps) {
                 relaxation={effectParams.relaxation}
                 bounceCount={effectParams.bounceCount}
                 monochrome={effectParams.monochrome}
+                revealOnScroll
                 className="w-full h-full absolute inset-0"
               />
               {/* Effect Controls - positioned on the image, appears after 3 clicks */}

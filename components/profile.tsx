@@ -187,7 +187,7 @@ export default function Profile() {
       >
         <div className="w-16 h-16 rounded-full overflow-hidden">
           <Image
-            src="/images/will.png"
+            src="/images/will-reprise-headshot.png"
             alt="Will Smith"
             width={56}
             height={56}

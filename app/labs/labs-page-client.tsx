@@ -2,13 +2,13 @@
 
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowUpRight, ArrowRight } from 'lucide-react'
-import Link from 'next/link'
+import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import type { ProjectListItem, GalleryItemClient } from '@/types/sanity'
 import { itemVariants, smoothEase } from '@/lib/animations'
 import MagneticWrapper from '@/components/magnetic-wrapper'
+import MagneticLink from '@/components/magnetic-link'
 import { ImageTooltip } from '@/components/image-tooltip'
 
 const containerVariants = {
@@ -275,88 +275,6 @@ function ProjectCard({ project, index }: { project: ProjectListItem; index: numb
   )
 }
 
-// Canvas card — last item in the projects grid, teases the /pixels experience
-// Clean single-hero with subtle edge hints
-function CanvasCard({ galleryItems }: { galleryItems: GalleryItemClient[] }) {
-  const thumbs = galleryItems
-    .filter((item) => item.type === 'image' && item.src)
-    .map((item) => item.src)
-    .slice(0, 3)
-
-  // Minimal composition: hero with two subtle edge hints
-  const placements: { top: string; left: string; w: string; z: number; opacity: number }[] = [
-    // Edge hints — subtle peeks
-    { top: '20%', left: '-8%',  w: '28%', z: 0, opacity: 0.2 },
-    { top: '25%', left: '80%', w: '28%', z: 0, opacity: 0.15 },
-    // Hero — centered, clean
-    { top: '8%',  left: '12%', w: '76%', z: 1, opacity: 1 },
-  ]
-
-  return (
-    <motion.div variants={projectCardVariants}>
-      <ImageTooltip text="Pixels" alignTopLeft>
-        <Link href="/pixels" className="block mb-6 group" data-cursor-ignore>
-          <div className="relative aspect-[4/3] rounded-md overflow-hidden bg-[#0a0a0a]">
-            {thumbs.map((url, i) => {
-              const p = placements[i]
-              if (!p) return null
-              return (
-                <div
-                  key={i}
-                  className="absolute transition-all duration-700 ease-out group-hover:opacity-80"
-                  style={{
-                    top: p.top,
-                    left: p.left,
-                    width: p.w,
-                    zIndex: p.z,
-                    opacity: p.opacity,
-                  }}
-                >
-                  <div
-                    className="relative rounded overflow-hidden shadow-2xl transition-transform duration-700 ease-out group-hover:scale-[102%]"
-                    style={{ aspectRatio: '4/3' }}
-                  >
-                    <Image
-                      src={url}
-                      alt=""
-                      fill
-                      className="object-cover"
-                      sizes="300px"
-                      quality={80}
-                      loading="lazy"
-                    />
-                  </div>
-                </div>
-              )
-            })}
-            {/* Vignette */}
-            <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 50px 15px rgba(0,0,0,0.6)' }} />
-          </div>
-        </Link>
-      </ImageTooltip>
-
-      <div className="flex items-center justify-between gap-4 mb-2">
-        <div className="flex items-center gap-1">
-          <MagneticWrapper strength={0.3} data-cursor-rounded="full">
-            <Link
-              href="/pixels"
-              className="cursor-hover inline-flex items-center gap-3 px-2 py-1 mb-1 rounded-full relative -left-2 group/title"
-            >
-              <h3 className="text-xl md:text-2xl font-semibold font-sans transition-colors duration-300 group-hover/title:text-accent">
-                Pixels
-              </h3>
-              <ArrowRight className="w-5 h-5 md:w-6 md:h-6 transition-all duration-500 ease-[0.23,1,0.32,1] opacity-0 -translate-x-3 group-hover/title:opacity-100 group-hover/title:translate-x-0 group-hover/title:text-accent" />
-            </Link>
-          </MagneticWrapper>
-        </div>
-      </div>
-      <p className="text-base text-muted-foreground font-sans mb-4">
-        An infinite, explorable canvas of work.
-      </p>
-    </motion.div>
-  )
-}
-
 // Gallery item component - all 4:3 ratio, rounded-lg
 function GalleryItemComponent({ item, index }: { item: GalleryItemClient; index: number }) {
   const [isLoading, setIsLoading] = useState(true)
@@ -540,7 +458,6 @@ export default function LabsPageClient({ projects, galleryItems }: LabsPageClien
               {projects.map((project, index) => (
                 <ProjectCard key={project._id} project={project} index={index} />
               ))}
-              <CanvasCard galleryItems={galleryItems} />
             </div>
           </motion.div>
         )}
@@ -553,15 +470,23 @@ export default function LabsPageClient({ projects, galleryItems }: LabsPageClien
                 variants={itemVariants}
                 className="w-full h-px bg-accent/40 mx-auto mt-16 mb-6 theme-transition"
               />
-              <motion.h2 variants={itemVariants} className="font-normal text-2xl mb-8">
+              <motion.h2 variants={itemVariants} className="font-normal text-2xl mb-8 justify-between flex">
                 Various Pixels
+                <MagneticLink
+                  href="/pixels"
+                  className="inline-flex items-center text-xl font-sans font-normal transition-all duration-300 px-3 py-1 -mr-3 rounded-full text-muted-foreground hover:text-accent hover:bg-accent/10"
+                  data-cursor-rounded="full"
+                  strength={0.3}
+                >
+                  Explore
+                  <ArrowUpRight className="w-5 h-5 ml-2 text-accent transition-colors duration-300" />
+                </MagneticLink>
               </motion.h2>
+              
               <motion.div variants={itemVariants} className="mb-16">
                 <p className="text-body-main">
                   Screenshots, recordings, and visual artifacts from various projects and experiments.{' '}
-                  <Link href="/pixels" className="text-accent hover:underline">
-                    Explore the canvas
-                  </Link>.
+                  
                 </p>
               </motion.div>
             </div>

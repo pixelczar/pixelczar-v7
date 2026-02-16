@@ -63,8 +63,8 @@ function MainMedia({
   const videoUrl = caseStudy.mainVideoUrl || caseStudy.mainVideo?.url
   const imageUrl = caseStudy.mainImage?.isHidden ? null : caseStudy.mainImage?.url
 
-  // Use WIP tooltip or title for hover
-  const tooltipText = isWip ? WIP_TOOLTIP : (caseStudy.oneLiner || caseStudy.title)
+  // Use WIP tooltip or description for hover
+  const tooltipText = isWip ? WIP_TOOLTIP : (caseStudy.shortDescription || caseStudy.description || caseStudy.title)
   
   // Get WIP badge message based on index (cycle through messages)
   const wipMessage = WIP_MESSAGES[index % WIP_MESSAGES.length]
@@ -157,7 +157,7 @@ function MainMedia({
 function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardProps) {
   // Determine if this is a WIP based on the slug (ungate Data Studio, Encore, & Catalant)
   const isWip = isProjectWip(caseStudy.slug)
-  const tooltipText = isWip ? WIP_TOOLTIP : (caseStudy.oneLiner || caseStudy.title)
+  const tooltipText = isWip ? WIP_TOOLTIP : (caseStudy.shortDescription || caseStudy.description || caseStudy.title)
 
   return (
     <motion.div
@@ -252,11 +252,11 @@ function CaseStudyCard({ caseStudy, index = 0 }: CaseStudyCardProps) {
               </div>
             )}
           </div>
-          {(caseStudy.shortDescription || caseStudy.description) && (
+          {/* {(caseStudy.shortDescription || caseStudy.description) && (
             <p className="text-lg text-muted-foreground font-sans leading-snug mb-4">
               {caseStudy.shortDescription || caseStudy.description}
             </p>
-          )}
+          )} */}
         </div>
       </div>
     </motion.div>

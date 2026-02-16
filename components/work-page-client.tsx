@@ -81,7 +81,7 @@ export default function WorkPageClient({ caseStudies, experienceData, galleryIte
           ))}
         </motion.div>
         {/* Apps & Companies Timeline */}
-        <div className="max-w-3xl mx-auto mb-12">
+        <div className="max-w-3xl mx-auto mb-12 mt-24">
           <motion.div
             variants={itemVariants}
             className="w-full h-px bg-accent/40 mx-auto mt-16 mb-6 theme-transition"

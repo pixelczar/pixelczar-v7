@@ -12,7 +12,7 @@ interface ImageTooltipProps {
 }
 
 // Truncate text to a reasonable length for tooltip
-function truncateText(text: string, maxLength: number = 60): string {
+function truncateText(text: string, maxLength: number = 120): string {
   if (text.length <= maxLength) return text
   return text.slice(0, maxLength).trim() + '...'
 }
@@ -147,8 +147,8 @@ export function ImageTooltip({ text, children, className = '', alignRight = fals
           const position = calculateTooltipPosition(
             mousePosition.x,
             mousePosition.y,
-            tooltipRect.width || 200, // Fallback width estimate
-            tooltipRect.height || 40,   // Fallback height estimate
+            tooltipRect.width || 320, // Fallback width estimate (max-w-xs)
+            tooltipRect.height || 60,   // Fallback height estimate
             elementRight,
             alignTopLeft,
             preferTop
@@ -165,8 +165,8 @@ export function ImageTooltip({ text, children, className = '', alignRight = fals
       const position = calculateTooltipPosition(
         mousePosition.x,
         mousePosition.y,
-        200, // Estimate width
-        40,   // Estimate height
+        320, // Estimate width (max-w-xs)
+        60,   // Estimate height
         elementRight,
         alignTopLeft,
         preferTop
@@ -228,7 +228,7 @@ export function ImageTooltip({ text, children, className = '', alignRight = fals
               top: `${tooltipPosition.y}px`,
             }}
           >
-            <div className="bg-black/90 backdrop-blur-sm text-white px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium font-sans shadow-xl">
+            <div className="bg-black/90 backdrop-blur-sm text-white px-4 py-2.5 rounded-lg max-w-xs text-sm font-medium font-sans shadow-xl leading-relaxed">
               {displayText}
             </div>
           </motion.div>

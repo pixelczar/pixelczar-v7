@@ -6,9 +6,7 @@ export function ThemeScript() {
       try {
         var theme = localStorage.getItem('pixel-czar-theme');
         if (!theme) {
-          // Check system preference
-          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          theme = prefersDark ? 'dark' : 'light';
+          theme = 'dark';
         }
         
         // Apply theme based on stored preference or system preference
@@ -33,10 +31,9 @@ export function ThemeScript() {
         }
         document.documentElement.setAttribute('data-dark-variant', darkVariant);
       } catch (e) {
-        // Fallback: check system preference
-        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        document.documentElement.classList.toggle('dark', prefersDark);
-        document.documentElement.setAttribute('data-theme', 'system');
+        // Fallback: default to dark/Czarface
+        document.documentElement.classList.add('dark');
+        document.documentElement.setAttribute('data-theme', 'dark');
         document.documentElement.setAttribute('data-dark-variant', 'teal');
       }
     })();

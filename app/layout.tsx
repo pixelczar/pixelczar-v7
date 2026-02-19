@@ -145,8 +145,8 @@ export default function RootLayout({
         <PostHogProvider>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
-            enableSystem={true}
+            defaultTheme="dark"
+            enableSystem={false}
             storageKey="pixel-czar-theme"
             disableTransitionOnChange={false}
           >
